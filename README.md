@@ -2,4 +2,5 @@
 
 Mix of asylgrp economy tools
 
-* [descparser](descparser): A simple parser for verification descriptions.
+* [descparser](descparser): a simple parser for verification descriptions
+* [receiptanalyzer](receiptanalyzer): analyze receipts with added receiver information

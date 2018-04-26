@@ -12,10 +12,14 @@
     ],
     "autoload": {
         "psr-4": {
-            "asylgrp\\descparser\\": ["descparser/src/"]
+            "asylgrp\\descparser\\": ["descparser/src/"],
+            "asylgrp\\receiptanalyzer\\": ["receiptanalyzer/src/"]
         }
     },
     "require": {
-        "php": ">=7.1"
+        "php": ">=7.1",
+        "ext-mbstring": "*",
+        "ext-bcmath": "*",
+        "byrokrat/amount": "^2"
     }
 }
