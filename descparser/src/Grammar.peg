@@ -1,0 +1,40 @@
+//<?php
+
+namespace asylgrp\descparser;
+
+grammar Grammar
+{
+    start DESC = nodes:(DATE / NAME / RELATION / TAG / IGNORED_CHAR)* {
+        return array_values(array_filter($nodes));
+    };
+
+    IGNORED_CHAR = . {
+        return null;
+    };
+
+    DATE = value:$([0-9\/-]+) {
+        return new Tree\DateNode($value);
+    };
+
+    NAME = '@' value:STRING {
+        return new Tree\NameNode($value);
+    };
+
+    RELATION = 'rel:' value:STRING {
+        return new Tree\RelationNode($value);
+    };
+
+    TAG = '#' value:STRING {
+        return new Tree\TagNode($value);
+    };
+
+    STRING = QUOTED_STRING / UNQUOTED_STRING;
+
+    QUOTED_STRING = '"' str:$((!'"' .)*) '"' {
+        return $str;
+    };
+
+    UNQUOTED_STRING = str:$((!' ' .)+) {
+        return $str;
+    };
+}

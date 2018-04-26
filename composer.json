@@ -1,0 +1,21 @@
+{
+    "name": "asylgrp/economix",
+    "description": "Mix of asylgrp economy tools",
+    "homepage": "https://github.com/asylgrp/economix",
+    "type": "library",
+    "license": "Unlicense",
+    "authors": [
+        {
+            "name": "Hannes Forsgård",
+            "email": "hannes.forsgard@fripost.org"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "asylgrp\\descparser\\": ["descparser/src/"]
+        }
+    },
+    "require": {
+        "php": ">=7.1"
+    }
+}
