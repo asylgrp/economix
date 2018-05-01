@@ -42,8 +42,7 @@ class DateAndAmountMatcher implements MatcherInterface
     public function match(MatchableInterface $needle, array $haystack): ?MatchInterface
     {
         foreach ($haystack as $toMatch) {
-            if (
-                $this->dateComparator->equals($needle->getDate(), $toMatch->getDate())
+            if ($this->dateComparator->equals($needle->getDate(), $toMatch->getDate())
                 && $this->amountComparator->equals($needle->getAmount(), $toMatch->getAmount())
             ) {
                 return $this->matchFactory->createMatch($needle, $toMatch);

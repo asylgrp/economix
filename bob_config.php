@@ -2,7 +2,7 @@
 
 namespace Bob\BuildConfig;
 
-task('default', ['test', 'phpstan']);
+task('default', ['test', 'phpstan', 'sniff']);
 
 desc('Run all tests');
 task('test', ['phpspec', 'examples']);
@@ -23,6 +23,12 @@ desc('Run statical analysis using phpstan');
 task('phpstan', function() {
     sh('phpstan analyze -c phpstan.neon -l 7 descparser/src receiptanalyzer/src matchmaker/src', null, ['failOnError' => true]);
     println('Phpstan analysis passed');
+});
+
+desc('Check coding standard');
+task('sniff', function() {
+    sh('phpcs', null, ['failOnError' => true]);
+    println('Coding standard analysis passed');
 });
 
 desc('Build description parser');

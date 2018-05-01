@@ -2,15 +2,18 @@
 
 Match payouts with receipts.
 
+The entry point for this package is the [`MatchMaker`](src/MatchMaker.php),
+loaded with a set of [`matchers`](src/Matcher). Matchers are able to group 1 or
+more [`matchables`](src/Matchable) together as [`matches`](src/Match).
+
 ## Matchability
 
-This package ships with a simple `Matchable` implementation. In most cases
-however you will be better of by supplying your own `MatchableInterface`
-implementation.
+This package ships with a simple [`Matchable`](src/Matchable/Matchable.php)
+implementation. In most cases however you will be better of by supplying your
+own [`MatchableInterface`](src/Matchable/MatchableInterface.php) implementation.
 
-> :warning: Please note that the order of the supplied matchables matters. For
-> example make sure to sort items on date with the oldest first if matching
-> older payouts should be a priority.
+> :information_source: Note that the order of the supplied matchables matters.
+> Sort items oldest first if matching older payouts should be a priority.
 
 ## Balanceability
 
@@ -51,11 +54,11 @@ function dump_matches($matchCollection)
 
 ## Matching individual matchables
 
-The most basic matcher is the `SingleMatcher` which works by matching each
-matchable with nothing more then itself.
+The most basic matcher is the [`SingleMatcher`](src/Matcher/SingleMatcher.php)
+which works by matching each matchable with nothing more then itself.
 
-> :information_source: Always terminate your list of matchers with a
-> `SingleMatcher` to make sure that non-matched items are reported as failures!
+> :information_source: Terminate your list of matchers with a `SingleMatcher`
+> to make sure non-matched items are reported as failures.
 
 <!-- @example SingleMatcher -->
 <!-- @expectOutput /^1,2$/ -->
@@ -75,8 +78,13 @@ dump_matches($matches);
 
 ## Matching on date and amount
 
-Use `DateAndAmountMatcher` to match pairs of matchables based on date and amount.
-You may specify the allowed deviations in days and percentages.
+Use [`DateAndAmountMatcher`](src/Matcher/DateAndAmountMatcher.php) to match
+pairs of matchables based on date and amount. You may specify the allowed
+deviations in days and percentages.
+
+> :information_source: By default `DateAndAmountMatcher` creates balanceable
+> matches. Override by passing a `MatchFactoryInterface`
+> implementation at construct. For more information see *Balanceability*.
 
 <!-- @example DateAndAmountMatcher -->
 <!-- @expectOutput /^1-2,3,4$/ -->
@@ -97,15 +105,14 @@ $matches = $matchMaker->match(
 dump_matches($matches);
 ```
 
-> :information_source: Note that by default `DateAndAmountMatcher` creates
-> balanceable matches. Override by passing a `MatchFactoryInterface`
-> implementation at construct. For more information see **Balanceability**.
-
 ## Matching on predefined relations
 
-The `RelatedMatcher` matches items marked as related. Note below how `1-2-3` are
-matched as the relation is made explicit in `3`, but that `6` is not connected
-to `4` and `5`.
+The [`RelatedMatcher`](src/Matcher/RelatedMatcher.php) matches items marked as
+related. Note below how `1-2-3` are matched as the relation is made explicit in
+`3`, but that `6` is not connected to `4` and `5`.
+
+> :information_source: Start your list of matchers with a `RelatedMatcher`
+> to make sure explicit relations are honored.
 
 <!-- @example RelatedMatcher -->
 <!-- @expectOutput /^3-1-2,4-5,6$/ -->
@@ -128,13 +135,12 @@ $matches = $matchMaker->match(
 // 3-1-2,4-5,6
 dump_matches($matches);
 ```
-> :information_source: Always start your list of matchers with a `RelatedMatcher`
-> to make sure explicit relations are honored.
 
 ## Matching on amount alone
 
-Use `AmountMatcher` to match on amount alone. It is equivalent to using a
-`DateAndAmountMatcher` with the date max deviation set to `365`.
+Use [`AmountMatcher`](src/Matcher/AmountMatcher.php) to match on amount alone.
+It is equivalent to using a `DateAndAmountMatcher` with the date max deviation
+set to `365`.
 
 <!-- @example AmountMatcher -->
 <!-- @expectOutput /^1-2$/ -->
@@ -155,12 +161,13 @@ dump_matches($matches);
 
 ## Matching on date alone
 
-Use `DateMatcher` to match on date alone. It is equivalent to using a
-`DateAndAmountMatcher` with the amount max deviation set to `0.0`.
+Use [`DateMatcher`](src/Matcher/DateMatcher.php) to match on date alone. It is
+equivalent to using a `DateAndAmountMatcher` with the amount max deviation set
+to `0.0`.
 
 > :information_source: Note that `DateMatcher` creates non-balanceable matches.
-> Matching on anly date is really uncertain, and should only be viewed as a
-> partial match. For more information see **Balanceability**.
+> A match on date alone is really uncertain, and should only be viewed as a
+> partial match. For more information see *Balanceability*.
 
 <!-- @example DateMatcher -->
 <!-- @expectOutput /^1-2$/ -->
@@ -179,9 +186,9 @@ $matches = $matchMaker->match(
 dump_matches($matches);
 ```
 
-## Putting it all togheter...
+## Putting it all together...
 
-<!-- @example "Putting it all togheter" -->
+<!-- @example "Putting it all together" -->
 ```php
 $max6days = new DateComparator(6);
 $max0percent = new AmountComparator(0.0);

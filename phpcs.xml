@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<ruleset>
+    <file>./descparser/src</file>
+    <file>./matchmaker/src</file>
+    <file>./receiptanalyzer/src</file>
+    <exclude-pattern>./descparser/src/Grammar.php</exclude-pattern>
+    <rule ref="PSR2"/>
+</ruleset>

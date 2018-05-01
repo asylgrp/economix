@@ -32,7 +32,7 @@ class MatchMaker
         $notMatched = [];
 
         foreach ($this->matchers as $matcher) {
-            while($matchable = array_shift($toMatch)) {
+            while ($matchable = array_shift($toMatch)) {
                 if ($match = $matcher->match($matchable, array_merge($notMatched, $toMatch))) {
                     $matches[] = $match;
 
