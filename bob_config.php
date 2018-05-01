@@ -15,13 +15,13 @@ task('phpspec', ['descparser/src/Grammar.php'], function() {
 
 desc('Tests documentation examples');
 task('examples', ['descparser/src/Grammar.php'], function() {
-    sh('readme-tester descparser/README.md receiptanalyzer/README.md', null, ['failOnError' => true]);
+    sh('readme-tester descparser/README.md receiptanalyzer/README.md matchmaker/README.md', null, ['failOnError' => true]);
     println('Documentation examples valid');
 });
 
 desc('Run statical analysis using phpstan');
 task('phpstan', function() {
-    sh('phpstan analyze -c phpstan.neon -l 7 descparser/src receiptanalyzer/src', null, ['failOnError' => true]);
+    sh('phpstan analyze -c phpstan.neon -l 7 descparser/src receiptanalyzer/src matchmaker/src', null, ['failOnError' => true]);
     println('Phpstan analysis passed');
 });
 

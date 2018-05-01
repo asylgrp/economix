@@ -13,7 +13,8 @@
     "autoload": {
         "psr-4": {
             "asylgrp\\descparser\\": ["descparser/src/"],
-            "asylgrp\\receiptanalyzer\\": ["receiptanalyzer/src/"]
+            "asylgrp\\receiptanalyzer\\": ["receiptanalyzer/src/"],
+            "asylgrp\\matchmaker\\": ["matchmaker/src/"]
         }
     },
     "require": {
