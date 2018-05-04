@@ -12,13 +12,13 @@ use byrokrat\amount\Amount;
 class AmountComparator
 {
     /**
-     * @var Amount
+     * @var float
      */
     private $maxDeviationQuota;
 
     public function __construct(float $maxDeviationQuota = 0.0)
     {
-        $this->maxDeviationQuota = Amount::createFromNumber($maxDeviationQuota);
+        $this->maxDeviationQuota = $maxDeviationQuota;
     }
 
     /**
@@ -32,6 +32,6 @@ class AmountComparator
             return false;
         }
 
-        return $subj->add($obj)->divideBy($subj)->getAbsolute()->isLessThanOrEquals($this->maxDeviationQuota);
+        return $subj->add($obj)->divideBy($subj)->getAbsolute()->getFloat() <= $this->maxDeviationQuota;
     }
 }
