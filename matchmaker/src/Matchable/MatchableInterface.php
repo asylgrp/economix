@@ -15,6 +15,11 @@ interface MatchableInterface
     public function getId(): string;
 
     /**
+     * Get a freetext description
+     */
+    public function getDescription(): string;
+
+    /**
      * Get ids of related matchables
      *
      * @return string[]

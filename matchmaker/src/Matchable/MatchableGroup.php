@@ -34,6 +34,11 @@ class MatchableGroup implements MatchableInterface
         return '';
     }
 
+    public function getDescription(): string
+    {
+        return '';
+    }
+
     public function getRelatedIds(): array
     {
         return [];

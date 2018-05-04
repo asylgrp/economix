@@ -17,6 +17,11 @@ class Matchable implements MatchableInterface
     private $id;
 
     /**
+     * @var string
+     */
+    private $desc;
+
+    /**
      * @var string[]
      */
     private $related;
@@ -34,9 +39,15 @@ class Matchable implements MatchableInterface
     /**
      * @param string[] $related
      */
-    public function __construct(string $id, \DateTimeImmutable $date, Amount $amount, array $related = [])
-    {
+    public function __construct(
+        string $id,
+        string $desc,
+        \DateTimeImmutable $date,
+        Amount $amount,
+        array $related = []
+    ) {
         $this->id = $id;
+        $this->desc = $desc;
         $this->date = $date;
         $this->amount = $amount;
         $this->related = $related;
@@ -45,6 +56,11 @@ class Matchable implements MatchableInterface
     public function getId(): string
     {
         return $this->id;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->desc;
     }
 
     public function getRelatedIds(): array

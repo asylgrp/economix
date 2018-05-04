@@ -27,6 +27,11 @@ class MatchableGroupSpec extends ObjectBehavior
         $this->getId()->shouldReturn('');
     }
 
+    function it_contains_empty_description()
+    {
+        $this->getDescription()->shouldReturn('');
+    }
+
     function it_contains_no_relations()
     {
         $this->getRelatedIds()->shouldReturn([]);
