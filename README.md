@@ -1,5 +1,8 @@
 # economix
 
+[![Build Status](https://img.shields.io/travis/asylgrp/economix/master.svg?style=flat-square)](https://travis-ci.org/asylgrp/economix)
+[![Quality Score](https://img.shields.io/scrutinizer/g/asylgrp/economix.svg?style=flat-square)](https://scrutinizer-ci.com/g/asylgrp/economix)
+
 Mix of asylgrp economy tools
 
 * [descparser](descparser): a simple parser for verification descriptions

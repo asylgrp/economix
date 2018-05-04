@@ -25,4 +25,30 @@ class MatchCollectionSpec extends ObjectBehavior
     {
         $this->getMatches()->shouldIterateAs([$matchA, $matchB]);
     }
+
+    function it_is_iterable($matchA, $matchB)
+    {
+        $this->getIterator()->shouldIterateAs([$matchA, $matchB]);
+    }
+
+    function it_can_return_successful_matches($matchA, $matchB)
+    {
+        $matchA->isSuccess()->willReturn(true);
+        $matchB->isSuccess()->willReturn(false);
+        $this->getSuccessful()->shouldIterateAs([$matchA]);
+    }
+
+    function it_can_return_failed_matches($matchA, $matchB)
+    {
+        $matchA->isSuccess()->willReturn(true);
+        $matchB->isSuccess()->willReturn(false);
+        $this->getFailures()->shouldIterateAs([$matchB]);
+    }
+
+    function it_can_return_balanceable_matches($matchA, $matchB)
+    {
+        $matchA->isBalanceable()->willReturn(true);
+        $matchB->isBalanceable()->willReturn(false);
+        $this->getBalanceables()->shouldIterateAs([$matchA]);
+    }
 }

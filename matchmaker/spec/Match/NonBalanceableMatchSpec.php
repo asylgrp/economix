@@ -48,4 +48,11 @@ class NonBalanceableMatchSpec extends ObjectBehavior
         $matchedB->getAmount()->willReturn(new Amount('-50'));
         $this->shouldNotBeSuccess();
     }
+
+    function it_interprets_zero_amonut_as_success($matchedA, $matchedB)
+    {
+        $matchedA->getAmount()->willReturn(new Amount('0'));
+        $matchedB->getAmount()->willReturn(new Amount('0'));
+        $this->shouldBeSuccess();
+    }
 }

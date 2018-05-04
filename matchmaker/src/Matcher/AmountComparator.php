@@ -23,9 +23,15 @@ class AmountComparator
 
     /**
      * Defined as the sum of subj and obj divided by subj being less than or equal max deviation
+     *
+     * Note that zero is never equal to anything
      */
     public function equals(Amount $subj, Amount $obj): bool
     {
+        if ($subj->isZero() || $obj->isZero()) {
+            return false;
+        }
+
         return $subj->add($obj)->divideBy($subj)->getAbsolute()->isLessThanOrEquals($this->maxDeviationQuota);
     }
 }

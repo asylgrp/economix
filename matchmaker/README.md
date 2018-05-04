@@ -9,15 +9,31 @@ more [`matchables`](src/Matchable) together as [`matches`](src/Match).
 ## Matchability
 
 This package ships with a simple [`Matchable`](src/Matchable/Matchable.php)
-implementation. In most cases however you will be better of by supplying your
-own [`MatchableInterface`](src/Matchable/MatchableInterface.php) implementation.
+implementation. You may also supply your own [`MatchableInterface`](src/Matchable/MatchableInterface.php)
+implementation.
 
-> :information_source: Note that the order of the supplied matchables matters.
-> Sort items oldest first if matching older payouts should be a priority.
+> :information_source: Note that the order of matchables matters. Sort items
+> oldest first if matching older payouts should be a priority.
 
 ## Balanceability
 
-TODO: beskriv vad det är och hur det kan användas...
+As definied in the [`MatchInterface`](src/Match/MatchInterface.php) matches
+can be either successful (the amounts of all matched items balance out) or
+failures (balance is non-zero). In some cases however you want a non-balanced
+match to be reported as a success (a receipt of 99 kr matched to a payout of
+100).. Enter balanceability. A balanceable match is a match that can be ammended
+with one additional item to balance an exeptable diff. Balanceable matches are
+thus always successful, as they are either balanced from the start, or can
+programmatically be made to balance. Non-balanceable matches can, well, not be
+balanced in this way, and are only reported as successful if balanced as is.
+
+The inspector method `isBalanceable()` can be used to check the item can be
+balanced in it's current state (the method will only report true if item is
+currently not balanced).
+
+Generating balancing items is out of the scope of this package. But please see
+the `getSuccessful()`, `getFailures()` and `getBalanceables()` methods of the
+[`MatchCollection`](src/Match/MatchCollection.php) class.
 
 <!--
 @exampleContext
@@ -136,6 +152,54 @@ $matches = $matchMaker->match(
 dump_matches($matches);
 ```
 
+## Matching zero amount items
+
+In some configurations items with zero amount might be included in matches
+where it is not desirable. Use the [`ZeroAmountMatcher`](src/Matcher/ZeroAmountMatcher.php)
+to match these items as single matches.
+
+> :information_source: It is a good idea to add a `ZeroAmountMatcher` directly
+> after the `RelatedMatcher` when creating your matchmaker. That makes it
+> possible to specify relations for deleted (zeroed) items and report
+> example dplicates.
+
+<!-- @example ZeroAmountMatcher -->
+<!-- @expectOutput /^1$/ -->
+```php
+$matchMaker = new MatchMaker(new ZeroAmountMatcher);
+
+$matches = $matchMaker->match(
+    new Matchable('1', new \DateTimeImmutable, new Amount('0'))
+);
+
+// 1
+dump_matches($matches);
+```
+
+## Matching groups
+
+Match groups in one-to-many style using the [`GroupingMatcher`](src/Matcher/GroupingMatcher.php).
+
+<!-- @example GroupingMatcher -->
+<!-- @expectOutput /^1-4-3-2,5$/ -->
+```php
+$matchMaker = new MatchMaker(
+    new GroupingMatcher(new DateComparator(12), new AmountComparator(0.05)),
+    new SingleMatcher
+);
+
+$matches = $matchMaker->match(
+    new Matchable('1', new \DateTimeImmutable('2018-04-28'), new Amount('75')),
+    new Matchable('2', new \DateTimeImmutable('2018-05-03'), new Amount('-25')),
+    new Matchable('3', new \DateTimeImmutable('2018-05-03'), new Amount('-25')),
+    new Matchable('4', new \DateTimeImmutable('2018-05-03'), new Amount('-25')),
+    new Matchable('5', new \DateTimeImmutable('2018-05-03'), new Amount('-25'))
+);
+
+// 1-4-3-2,5
+dump_matches($matches);
+```
+
 ## Matching on amount alone
 
 Use [`AmountMatcher`](src/Matcher/AmountMatcher.php) to match on amount alone.
@@ -163,7 +227,7 @@ dump_matches($matches);
 
 Use [`DateMatcher`](src/Matcher/DateMatcher.php) to match on date alone. It is
 equivalent to using a `DateAndAmountMatcher` with the amount max deviation set
-to `0.0`.
+to `1.0`.
 
 > :information_source: Note that `DateMatcher` creates non-balanceable matches.
 > A match on date alone is really uncertain, and should only be viewed as a
@@ -188,22 +252,55 @@ dump_matches($matches);
 
 ## Putting it all together...
 
-<!-- @example "Putting it all together" -->
+<!-- @example "fullstack" -->
+<!-- @expectOutput /^2-1,3-4,5-6,7-9-8,10-11,12-13,14$/ -->
 ```php
-$max6days = new DateComparator(6);
+$max10days = new DateComparator(10);
 $max0percent = new AmountComparator(0.0);
 $max5percent = new AmountComparator(0.05);
 
 $matchMaker = new MatchMaker(
     new RelatedMatcher,
-    new DateAndAmountMatcher($max6days, $max0percent),
-    new DateAndAmountMatcher($max6days, $max5percent),
-    #new GroupingMatcher($max6days, $max0percent),
-    #new GroupingMatcher($max6days, $max5percent),
+    new ZeroAmountMatcher,
+    new DateAndAmountMatcher($max10days, $max0percent),
+    new DateAndAmountMatcher($max10days, $max5percent),
+    new GroupingMatcher($max10days, $max0percent),
+    new GroupingMatcher($max10days, $max5percent),
     new AmountMatcher($max5percent),
-    new DateMatcher($max6days),
+    new DateMatcher($max10days),
     new SingleMatcher
 );
 
-// TODO continue here...
+$matches = $matchMaker->match(
+    // matched by relation
+    new Matchable('1', new \DateTimeImmutable('2018-05-30'), new Amount('100')),
+    new Matchable('2', new \DateTimeImmutable('2018-06-05'), new Amount('-75'), ['1']),
+
+    // matched by date and perfect amount
+    new Matchable('3', new \DateTimeImmutable('2018-06-05'), new Amount('100')),
+    new Matchable('4', new \DateTimeImmutable('2018-06-05'), new Amount('-100')),
+
+    // matched by date and amount
+    new Matchable('5', new \DateTimeImmutable('2018-06-05'), new Amount('100')),
+    new Matchable('6', new \DateTimeImmutable('2018-06-05'), new Amount('-98')),
+
+    //matched as group
+    new Matchable('7', new \DateTimeImmutable('2018-06-05'), new Amount('100')),
+    new Matchable('8', new \DateTimeImmutable('2018-06-05'), new Amount('-50')),
+    new Matchable('9', new \DateTimeImmutable('2018-06-05'), new Amount('-49')),
+
+    // matched even though date is off
+    new Matchable('10', new \DateTimeImmutable('2018-06-05'), new Amount('100')),
+    new Matchable('11', new \DateTimeImmutable('2018-08-05'), new Amount('-98')),
+
+    // partial match
+    new Matchable('12', new \DateTimeImmutable('2018-09-05'), new Amount('300')),
+    new Matchable('13', new \DateTimeImmutable('2018-09-05'), new Amount('-200')),
+
+    // no match
+    new Matchable('14', new \DateTimeImmutable('2018-10-05'), new Amount('100'))
+);
+
+// 2-1,3-4,5-6,7-9-8,10-11,12-13,14
+dump_matches($matches);
 ```

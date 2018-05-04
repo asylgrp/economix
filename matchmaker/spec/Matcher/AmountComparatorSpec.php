@@ -62,4 +62,9 @@ class AmountComparatorSpec extends ObjectBehavior
         $this->beConstructedWith(0.05);
         $this->equals(new Amount('106'), new Amount('-100'))->shouldReturn(false);
     }
+
+    function it_can_handle_division_by_zero()
+    {
+        $this->equals(new Amount('0'), new Amount('0'))->shouldReturn(false);
+    }
 }
