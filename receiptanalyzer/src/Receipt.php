@@ -72,16 +72,5 @@ class Receipt
     public function isTaggedWith(string ...$needles): bool
     {
         return $this->cell->isTaggedWith(...$needles);
-        foreach ($needles as $needle) {
-            foreach ($this->getTags() as $tag) {
-                if (strcasecmp($needle, $tag) == 0) {
-                    continue 2;
-                }
-            }
-
-            return false;
-        }
-
-        return true;
     }
 }
