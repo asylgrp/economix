@@ -5,6 +5,7 @@
 
 Mix of asylgrp economy tools
 
+* [accounting2matchable](accounting2matchable): transform accounting data to matchable items
 * [descparser](descparser): a simple parser for verification descriptions
 * [matchmaker](matchmaker): match payouts with receipts
 * [receiptanalyzer](receiptanalyzer): analyze receipts with added receiver information

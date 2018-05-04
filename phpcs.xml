@@ -3,6 +3,7 @@
     <file>./descparser/src</file>
     <file>./matchmaker/src</file>
     <file>./receiptanalyzer/src</file>
+    <file>./accounting2matchable/src/</file>
     <exclude-pattern>./descparser/src/Grammar.php</exclude-pattern>
     <rule ref="PSR2"/>
 </ruleset>

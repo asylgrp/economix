@@ -14,13 +14,15 @@
         "psr-4": {
             "asylgrp\\descparser\\": ["descparser/src/"],
             "asylgrp\\receiptanalyzer\\": ["receiptanalyzer/src/"],
-            "asylgrp\\matchmaker\\": ["matchmaker/src/"]
+            "asylgrp\\matchmaker\\": ["matchmaker/src/"],
+            "asylgrp\\accounting2matchable\\": ["accounting2matchable/src/"]
         }
     },
     "require": {
         "php": ">=7.1",
         "ext-mbstring": "*",
         "ext-bcmath": "*",
-        "byrokrat/amount": "^2"
+        "byrokrat/amount": "^1",
+        "byrokrat/accounting": "dev-master"
     }
 }
