@@ -4,14 +4,14 @@ declare(strict_types = 1);
 
 namespace descparser\spec\asylgrp\descparser;
 
-use asylgrp\descparser\Parser;
+use asylgrp\descparser\DescParser;
 use asylgrp\descparser\Grammar;
 use asylgrp\descparser\Result;
 use asylgrp\descparser\Tree\Node;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class ParserSpec extends ObjectBehavior
+class DescParserSpec extends ObjectBehavior
 {
     const CURRENT_YEAR = '2018';
 
@@ -22,7 +22,7 @@ class ParserSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(Parser::CLASS);
+        $this->shouldHaveType(DescParser::CLASS);
     }
 
     function it_constructs_result_objects($grammar, Node $node1, Node $node2)

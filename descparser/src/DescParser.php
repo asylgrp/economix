@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace asylgrp\descparser;
 
-class Parser
+class DescParser
 {
     /**
      * @var string
