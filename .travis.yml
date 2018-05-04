@@ -13,4 +13,4 @@ install:
 
 script:
   - phpspec run --verbose
-  - readme-tester descparser/README.md receiptanalyzer/README.md matchmaker/README.md
+  - readme-tester test descparser/README.md receiptanalyzer/README.md matchmaker/README.md

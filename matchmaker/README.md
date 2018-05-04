@@ -4,12 +4,13 @@ Match payouts with receipts.
 
 The entry point for this package is the [`MatchMaker`](src/MatchMaker.php),
 loaded with a set of [`matchers`](src/Matcher). Matchers are able to group 1 or
-more [`matchables`](src/Matchable) together as [`matches`](src/Match).
+more [`matchables`](src/Matchable) together as [`matches`](src/Match). The
+matchmaker creates a [`MatchCollection`](src/Match/MatchCollection.php).
 
 ## Matchability
 
-This package ships with a simple [`Matchable`](src/Matchable/Matchable.php)
-implementation. You may also supply your own [`MatchableInterface`](src/Matchable/MatchableInterface.php)
+This package ships with a simple [`Matchable`](src/Matchable/Matchable.php). You
+may also supply your own [`MatchableInterface`](src/Matchable/MatchableInterface.php)
 implementation.
 
 > :information_source: Note that the order of matchables matters. Sort items
@@ -21,13 +22,13 @@ As definied in the [`MatchInterface`](src/Match/MatchInterface.php) matches
 can be either successful (the amounts of all matched items balance out) or
 failures (balance is non-zero). In some cases however you want a non-balanced
 match to be reported as a success (a receipt of 99 kr matched to a payout of
-100).. Enter balanceability. A balanceable match is a match that can be ammended
-with one additional item to balance an exeptable diff. Balanceable matches are
+100). Enter balanceability. A balanceable match is a match that can be amended
+with one additional item to balance an acceptable diff. Balanceable matches are
 thus always successful, as they are either balanced from the start, or can
 programmatically be made to balance. Non-balanceable matches can, well, not be
 balanced in this way, and are only reported as successful if balanced as is.
 
-The inspector method `isBalanceable()` can be used to check the item can be
+The inspector method `isBalanceable()` can be used to check if the item can be
 balanced in it's current state (the method will only report true if item is
 currently not balanced).
 
@@ -79,13 +80,11 @@ which works by matching each matchable with nothing more then itself.
 <!-- @example SingleMatcher -->
 <!-- @expectOutput /^1,2$/ -->
 ```php
-$matchMaker = new MatchMaker(
-    new SingleMatcher
-);
+$matchMaker = new MatchMaker(new SingleMatcher);
 
 $matches = $matchMaker->match(
-    new Matchable('1', new \DateTimeImmutable('2018-04-30'), new Amount('100')),
-    new Matchable('2', new \DateTimeImmutable('2018-05-03'), new Amount('-100'))
+    new Matchable('1', new \DateTimeImmutable, new Amount('100')),
+    new Matchable('2', new \DateTimeImmutable, new Amount('-100'))
 );
 
 // 1,2
@@ -160,8 +159,8 @@ to match these items as single matches.
 
 > :information_source: It is a good idea to add a `ZeroAmountMatcher` directly
 > after the `RelatedMatcher` when creating your matchmaker. That makes it
-> possible to specify relations for deleted (zeroed) items and report
-> example dplicates.
+> possible to specify relations for deleted (zeroed) items and in this way
+> report identified duplicates.
 
 <!-- @example ZeroAmountMatcher -->
 <!-- @expectOutput /^1$/ -->
