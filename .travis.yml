@@ -1,0 +1,16 @@
+sudo: false
+
+language: php
+
+php:
+  - 7.2
+  - 7.1
+
+install:
+  - composer install
+  - composer global require phpspec/phpspec:^4 hanneskod/readme-tester:^1.0@beta
+  - export PATH=$PATH:$HOME/.composer/vendor/bin/
+
+script:
+  - phpspec run --verbose
+  - readme-tester descparser/README.md receiptanalyzer/README.md matchmaker/README.md
