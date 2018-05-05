@@ -2,19 +2,29 @@
 
 declare(strict_types = 1);
 
-namespace asylgrp\accounting2matchable;
+namespace asylgrp\matchmaker;
 
-use asylgrp\descparser\DescParser;
 use asylgrp\matchmaker\Matchable\MatchableInterface;
 use asylgrp\matchmaker\Matchable\Matchable;
+use asylgrp\descparser\DescParser;
 use byrokrat\accounting\Account;
 use byrokrat\accounting\Container;
 
 /**
  * Transform accounting data to matchable items
  */
-class MatchableFactory
+class AccountingMatchableFactory
 {
+    /**
+     * Id used when creating incoming balance matchable
+     */
+    const INCOMING_BALANCE_ID = '0';
+
+    /**
+     * Description used when creating incoming balance matchable
+     */
+    const INCOMING_BALANCE_DESC = 'Skuld från föregående år';
+
     /**
      * @var \DateTimeImmutable
      */
@@ -47,8 +57,8 @@ class MatchableFactory
 
         if (!$incomingBalance->isZero()) {
             $matchables[] = new Matchable(
-                '',
-                'Skuld från föregående år',
+                self::INCOMING_BALANCE_ID,
+                self::INCOMING_BALANCE_DESC,
                 $this->incomingBalanceDate,
                 $incomingBalance
             );

@@ -36,8 +36,78 @@ Generating balancing items is out of the scope of this package. But please see
 the `getSuccessful()`, `getFailures()` and `getBalanceables()` methods of the
 [`MatchCollection`](src/Match/MatchCollection.php) class.
 
+## Create matchable items from accounting data
+
+Load accounting data in the SIE format using `byrokrat/accounting`.
+
+<!-- @ignore -->
+```php
+$sieParser = (new \byrokrat\accounting\Sie4\Parser\ParserFactory)->createParser();
+$accounting = $sieParser->parse(file_get_contents('verifications.se'));
+```
+
+<!--
+@example hiddenAccountingData
+@ignore
+```php
+$sieParser = (new \byrokrat\accounting\Sie4\Parser\ParserFactory)->createParser();
+$accounting = $sieParser->parse("
+    #FLAGGA 1
+    #KONTO 1920 Bank
+    #KONTO 1501 Name
+    #KONTO 4000 Receipt
+    #IB 0 1501 100.00
+    #VER \"\" 1 20180830 \"description\"
+    {
+        #TRANS  1920 {} -200.00
+        #TRANS  1501 {} 200.00
+    }
+    #VER \"\" 2 20180830 \"description\"
+    {
+        #TRANS  4000 {} 100.00
+        #TRANS  1501 {} -100.00
+    }
+");
+```
+-->
+
+Pass current year (year of accounting) at construct to enable the correct dates
+to be generated.
+
+Generate matchables for all transactions to a specified account (including the
+incoming balance) using the `createMatchablesForAccount()` method.
+
+> :information_source: If an incoming balance is present a matchable with id `0`
+> will be created. Use `rel:0` when entering receipts into bookkeeping that
+> concerns a previous year.
+
+> :information_source: Parsing verification descriptions internaly depends on
+> the `descparser` package.
+
+<!-- @example AccountingMatchableFactory -->
+<!-- @include hiddenAccountingData -->
+```php
+$factory = asylgrp\matchmaker\AccountingMatchableFactory::createFactoryForYear(2017);
+
+$matchables = $factory->createMatchablesForAccount(
+    $accounting->select()->getAccount('1501'),
+    $accounting
+);
+```
+
+<!--
+@example hiddenAccountingMatchableFactoryAssertion
+@include AccountingMatchableFactory
+```php
+assert(count($matchables) == 3);
+```
+--->
+
+## Matching individual matchables
+
 <!--
 @exampleContext
+@example dump_matches()
 @ignore
 ```php
 namespace asylgrp\matchmaker\Matcher;
@@ -68,8 +138,6 @@ function dump_matches($matchCollection)
 }
 ```
 -->
-
-## Matching individual matchables
 
 The most basic matcher is the [`SingleMatcher`](src/Matcher/SingleMatcher.php)
 which works by matching each matchable with nothing more then itself.
@@ -251,7 +319,7 @@ dump_matches($matches);
 
 ## Putting it all together...
 
-<!-- @example "fullstack" -->
+<!-- @example "fullstack-example" -->
 <!-- @expectOutput /^2-1,3-4,5-6,7-9-8,10-11,12-13,14$/ -->
 ```php
 $max10days = new DateComparator(10);
