@@ -36,9 +36,9 @@ Generating balancing items is out of the scope of this package. But please see
 the `getSuccessful()`, `getFailures()` and `getBalanceables()` methods of the
 [`MatchCollection`](src/Match/MatchCollection.php) class.
 
-## Create matchable items from accounting data
+## Generating matchables from accounting data
 
-Load accounting data in the SIE format using `byrokrat/accounting`.
+Load accounting data in the SIE format using [`byrokrat/accounting`](https://github.com/byrokrat/accounting).
 
 <!-- @ignore -->
 ```php
@@ -50,6 +50,7 @@ $accounting = $sieParser->parse(file_get_contents('verifications.se'));
 @example hiddenAccountingData
 @ignore
 ```php
+namespace asylgrp\matchmaker;
 $sieParser = (new \byrokrat\accounting\Sie4\Parser\ParserFactory)->createParser();
 $accounting = $sieParser->parse("
     #FLAGGA 1
@@ -71,15 +72,18 @@ $accounting = $sieParser->parse("
 ```
 -->
 
-Pass current year (year of accounting) at construct to enable the correct dates
-to be generated.
+Transform accounting data into matchables using the
+[`AccountingMatchableFactory`](src/AccountingMatchableFactory.php).
+
+> :information_source: Pass current year (year of accounting) at construct to
+> enable the correct dates to be generated.
 
 Generate matchables for all transactions to a specified account (including the
 incoming balance) using the `createMatchablesForAccount()` method.
 
 > :information_source: If an incoming balance is present a matchable with id `0`
 > will be created. Use `rel:0` when entering receipts into bookkeeping that
-> concerns a previous year.
+> concerns a previous year for automatic matching.
 
 > :information_source: Parsing verification descriptions internaly depends on
 > the `descparser` package.
@@ -87,7 +91,7 @@ incoming balance) using the `createMatchablesForAccount()` method.
 <!-- @example AccountingMatchableFactory -->
 <!-- @include hiddenAccountingData -->
 ```php
-$factory = asylgrp\matchmaker\AccountingMatchableFactory::createFactoryForYear(2017);
+$factory = AccountingMatchableFactory::createFactoryForYear(2017);
 
 $matchables = $factory->createMatchablesForAccount(
     $accounting->select()->getAccount('1501'),
