@@ -5,6 +5,7 @@
 
 Mix of asylgrp economy tools
 
+* [decisionmaker](decisionmaker): create and manage payout decisions
 * [descparser](descparser): a simple parser for verification descriptions
 * [matchmaker](matchmaker): match payouts with receipts
 * [receiptanalyzer](receiptanalyzer): analyze receipts with added receiver information

@@ -12,9 +12,10 @@
     ],
     "autoload": {
         "psr-4": {
+            "asylgrp\\decisionmaker\\": ["decisionmaker/src/"],
             "asylgrp\\descparser\\": ["descparser/src/"],
-            "asylgrp\\receiptanalyzer\\": ["receiptanalyzer/src/"],
-            "asylgrp\\matchmaker\\": ["matchmaker/src/"]
+            "asylgrp\\matchmaker\\": ["matchmaker/src/"],
+            "asylgrp\\receiptanalyzer\\": ["receiptanalyzer/src/"]
         }
     },
     "require": {

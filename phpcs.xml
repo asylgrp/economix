@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <ruleset>
+    <file>./decisionmaker/src</file>
     <file>./descparser/src</file>
     <file>./matchmaker/src</file>
     <file>./receiptanalyzer/src</file>
