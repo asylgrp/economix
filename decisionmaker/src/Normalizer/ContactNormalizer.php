@@ -18,7 +18,7 @@ class ContactNormalizer implements NormalizerInterface, DenormalizerInterface
         return $data instanceof Contact;
     }
 
-    public function normalize($obj, $format = null, $context = [])
+    public function normalize($obj, $format = null, array $context = [])
     {
         if (!$this->supportsNormalization($obj, $format)) {
             throw new \InvalidArgumentException('Unable to normalize, expecting Contact');

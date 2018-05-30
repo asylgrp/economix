@@ -36,7 +36,7 @@ class PayoutRequestNormalizer implements NormalizerInterface, DenormalizerInterf
         return $data instanceof PayoutRequest;
     }
 
-    public function normalize($payout, $format = null, $context = [])
+    public function normalize($payout, $format = null, array $context = [])
     {
         if (!$this->supportsNormalization($payout, $format)) {
             throw new \InvalidArgumentException('Unable to normalize, expecting PayoutRequest');

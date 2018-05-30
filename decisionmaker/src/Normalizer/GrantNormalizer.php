@@ -50,7 +50,7 @@ class GrantNormalizer implements NormalizerInterface, DenormalizerInterface
         return $type == GrantInterface::CLASS;
     }
 
-    public function denormalize($data, $type, $format = null, $context = [])
+    public function denormalize($data, $type, $format = null, array $context = [])
     {
         if (!$this->supportsDenormalization($data, $type, $format)) {
             throw new \InvalidArgumentException('Unable to denormalize, expecting GrantInterface');
