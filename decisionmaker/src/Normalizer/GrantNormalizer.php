@@ -22,7 +22,7 @@ class GrantNormalizer implements NormalizerInterface, DenormalizerInterface
         return $data instanceof GrantInterface;
     }
 
-    public function normalize($grant, $format = null, $context = [])
+    public function normalize($grant, $format = null, array $context = [])
     {
         if (!$this->supportsNormalization($grant, $format)) {
             throw new \InvalidArgumentException('Unable to normalize, expecting GrantInterface');
