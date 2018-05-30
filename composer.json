@@ -23,6 +23,7 @@
         "ext-mbstring": "*",
         "ext-bcmath": "*",
         "byrokrat/amount": "^1",
-        "byrokrat/accounting": "dev-master"
+        "byrokrat/accounting": "dev-master",
+        "symfony/serializer": "^4"
     }
 }

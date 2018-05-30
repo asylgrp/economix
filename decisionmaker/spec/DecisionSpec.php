@@ -15,7 +15,7 @@ class DecisionSpec extends ObjectBehavior
 {
     function let(PayoutRequestCollection $payouts)
     {
-        $this->beConstructedWith('', new \DateTimeImmutable, new Amount('0'), $payouts);
+        $this->beConstructedWith('', '', new \DateTimeImmutable, new Amount('0'), $payouts);
     }
 
     function it_is_initializable()
@@ -25,21 +25,27 @@ class DecisionSpec extends ObjectBehavior
 
     function it_contains_an_id($payouts)
     {
-        $this->beConstructedWith('foobar', new \DateTimeImmutable, new Amount('0'), $payouts);
+        $this->beConstructedWith('foobar', '', new \DateTimeImmutable, new Amount('0'), $payouts);
         $this->getId()->shouldReturn('foobar');
+    }
+
+    function it_contains_a_signature($payouts)
+    {
+        $this->beConstructedWith('', 'baz', new \DateTimeImmutable, new Amount('0'), $payouts);
+        $this->getSignature()->shouldReturn('baz');
     }
 
     function it_contains_a_date($payouts)
     {
         $date = new \DateTimeImmutable;
-        $this->beConstructedWith('', $date, new Amount('0'), $payouts);
+        $this->beConstructedWith('', '', $date, new Amount('0'), $payouts);
         $this->getDate()->shouldReturn($date);
     }
 
     function it_contains_a_pre_funds($payouts)
     {
         $amount = new Amount('100');
-        $this->beConstructedWith('', new \DateTimeImmutable, $amount, $payouts);
+        $this->beConstructedWith('', '', new \DateTimeImmutable, $amount, $payouts);
         $this->getAllocatedAmount()->shouldReturn($amount);
     }
 

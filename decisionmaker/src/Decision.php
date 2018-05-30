@@ -17,6 +17,11 @@ class Decision
     private $id;
 
     /**
+     * @var string
+     */
+    private $signature;
+
+    /**
      * @var \DateTimeImmutable
      */
     private $date;
@@ -33,11 +38,13 @@ class Decision
 
     public function __construct(
         string $id,
+        string $signature,
         \DateTimeImmutable $date,
         Amount $allocatedAmount,
         PayoutRequestCollection $payouts
     ) {
         $this->id = $id;
+        $this->signature = $signature;
         $this->date = $date;
         $this->allocatedAmount = $allocatedAmount;
         $this->payouts = $payouts;
@@ -49,6 +56,14 @@ class Decision
     public function getId(): string
     {
         return $this->id;
+    }
+
+    /**
+     * Get decision signature
+     */
+    public function getSignature(): string
+    {
+        return $this->signature;
     }
 
     /**
