@@ -2,14 +2,14 @@
 
 Create and manage payout decisions.
 
-## Handling contact persons
+## Contact persons
 
 Contact person objects carry name, account, mail, phone and comment, and comes
 in three flawors:
 
-* ActiveContactPerson which can channel payouts
-* BlockedContactPerson which is temporarily block
-* BannedContactPerson which is never expected to channel payouts again
+1. `ActiveContactPerson` which can channel payouts
+1. `BlockedContactPerson` which is temporarily blocked
+1. `BannedContactPerson` which is never expected to channel payouts again
 
 <!-- @example contactPerson -->
 ```php
@@ -26,7 +26,7 @@ $contactPerson = new ActiveContactPerson(
 
 ## Requesting payouts
 
-Generate fresh requests (claims) using the PayoutRequestFactory.
+Generate fresh requests (claims) using the `PayoutRequestFactory`.
 
 <!-- @example payout -->
 <!-- @include contactPerson -->
@@ -41,12 +41,12 @@ $payout = (new PayoutRequestFactory)->requestPayout($contactPerson, new SEK('500
 
 Allocation comes in four flawors.
 
-* `LazyFixed`: Allocate the same amount to all requests based on availiable funds.
-  A max amount per request may be set.
-* `LazyRatio`: Allocate availiable funds based on claim amounts. The higher
-  the claim the higher the grant..
-* `StaticFixed`: Allocate the same amount to all requests.
-* `StaticRatio`: Allocate the to all requests based on a predefinied ratio.
+1. `LazyFixed` allocates the same amount to all requests based on availiable funds.
+   A max amount per request may be set.
+1. `LazyRatio` allocates availiable funds based on claim amounts. The higher
+   the claim the higher the grant..
+1. `StaticFixed` allocates the same amount to all requests.
+1. `StaticRatio` allocates based on a predefinied ratio.
 
 Create complex allocator combinations using the `AllocatorBuilder`.
 
@@ -63,7 +63,7 @@ $allocator = (new AllocatorBuilder)
     ->getAllocator();
 ```
 
-## Creating decisions
+## Making decisions
 
 <!-- @example decision -->
 <!-- @include allocator -->
@@ -85,7 +85,6 @@ Decisions are serializable using the symfony serializer component.
 
 <!-- @example serializer -->
 <!-- @include decision -->
-<!-- @expectOutput "/^\{.+\}$/s" -->
 ```php
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -99,5 +98,24 @@ $serializer = new Serializer(
     [new JsonEncoder]
 );
 
-echo $serializer->serialize($decision, 'json', ['json_encode_options' => JSON_PRETTY_PRINT]);
+$serialized = $serializer->serialize($decision, 'json', ['json_encode_options' => JSON_PRETTY_PRINT]);
+```
+
+<!--
+@example validateSerialized
+@include serializer
+@expectOutput "/^\{.+\}$/s"
+```php
+echo $serialized;
+```
+-->
+
+Deserializing also works as expected.
+
+<!-- @example deserializer -->
+<!-- @include serializer -->
+```php
+use asylgrp\decisionmaker\Decision;
+
+$decision = $serializer->deserialize($serialized, Decision::CLASS, 'json');
 ```
