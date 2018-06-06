@@ -2,36 +2,6 @@
 
 Create and manage payout decisions.
 
-## TODO
-
-### DecisionMaker
-
-En DecisionMaker som innehåller denna logic...
-
-<!-- @ignore -->
-```php
-$alloc = (new AllocatorBuilder)->...->getAllocator();
-
-$funds = new SEK('4500');
-
-// TODO funkar det att göra id så? Kan ta hänsyn till claim dates osv...
-// TODO hash måste beräknas efter allocation...
-// TODO finns decisionmaker\Utils\SyStemClock att använda..
-
-return new Decision(
-    $payoutRequestHasher->getHash($payoutRequests),
-    $clock->now(),
-    $funds,
-    $alloc->allocate($funds, $payoutRequests)
-);
-```
-
-### Presentation
-
-PDF-genererar logiken med sortering och gruppering(?)...
-
-* Lägg till antal KP:s till sidhuvud i beslut.
-
 ## Handling contact persons
 
 Contact person objects carry name, account, mail, phone and comment, and comes
@@ -64,7 +34,7 @@ Generate fresh requests (claims) using the PayoutRequestFactory.
 use asylgrp\decisionmaker\PayoutRequestFactory;
 use byrokrat\amount\Currency\SEK;
 
-$payout = (new PayoutRequestFactory)->requestPayout($contactPerson, new SEK('100'), 'description');
+$payout = (new PayoutRequestFactory)->requestPayout($contactPerson, new SEK('5000'), 'description');
 ```
 
 ## Allocating
@@ -93,6 +63,18 @@ $allocator = (new AllocatorBuilder)
     ->getAllocator();
 ```
 
+## Creating decisions
+
+<!-- @example decision -->
+<!-- @include allocator -->
+```php
+use asylgrp\decisionmaker\DecisionMaker;
+
+$fundsToGrant = new SEK('1000');
+
+$decision = (new DecisionMaker($allocator))->createDecision($fundsToGrant, [$payout], 'signature');
+```
+
 ## Serializing
 
 Decisions are serializable using the symfony serializer component.
@@ -102,7 +84,7 @@ Decisions are serializable using the symfony serializer component.
 > individual contacts and payout requests as well.
 
 <!-- @example serializer -->
-<!-- @include payout -->
+<!-- @include decision -->
 <!-- @expectOutput "/^\{.+\}$/s" -->
 ```php
 use Symfony\Component\Serializer\Serializer;
@@ -117,12 +99,5 @@ $serializer = new Serializer(
     [new JsonEncoder]
 );
 
-// TODO use decisionbuilder here
-$grant = new \asylgrp\decisionmaker\Grant\Claim(new \DateTimeImmutable, new \byrokrat\amount\Currency\SEK('100'), 'test');
-$grant = new \asylgrp\decisionmaker\Grant\Grant($grant, new \byrokrat\amount\Currency\SEK('50'), 'granitng..');
-$grant = new \asylgrp\decisionmaker\Grant\Grant($grant, new \byrokrat\amount\Currency\SEK('50'), 'granting again');
-
-$payout = new \asylgrp\decisionmaker\PayoutRequest($contactPerson, $grant);
-
-echo $serializer->serialize($payout, 'json', ['json_encode_options' => JSON_PRETTY_PRINT]);
+echo $serializer->serialize($decision, 'json', ['json_encode_options' => JSON_PRETTY_PRINT]);
 ```
