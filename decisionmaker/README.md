@@ -4,15 +4,6 @@ Create and manage payout decisions.
 
 ## TODO
 
-### Contact
-
-Validera att den verkligen är active när jag skapar payoutRequest...
-    $payput = PayoutRequestFactory::requestPayout($contact, $amount, $desc);
-
-    // måste göras till PayoutRequestCollection någon stans också...
-
-    $decision = DecisionMaker::createDecision($payouts, $funds, $signature);
-
 ### Allocation
 
 <!-- @ignore -->
@@ -52,6 +43,7 @@ $alloc = (new AllocatorBuilder)->...->getAllocator();
 $funds = new SEK('4500');
 
 // TODO funkar det att göra id så? Kan ta hänsyn till claim dates osv...
+// TODO hash måste beräknas efter allocation...
 // TODO finns decisionmaker\Utils\SyStemClock att använda..
 
 return new Decision(
@@ -68,6 +60,41 @@ PDF-genererar logiken med sortering och gruppering(?)...
 
 * Lägg till antal KP:s till sidhuvud i beslut.
 
+## Handling contact persons
+
+Contact person objects carry name, account, mail, phone and comment, and comes
+in three flawors:
+
+* ActiveContactPerson which can channel payouts
+* BlockedContactPerson which is temporarily block
+* BannedContactPerson which is never expected to channel payouts again
+
+<!-- @example ContactPerson -->
+```php
+use asylgrp\decisionmaker\ContactPerson\ActiveContactPerson;
+
+$contactPerson = new ActiveContactPerson(
+    'name',
+    (new \byrokrat\banking\AccountFactory)->createAccount('1230'),
+    'mail',
+    'phone',
+    'comment'
+);
+```
+
+## Requesting payouts
+
+Generate fresh requests (claims) using the PayoutRequestFactory.
+
+<!-- @example PayoutRequest -->
+<!-- @include ContactPerson -->
+```php
+use asylgrp\decisionmaker\PayoutRequestFactory;
+use byrokrat\amount\Currency\SEK;
+
+$payout = (new PayoutRequestFactory)->requestPayout($contactPerson, new SEK('100'), 'description');
+```
+
 ## Serializing
 
 Decisions are serializable using the symfony serializer component.
@@ -77,6 +104,7 @@ Decisions are serializable using the symfony serializer component.
 > individual contacts and payout requests as well.
 
 <!-- @example serializer -->
+<!-- @include PayoutRequest -->
 <!-- @expectOutput "/^\{.+\}$/s" -->
 ```php
 use Symfony\Component\Serializer\Serializer;
@@ -96,15 +124,7 @@ $grant = new \asylgrp\decisionmaker\Grant\Claim(new \DateTimeImmutable, new \byr
 $grant = new \asylgrp\decisionmaker\Grant\Grant($grant, new \byrokrat\amount\Currency\SEK('50'), 'granitng..');
 $grant = new \asylgrp\decisionmaker\Grant\Grant($grant, new \byrokrat\amount\Currency\SEK('50'), 'granting again');
 
-$contact = new \asylgrp\decisionmaker\ContactPerson\ActiveContactPerson(
-    'name',
-    (new \byrokrat\banking\AccountFactory)->createAccount('1230'),
-    'mail',
-    'phone',
-    'comment'
-);
-
-$payout = new \asylgrp\decisionmaker\PayoutRequest($contact, $grant);
+$payout = new \asylgrp\decisionmaker\PayoutRequest($contactPerson, $grant);
 
 echo $serializer->serialize($payout, 'json', ['json_encode_options' => JSON_PRETTY_PRINT]);
 ```
