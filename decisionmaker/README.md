@@ -4,34 +4,6 @@ Create and manage payout decisions.
 
 ## TODO
 
-### Allocation
-
-<!-- @ignore -->
-```php
-namespace Allocator;
-
-// Allokera samma summa till varje requets (baserat på tillgängliga medel och optional max value..)
-// TODO Detta är färdigskriver
-
-$alloc = new LazyAllocator(new FixedGranterFactory);
-$payouts = $alloc->allocate($money, $payouts);
-
-// Men hur gör en då för att använda pre-set guarantee osv..
-// TODO Detta är färdigskriver
-
-$alloc = new StaticAllocator(new FixedGranter(new SEK('1000')));
-
-// Det krävs någon form av builder så att detta blir enkelt att styra från ini..
-// TODO AllocatorBuilder är inte skriven..
-
-$allocator = (new AllocatorBuilder)
-    ->addLazyFixed($max = new SEK('1000'))
-    ->addLazyRatio()
-    ->addStaticFixed($fixed)
-    ->addStaticRatio($ratio)
-    ->getAllocator();
-```
-
 ### DecisionMaker
 
 En DecisionMaker som innehåller denna logic...
@@ -69,7 +41,7 @@ in three flawors:
 * BlockedContactPerson which is temporarily block
 * BannedContactPerson which is never expected to channel payouts again
 
-<!-- @example ContactPerson -->
+<!-- @example contactPerson -->
 ```php
 use asylgrp\decisionmaker\ContactPerson\ActiveContactPerson;
 
@@ -86,13 +58,39 @@ $contactPerson = new ActiveContactPerson(
 
 Generate fresh requests (claims) using the PayoutRequestFactory.
 
-<!-- @example PayoutRequest -->
-<!-- @include ContactPerson -->
+<!-- @example payout -->
+<!-- @include contactPerson -->
 ```php
 use asylgrp\decisionmaker\PayoutRequestFactory;
 use byrokrat\amount\Currency\SEK;
 
 $payout = (new PayoutRequestFactory)->requestPayout($contactPerson, new SEK('100'), 'description');
+```
+
+## Allocating
+
+Allocation comes in four flawors.
+
+* `LazyFixed`: Allocate the same amount to all requests based on availiable funds.
+  A max amount per request may be set.
+* `LazyRatio`: Allocate availiable funds based on claim amounts. The higher
+  the claim the higher the grant..
+* `StaticFixed`: Allocate the same amount to all requests.
+* `StaticRatio`: Allocate the to all requests based on a predefinied ratio.
+
+Create complex allocator combinations using the `AllocatorBuilder`.
+
+<!-- @example allocator -->
+<!-- @include payout -->
+```php
+use asylgrp\decisionmaker\Allocator\AllocatorBuilder;
+
+$allocator = (new AllocatorBuilder)
+    ->addLazyFixed($max = new SEK('1000'))
+    ->addLazyRatio()
+    ->addStaticFixed($fixed = new SEK('10'))
+    ->addStaticRatio($ratio = 0.5)
+    ->getAllocator();
 ```
 
 ## Serializing
@@ -104,7 +102,7 @@ Decisions are serializable using the symfony serializer component.
 > individual contacts and payout requests as well.
 
 <!-- @example serializer -->
-<!-- @include PayoutRequest -->
+<!-- @include payout -->
 <!-- @expectOutput "/^\{.+\}$/s" -->
 ```php
 use Symfony\Component\Serializer\Serializer;
