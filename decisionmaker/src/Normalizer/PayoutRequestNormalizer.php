@@ -7,7 +7,7 @@ namespace asylgrp\decisionmaker\Normalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use asylgrp\decisionmaker\PayoutRequest;
-use asylgrp\decisionmaker\Contact;
+use asylgrp\decisionmaker\ContactPerson\ContactPersonInterface;
 use asylgrp\decisionmaker\Grant\GrantInterface;
 
 /**
@@ -16,18 +16,20 @@ use asylgrp\decisionmaker\Grant\GrantInterface;
 class PayoutRequestNormalizer implements NormalizerInterface, DenormalizerInterface
 {
     /**
-     * @var ContactNormalizer
+     * @var ContactPersonNormalizer
      */
-    private $contactNormalizer;
+    private $contactPersonNormalizer;
 
     /**
      * @var GrantNormalizer
      */
     private $grantNormalizer;
 
-    public function __construct(ContactNormalizer $contactNormalizer = null, GrantNormalizer $grantNormalizer = null)
-    {
-        $this->contactNormalizer = $contactNormalizer ?: new ContactNormalizer;
+    public function __construct(
+        ContactPersonNormalizer $contactPersonNormalizer = null,
+        GrantNormalizer $grantNormalizer = null
+    ) {
+        $this->contactPersonNormalizer = $contactPersonNormalizer ?: new ContactPersonNormalizer;
         $this->grantNormalizer = $grantNormalizer ?: new GrantNormalizer;
     }
 
@@ -43,7 +45,7 @@ class PayoutRequestNormalizer implements NormalizerInterface, DenormalizerInterf
         }
 
         return [
-            'contact' => $this->contactNormalizer->normalize($payout->getContact()),
+            'contact' => $this->contactPersonNormalizer->normalize($payout->getContactPerson()),
             'grant' => $this->grantNormalizer->normalize($payout->getGrant())
         ];
     }
@@ -60,7 +62,7 @@ class PayoutRequestNormalizer implements NormalizerInterface, DenormalizerInterf
         }
 
         return new PayoutRequest(
-            $this->contactNormalizer->denormalize($data['contact'], Contact::CLASS),
+            $this->contactPersonNormalizer->denormalize($data['contact'], ContactPersonInterface::CLASS),
             $this->grantNormalizer->denormalize($data['grant'], GrantInterface::CLASS)
         );
     }

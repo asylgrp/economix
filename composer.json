@@ -24,6 +24,7 @@
         "ext-bcmath": "*",
         "byrokrat/amount": "^1",
         "byrokrat/accounting": "dev-master",
+        "byrokrat/banking": "^1",
         "symfony/serializer": "^4"
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace asylgrp\decisionmaker;
 
+use asylgrp\decisionmaker\ContactPerson\ContactPersonInterface;
 use asylgrp\decisionmaker\Grant\GrantInterface;
 
 /**
@@ -12,7 +13,7 @@ use asylgrp\decisionmaker\Grant\GrantInterface;
 class PayoutRequest
 {
     /**
-     * @var Contact
+     * @var ContactPersonInterface
      */
     private $contact;
 
@@ -21,13 +22,13 @@ class PayoutRequest
      */
     private $grant;
 
-    public function __construct(Contact $contact, GrantInterface $grant)
+    public function __construct(ContactPersonInterface $contact, GrantInterface $grant)
     {
         $this->contact = $contact;
         $this->grant = $grant;
     }
 
-    public function getContact(): Contact
+    public function getContactPerson(): ContactPersonInterface
     {
         return $this->contact;
     }
@@ -39,6 +40,6 @@ class PayoutRequest
 
     public function withGrant(GrantInterface $newGrant): PayoutRequest
     {
-        return new self($this->getContact(), $newGrant);
+        return new self($this->getContactPerson(), $newGrant);
     }
 }

@@ -4,16 +4,7 @@ Create and manage payout decisions.
 
 ## TODO
 
-Detta paket är inte färdigt..
-
 ### Contact
-
-Skriv om Contact som ContactInterface
-
-Med implementationer
-    ActiveContact
-    BlockedContact
-    InactiveContact
 
 Validera att den verkligen är active när jag skapar payoutRequest...
     $payput = PayoutRequestFactory::requestPayout($contact, $amount, $desc);
@@ -91,12 +82,12 @@ Decisions are serializable using the symfony serializer component.
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
-use asylgrp\decisionmaker\Normalizer\ContactNormalizer;
+use asylgrp\decisionmaker\Normalizer\ContactPersonNormalizer;
 use asylgrp\decisionmaker\Normalizer\DecisionNormalizer;
 use asylgrp\decisionmaker\Normalizer\PayoutRequestNormalizer;
 
 $serializer = new Serializer(
-    [new ContactNormalizer, new DecisionNormalizer, new PayoutRequestNormalizer],
+    [new ContactPersonNormalizer, new DecisionNormalizer, new PayoutRequestNormalizer],
     [new JsonEncoder]
 );
 
@@ -105,7 +96,15 @@ $grant = new \asylgrp\decisionmaker\Grant\Claim(new \DateTimeImmutable, new \byr
 $grant = new \asylgrp\decisionmaker\Grant\Grant($grant, new \byrokrat\amount\Currency\SEK('50'), 'granitng..');
 $grant = new \asylgrp\decisionmaker\Grant\Grant($grant, new \byrokrat\amount\Currency\SEK('50'), 'granting again');
 
-$payout = new \asylgrp\decisionmaker\PayoutRequest(new \asylgrp\decisionmaker\Contact, $grant);
+$contact = new \asylgrp\decisionmaker\ContactPerson\ActiveContactPerson(
+    'name',
+    (new \byrokrat\banking\AccountFactory)->createAccount('1230'),
+    'mail',
+    'phone',
+    'comment'
+);
+
+$payout = new \asylgrp\decisionmaker\PayoutRequest($contact, $grant);
 
 echo $serializer->serialize($payout, 'json', ['json_encode_options' => JSON_PRETTY_PRINT]);
 ```

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace decisionmaker\spec\asylgrp\decisionmaker;
 
-use asylgrp\decisionmaker\Contact;
+use asylgrp\decisionmaker\ContactPerson\ContactPersonInterface;
 use asylgrp\decisionmaker\PayoutRequest;
 use asylgrp\decisionmaker\Grant\GrantInterface;
 use PhpSpec\ObjectBehavior;
@@ -12,7 +12,7 @@ use Prophecy\Argument;
 
 class PayoutRequestSpec extends ObjectBehavior
 {
-    function let(Contact $contact, GrantInterface $grant)
+    function let(ContactPersonInterface $contact, GrantInterface $grant)
     {
         $this->beConstructedWith($contact, $grant);
     }
@@ -24,7 +24,7 @@ class PayoutRequestSpec extends ObjectBehavior
 
     function it_contains_contact($contact)
     {
-        $this->getContact()->shouldReturn($contact);
+        $this->getContactPerson()->shouldReturn($contact);
     }
 
     function it_contains_grant($grant)
