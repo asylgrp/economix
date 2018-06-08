@@ -8,6 +8,7 @@ use asylgrp\decisionmaker\ContactPerson\ContactPersonInterface;
 use asylgrp\decisionmaker\ContactPerson\ActiveContactPerson;
 use asylgrp\decisionmaker\ContactPerson\BlockedContactPerson;
 use asylgrp\decisionmaker\ContactPerson\BannedContactPerson;
+use byrokrat\banking\AccountFactoryInterface;
 use byrokrat\banking\AccountFactory;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -22,11 +23,11 @@ class ContactPersonNormalizer implements NormalizerInterface, DenormalizerInterf
     const STATUS_BANNED = 'BANNED';
 
     /**
-     * @var AccountFactory
+     * @var AccountFactoryInterface
      */
     private $accountFactory;
 
-    public function __construct(AccountFactory $accountFactory = null)
+    public function __construct(AccountFactoryInterface $accountFactory = null)
     {
         $this->accountFactory = $accountFactory ?: new AccountFactory;
     }

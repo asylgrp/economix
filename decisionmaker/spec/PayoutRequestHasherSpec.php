@@ -37,6 +37,8 @@ class PayoutRequestHasherSpec extends ObjectBehavior
         $contact->getName()->willReturn('name')->shouldBeCalled();
         $contact->getAccount()->willReturn($account)->shouldBeCalled();
 
+        $account->getNumber()->willReturn('accountnumber')->shouldBeCalled();
+
         $payout->getGrant()->willReturn($grant);
 
         $grant->getClaimDate()->willReturn(new \DateTimeImmutable)->shouldBeCalled();

@@ -9,14 +9,14 @@ use asylgrp\decisionmaker\ContactPerson\ContactPersonInterface;
 use asylgrp\decisionmaker\ContactPerson\ActiveContactPerson;
 use asylgrp\decisionmaker\ContactPerson\BlockedContactPerson;
 use asylgrp\decisionmaker\ContactPerson\BannedContactPerson;
-use byrokrat\banking\AccountFactory;
+use byrokrat\banking\AccountFactoryInterface;
 use byrokrat\banking\AccountNumber;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class ContactPersonNormalizerSpec extends ObjectBehavior
 {
-    function let(AccountFactory $accountFactory, ContactPersonInterface $contact, AccountNumber $account)
+    function let(AccountFactoryInterface $accountFactory, ContactPersonInterface $contact, AccountNumber $account)
     {
         $contact->getName()->willReturn('name');
         $contact->getAccount()->willReturn($account);
