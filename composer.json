@@ -22,8 +22,9 @@
         "php": ">=7.1",
         "ext-mbstring": "*",
         "ext-bcmath": "*",
-        "byrokrat/amount": "^1",
-        "byrokrat/accounting": "dev-master",
+        "ext-intl": "*",
+        "byrokrat/accounting": "^1",
+        "byrokrat/amount": "^2",
         "byrokrat/banking": "^2",
         "symfony/serializer": "^4"
     }

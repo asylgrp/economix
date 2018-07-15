@@ -42,7 +42,7 @@ Load accounting data in the SIE format using [`byrokrat/accounting`](https://git
 
 <!-- @ignore -->
 ```php
-$sieParser = (new \byrokrat\accounting\Sie4\Parser\ParserFactory)->createParser();
+$sieParser = (new \byrokrat\accounting\Sie4\Parser\Sie4ParserFactory)->createParser();
 $accounting = $sieParser->parse(file_get_contents('verifications.se'));
 ```
 
@@ -51,7 +51,7 @@ $accounting = $sieParser->parse(file_get_contents('verifications.se'));
 @ignore
 ```php
 namespace asylgrp\matchmaker;
-$sieParser = (new \byrokrat\accounting\Sie4\Parser\ParserFactory)->createParser();
+$sieParser = (new \byrokrat\accounting\Sie4\Parser\Sie4ParserFactory)->createParser();
 $accounting = $sieParser->parse("
     #FLAGGA 1
     #KONTO 1920 Bank

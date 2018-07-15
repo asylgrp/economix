@@ -7,7 +7,7 @@ namespace asylgrp\matchmaker;
 use asylgrp\matchmaker\Matchable\MatchableInterface;
 use asylgrp\matchmaker\Matchable\Matchable;
 use asylgrp\descparser\DescParser;
-use byrokrat\accounting\Account;
+use byrokrat\accounting\Dimension\AccountInterface;
 use byrokrat\accounting\Container;
 
 /**
@@ -49,19 +49,21 @@ class AccountingMatchableFactory
     /**
      * @return MatchableInterface[]
      */
-    public function createMatchablesForAccount(Account $account, Container $bookkeeping): array
+    public function createMatchablesForAccount(AccountInterface $account, Container $bookkeeping): array
     {
         $matchables = [];
 
-        $incomingBalance = $account->getAttribute('summary')->getIncomingBalance();
+        if ($summary = $account->getAttribute('summary')) {
+            $incomingBalance = $summary->getIncomingBalance();
 
-        if (!$incomingBalance->isZero()) {
-            $matchables[] = new Matchable(
-                self::INCOMING_BALANCE_ID,
-                self::INCOMING_BALANCE_DESC,
-                $this->incomingBalanceDate,
-                $incomingBalance
-            );
+            if (!$incomingBalance->isZero()) {
+                $matchables[] = new Matchable(
+                    self::INCOMING_BALANCE_ID,
+                    self::INCOMING_BALANCE_DESC,
+                    $this->incomingBalanceDate,
+                    $incomingBalance
+                );
+            }
         }
 
         foreach ($bookkeeping->select()->verifications()->whereAccount($account->getId()) as $ver) {
@@ -69,9 +71,9 @@ class AccountingMatchableFactory
 
             foreach ($ver->select()->transactions()->whereAccount($account->getId()) as $trans) {
                 $matchables[] = new Matchable(
-                    (string)$ver->getId(),
+                    (string)$ver->getVerificationId(),
                     $trans->getDescription(),
-                    $descData->getDate() ?: $trans->getDate(),
+                    $descData->getDate() ?: $trans->getTransactionDate(),
                     $trans->getAmount(),
                     $descData->getRelations()
                 );
