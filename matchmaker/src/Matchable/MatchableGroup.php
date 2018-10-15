@@ -74,7 +74,7 @@ class MatchableGroup implements MatchableInterface
             }
         }
 
-        if (is_null($earliest)) {
+        if (is_null($earliest) || is_null($latest)) {
             throw new \LogicException('Unable to calculate date of empty group');
         }
 

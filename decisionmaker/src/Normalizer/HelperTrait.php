@@ -26,6 +26,12 @@ trait HelperTrait
 
     protected function denormalizeDate(string $normalizedDate): \DateTimeImmutable
     {
-        return \DateTimeImmutable::createFromFormat(DATE_W3C, $normalizedDate);
+        $date = \DateTimeImmutable::createFromFormat(DATE_W3C, $normalizedDate);
+
+        if (!$date) {
+            throw new \RuntimeException("Unable to denormalize $normalizedDate");
+        }
+
+        return $date;
     }
 }

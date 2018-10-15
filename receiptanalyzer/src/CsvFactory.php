@@ -32,7 +32,7 @@ class CsvFactory
 
     public function fromString(string $source): ReceiptCollection
     {
-        $tmpfile = tempnam(sys_get_temp_dir(), 'receiptanalyzer');
+        $tmpfile = (string)tempnam(sys_get_temp_dir(), 'receiptanalyzer');
         file_put_contents($tmpfile, trim($source));
         $collection = self::fromFile($tmpfile);
         unlink($tmpfile);
@@ -42,11 +42,21 @@ class CsvFactory
     public function fromFile(string $filename): ReceiptCollection
     {
         $filehandle = fopen($filename, 'r');
+
+        if (!$filehandle) {
+            throw new \RuntimeException("Unable to open $filename");
+        }
+
         $periods = fgetcsv($filehandle);
+
+        if (!$periods) {
+            throw new \RuntimeException("Invalid file $filename");
+        }
+
         $contact = array_shift($periods);
         $receipts = [];
 
-        while (($row = fgetcsv($filehandle)) !== false) {
+        while (($row = fgetcsv($filehandle))) {
             $receiver = array_shift($row);
 
             foreach ($row as $index => $cellData) {

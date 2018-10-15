@@ -33,7 +33,11 @@ class MatchMaker
 
         foreach ($this->matchers as $matcher) {
             while ($matchable = array_shift($toMatch)) {
-                if ($match = $matcher->match($matchable, array_merge($notMatched, $toMatch))) {
+                $match = $matcher->match($matchable, array_merge($notMatched, $toMatch));
+
+                if (!$match) {
+                    array_push($notMatched, $matchable);
+                } else {
                     $matches[] = $match;
 
                     // matched items should not be tested again
@@ -41,8 +45,6 @@ class MatchMaker
                         self::removeFromArray($matched, $toMatch);
                         self::removeFromArray($matched, $notMatched);
                     }
-                } else {
-                    array_push($notMatched, $matchable);
                 }
             }
 
