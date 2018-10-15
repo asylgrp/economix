@@ -19,3 +19,5 @@ suites:
         psr4_prefix: asylgrp\receiptanalyzer
         spec_prefix: receiptanalyzer\spec
         src_path: receiptanalyzer/src
+
+formatter.name: dot
