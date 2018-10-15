@@ -5,7 +5,7 @@ Match payouts with receipts.
 The entry point for this package is the [`MatchMaker`](src/MatchMaker.php),
 loaded with a set of [`matchers`](src/Matcher). Matchers are able to group 1 or
 more [`matchables`](src/Matchable) together as [`matches`](src/Match). The
-matchmaker creates a [`MatchCollection`](src/Match/MatchCollection.php).
+matchmaker creates a [`MatchCollection`](src/Match/MatchCollectionInterface.php).
 
 ## Matchability
 
@@ -34,7 +34,7 @@ currently not balanced).
 
 Generating balancing items is out of the scope of this package. But please see
 the `getSuccessful()`, `getFailures()` and `getBalanceables()` methods of the
-[`MatchCollection`](src/Match/MatchCollection.php) class.
+[`MatchCollectionInterface`](src/Match/MatchCollectionInterface.php) class.
 
 ## Generating matchables from accounting data
 

@@ -9,7 +9,7 @@ use byrokrat\amount\Amount;
 /**
  * Simple matchable implementation
  */
-class Matchable implements MatchableInterface
+final class Matchable implements MatchableInterface
 {
     /**
      * @var string
@@ -76,5 +76,10 @@ class Matchable implements MatchableInterface
     public function getDate(): \DateTimeImmutable
     {
         return $this->date;
+    }
+
+    public function getMatchables(): array
+    {
+        return [$this];
     }
 }

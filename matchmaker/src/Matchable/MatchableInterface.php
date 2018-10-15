@@ -35,4 +35,11 @@ interface MatchableInterface
      * Get date to match
      */
     public function getDate(): \DateTimeImmutable;
+
+    /**
+     * Get contained matchables
+     *
+     * @return MatchableInterface[]
+     */
+    public function getMatchables(): array;
 }

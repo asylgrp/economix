@@ -6,6 +6,7 @@ namespace asylgrp\matchmaker;
 
 use asylgrp\matchmaker\Matcher\MatcherInterface;
 use asylgrp\matchmaker\Matchable\MatchableInterface;
+use asylgrp\matchmaker\Match\MatchCollectionInterface;
 use asylgrp\matchmaker\Match\MatchCollection;
 
 /**
@@ -26,7 +27,7 @@ class MatchMaker
     /**
      * Apply matchers to matchables and get the set of found matches
      */
-    public function match(MatchableInterface ...$toMatch): MatchCollection
+    public function match(MatchableInterface ...$toMatch): MatchCollectionInterface
     {
         $matches = [];
         $notMatched = [];

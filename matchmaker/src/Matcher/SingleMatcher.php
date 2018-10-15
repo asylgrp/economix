@@ -11,7 +11,7 @@ use asylgrp\matchmaker\Match\NonBalanceableMatch;
 /**
  * Fallback matcher matching needle with nothing
  */
-class SingleMatcher implements MatcherInterface
+final class SingleMatcher implements MatcherInterface
 {
     public function match(MatchableInterface $needle, array $haystack): ?MatchInterface
     {

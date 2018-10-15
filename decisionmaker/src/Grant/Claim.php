@@ -9,7 +9,7 @@ use byrokrat\amount\Amount;
 /**
  * Claim implementation of the grant interface
  */
-class Claim implements GrantInterface
+final class Claim implements GrantInterface
 {
     /**
      * @var \DateTimeImmutable

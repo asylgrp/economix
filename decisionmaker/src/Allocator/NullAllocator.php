@@ -8,7 +8,7 @@ use byrokrat\amount\Amount;
 /**
  * Empty allocator implementation
  */
-class NullAllocator implements AllocatorInterface
+final class NullAllocator implements AllocatorInterface
 {
     public function allocate(Amount $availableFunds, PayoutRequestCollection $payouts): PayoutRequestCollection
     {

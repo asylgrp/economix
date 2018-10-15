@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace matchmaker\spec\asylgrp\matchmaker\Match;
 
 use asylgrp\matchmaker\Match\NonBalanceableMatch;
-use asylgrp\matchmaker\Match\BalanceableMatch;
 use asylgrp\matchmaker\Matchable\MatchableInterface;
 use byrokrat\amount\Amount;
 use PhpSpec\ObjectBehavior;
@@ -21,11 +20,6 @@ class NonBalanceableMatchSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(NonBalanceableMatch::CLASS);
-    }
-
-    function it_extends_balanceable_match()
-    {
-        $this->shouldHaveType(BalanceableMatch::CLASS);
     }
 
     function it_is_never_balanceable($matchedA, $matchedB)

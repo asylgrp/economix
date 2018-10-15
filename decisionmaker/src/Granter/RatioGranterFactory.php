@@ -10,7 +10,7 @@ use byrokrat\amount\Amount;
 /**
  * Factory for creating ratio granters
  */
-class RatioGranterFactory implements GranterFactoryInterface
+final class RatioGranterFactory implements GranterFactoryInterface
 {
     public function createGranter(Amount $availableFunds, PayoutRequestCollection $payouts): GranterInterface
     {

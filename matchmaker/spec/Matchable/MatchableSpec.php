@@ -56,4 +56,9 @@ class MatchableSpec extends ObjectBehavior
         $this->beConstructedWith('', '', new \DateTimeImmutable, new Amount('0'), ['A', 'B']);
         $this->getRelatedIds()->shouldReturn(['A', 'B']);
     }
+
+    function it_contains_matchables()
+    {
+        $this->getMatchables()->shouldBeArray();
+    }
 }

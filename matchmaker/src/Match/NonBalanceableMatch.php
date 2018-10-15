@@ -7,7 +7,7 @@ namespace asylgrp\matchmaker\Match;
 /**
  * A match that can NOT balanced programmatically
  */
-class NonBalanceableMatch extends BalanceableMatch
+final class NonBalanceableMatch extends AbstractMatch
 {
     public function isBalanceable(): bool
     {

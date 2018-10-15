@@ -11,7 +11,7 @@ use byrokrat\amount\Amount;
 /**
  * Create a granter at runtime and allocate funds
  */
-class LazyAllocator implements AllocatorInterface
+final class LazyAllocator implements AllocatorInterface
 {
     /**
      * @var GranterFactoryInterface

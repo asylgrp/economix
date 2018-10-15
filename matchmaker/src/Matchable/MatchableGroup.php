@@ -9,7 +9,7 @@ use byrokrat\amount\Amount;
 /**
  * A set of matchables that can be matched together
  */
-class MatchableGroup implements MatchableInterface
+final class MatchableGroup implements MatchableInterface
 {
     /**
      * @var MatchableInterface[]
@@ -21,9 +21,6 @@ class MatchableGroup implements MatchableInterface
         $this->matchables = $matchables;
     }
 
-    /**
-     * @return MatchableInterface[]
-     */
     public function getMatchables(): array
     {
         return $this->matchables;

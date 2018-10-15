@@ -12,7 +12,6 @@ use asylgrp\matchmaker\Matcher\Grouper;
 use asylgrp\matchmaker\Match\MatchFactoryInterface;
 use asylgrp\matchmaker\Match\MatchInterface;
 use asylgrp\matchmaker\Matchable\MatchableInterface;
-use asylgrp\matchmaker\Matchable\MatchableGroup;
 use byrokrat\amount\Amount;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -40,7 +39,7 @@ class GroupingMatcherSpec extends ObjectBehavior
         $grouper,
         $factory,
         MatchableInterface $matchable,
-        MatchableGroup $group,
+        MatchableInterface $group,
         MatchInterface $match
     ) {
         $grouper->findGroups([$matchable])->willReturn([$group]);
@@ -66,7 +65,7 @@ class GroupingMatcherSpec extends ObjectBehavior
         $amountComp,
         $grouper,
         MatchableInterface $matchable,
-        MatchableGroup $group
+        MatchableInterface $group
     ) {
         $grouper->findGroups([$matchable])->willReturn([$group]);
 
@@ -87,7 +86,7 @@ class GroupingMatcherSpec extends ObjectBehavior
         $amountComp,
         $grouper,
         MatchableInterface $matchable,
-        MatchableGroup $group
+        MatchableInterface $group
     ) {
         $grouper->findGroups([$matchable])->willReturn([$group]);
 

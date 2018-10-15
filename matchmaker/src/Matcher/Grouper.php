@@ -46,7 +46,7 @@ class Grouper
 
     /**
      * @param  MatchableInterface[] $matchables
-     * @return MatchableGroup[]
+     * @return MatchableInterface[]
      */
     public function findGroups(array $matchables): array
     {

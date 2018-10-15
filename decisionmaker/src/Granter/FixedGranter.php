@@ -11,7 +11,7 @@ use byrokrat\amount\Amount;
 /**
  * Add a fixed amount to each grant
  */
-class FixedGranter implements GranterInterface
+final class FixedGranter implements GranterInterface
 {
     /**
      * @var Amount

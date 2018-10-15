@@ -11,7 +11,7 @@ use asylgrp\matchmaker\Match\BalanceableMatch;
 /**
  * Match items that have been explicitly related
  */
-class RelatedMatcher implements MatcherInterface
+final class RelatedMatcher implements MatcherInterface
 {
     public function match(MatchableInterface $needle, array $haystack): ?MatchInterface
     {

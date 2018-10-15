@@ -11,7 +11,7 @@ use asylgrp\matchmaker\Match\NonBalanceableMatch;
 /**
  * Match items with amount zero
  */
-class ZeroAmountMatcher implements MatcherInterface
+final class ZeroAmountMatcher implements MatcherInterface
 {
     public function match(MatchableInterface $needle, array $haystack): ?MatchInterface
     {

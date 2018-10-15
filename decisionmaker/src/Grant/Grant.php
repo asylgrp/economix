@@ -9,7 +9,7 @@ use byrokrat\amount\Amount;
 /**
  * Grant implementation of the grant interface
  */
-class Grant implements GrantInterface
+final class Grant implements GrantInterface
 {
     /**
      * @var GrantInterface

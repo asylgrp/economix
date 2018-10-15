@@ -8,7 +8,7 @@ use byrokrat\amount\Amount;
 /**
  * Allocator wrapping two internal allocators
  */
-class DoubleAllocator implements AllocatorInterface
+final class DoubleAllocator implements AllocatorInterface
 {
     /**
      * @var AllocatorInterface

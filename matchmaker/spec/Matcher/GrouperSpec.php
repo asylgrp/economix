@@ -8,7 +8,6 @@ use asylgrp\matchmaker\Matcher\Grouper;
 use asylgrp\matchmaker\Matcher\AmountComparator;
 use asylgrp\matchmaker\Matcher\DateComparator;
 use asylgrp\matchmaker\Matchable\MatchableInterface;
-use asylgrp\matchmaker\Matchable\MatchableGroup;
 use byrokrat\amount\Amount;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;

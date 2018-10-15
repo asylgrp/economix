@@ -9,7 +9,7 @@ use asylgrp\matchmaker\Matchable\MatchableInterface;
 /**
  * Create non-balanceable matches
  */
-class NonBalanceableFactory implements MatchFactoryInterface
+final class NonBalanceableFactory implements MatchFactoryInterface
 {
     public function createMatch(MatchableInterface ...$matchables): MatchInterface
     {

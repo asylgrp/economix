@@ -12,7 +12,7 @@ use asylgrp\matchmaker\Match\BalanceableFactory;
 /**
  * Match needle against grouped matchables
  */
-class GroupingMatcher implements MatcherInterface
+final class GroupingMatcher implements MatcherInterface
 {
     /**
      * @var DateComparator

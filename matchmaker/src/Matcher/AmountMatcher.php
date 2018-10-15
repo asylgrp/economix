@@ -9,7 +9,7 @@ use asylgrp\matchmaker\Match\BalanceableFactory;
 /**
  * Match based on amount
  */
-class AmountMatcher extends DateAndAmountMatcher
+final class AmountMatcher extends DateAndAmountMatcher
 {
     public function __construct(AmountComparator $amountComparator)
     {

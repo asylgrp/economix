@@ -11,7 +11,7 @@ use byrokrat\amount\Amount;
 /**
  * Allocate funds using a granter loaded at construct
  */
-class StaticAllocator implements AllocatorInterface
+final class StaticAllocator implements AllocatorInterface
 {
     /**
      * @var GranterInterface

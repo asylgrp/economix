@@ -7,7 +7,7 @@ namespace asylgrp\decisionmaker\ContactPerson;
 /**
  * A blocked contact person can temporarily not receive payouts
  */
-class BlockedContactPerson extends ActiveContactPerson
+final class BlockedContactPerson extends AbstractContactPerson
 {
     public function isBlocked(): bool
     {

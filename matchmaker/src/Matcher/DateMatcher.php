@@ -9,7 +9,7 @@ use asylgrp\matchmaker\Match\NonBalanceableFactory;
 /**
  * Match based on date
  */
-class DateMatcher extends DateAndAmountMatcher
+final class DateMatcher extends DateAndAmountMatcher
 {
     public function __construct(DateComparator $dateComparator)
     {

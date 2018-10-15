@@ -11,7 +11,7 @@ use byrokrat\amount\Rounder\RoundDown;
 /**
  * Factory for creating fixed granters
  */
-class FixedGranterFactory implements GranterFactoryInterface
+final class FixedGranterFactory implements GranterFactoryInterface
 {
     /**
      * @var ?Amount

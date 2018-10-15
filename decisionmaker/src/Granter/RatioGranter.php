@@ -11,7 +11,7 @@ use byrokrat\amount\Rounder\RoundDown;
 /**
  * Add a specified ratio of not granted amount to each grant
  */
-class RatioGranter implements GranterInterface
+final class RatioGranter implements GranterInterface
 {
     /**
      * @var float

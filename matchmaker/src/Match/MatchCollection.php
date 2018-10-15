@@ -7,7 +7,7 @@ namespace asylgrp\matchmaker\Match;
 /**
  * Collection of matches
  */
-class MatchCollection implements \IteratorAggregate
+final class MatchCollection implements MatchCollectionInterface
 {
     /**
      * @var MatchInterface[]
@@ -19,19 +19,11 @@ class MatchCollection implements \IteratorAggregate
         $this->matches = $matches;
     }
 
-    /**
-     * @return MatchInterface[]
-     */
     public function getMatches(): array
     {
         return $this->matches;
     }
 
-    /**
-     *  Implements the IteratorAggregate interface
-     *
-     * @return \Generator & iterable<MatchInterface>
-     */
     public function getIterator(): \Generator
     {
         foreach ($this->getMatches() as $match) {
@@ -39,9 +31,6 @@ class MatchCollection implements \IteratorAggregate
         }
     }
 
-    /**
-     * @return \Generator & iterable<MatchInterface>
-     */
     public function getSuccessful(): \Generator
     {
         foreach ($this->getIterator() as $match) {
@@ -51,9 +40,6 @@ class MatchCollection implements \IteratorAggregate
         }
     }
 
-    /**
-     * @return \Generator & iterable<MatchInterface>
-     */
     public function getFailures(): \Generator
     {
         foreach ($this->getIterator() as $match) {
@@ -63,9 +49,6 @@ class MatchCollection implements \IteratorAggregate
         }
     }
 
-    /**
-     * @return \Generator & iterable<MatchInterface>
-     */
     public function getBalanceables(): \Generator
     {
         foreach ($this->getIterator() as $match) {
