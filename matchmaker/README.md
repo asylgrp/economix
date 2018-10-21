@@ -375,3 +375,45 @@ $matches = $matchMaker->match(
 // 2-1,3-4,5-6,7-9-8,10-11,12-13,14
 dump_matches($matches);
 ```
+
+## Filtering collections of matches
+
+Matches can be inspected using filters. The predefined set of filters include:
+
+* `UnaccountedPreviousYearFilter` for finding unmatched amounts from precious
+  year (id: `0`).
+* `UnaccountedDateFilter` for finding unmatched amounts older than a date limit.
+* `UnaccountedAmountFilter` for finding collections where the total unmatched
+  amount is greater than amount limit.
+* `LogicalOrFilter` for combining multiple filters.
+
+A complex filter that returns sucess if there is an unmatched amount from
+previous year or there is an unmatched amount older than *20181016* or the total
+unmatched amount is greater than *10 000 SEK*:
+
+<!-- @example "filter" -->
+```php
+use asylgrp\matchmaker\Filter\LogicalOrFilter;
+use asylgrp\matchmaker\Filter\UnaccountedPreviousYearFilter;
+use asylgrp\matchmaker\Filter\UnaccountedDateFilter;
+use asylgrp\matchmaker\Filter\UnaccountedAmountFilter;
+use byrokrat\amount\Currency\SEK;
+
+$filter = new LogicalOrFilter(
+    new UnaccountedPreviousYearFilter,
+    new UnaccountedDateFilter(new \DateTimeImmutable('20181016')),
+    new UnaccountedAmountFilter(new SEK('10000'))
+);
+```
+
+Evaluating a filter returns a [`ResultInterface`](src/Filter/ResultInterface.php)
+object.
+
+<!-- @ignore -->
+```php
+$result = $filter->evaluate($matches);
+
+if ($result->isSuccess()) {
+    // perform some action..
+}
+```
