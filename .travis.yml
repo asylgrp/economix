@@ -3,12 +3,13 @@ sudo: false
 language: php
 
 php:
+  - 7.3
   - 7.2
   - 7.1
 
 install:
   - composer install
-  - composer global require phpspec/phpspec:^4
+  - composer global require phpspec/phpspec
   - export PATH=$PATH:$HOME/.composer/vendor/bin/
 
 script:
