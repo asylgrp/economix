@@ -3,14 +3,15 @@ sudo: false
 language: php
 
 php:
+  - 7.4
   - 7.3
   - 7.2
   - 7.1
 
 install:
   - composer install
-  - composer global require phpspec/phpspec
-  - export PATH=$PATH:$HOME/.composer/vendor/bin/
+  - wget -O phive.phar https://phar.io/releases/phive.phar
+  - php phive.phar install phpspec/phpspec:6 --force-accept-unsigned
 
 script:
-  - phpspec run --verbose
+  - tools/phpspec run --verbose
