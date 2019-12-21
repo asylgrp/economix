@@ -16,7 +16,7 @@ class BannedContactPersonSpec extends ObjectBehavior
 {
     function let(AccountNumber $account)
     {
-        $this->beConstructedWith('', $account, '', '', '');
+        $this->beConstructedWith('', '', $account, '', '', '');
     }
 
     function it_is_initializable()
@@ -44,9 +44,15 @@ class BannedContactPersonSpec extends ObjectBehavior
         $this->shouldBeBanned();
     }
 
+    function it_contains_an_id($account)
+    {
+        $this->beConstructedWith('id', '', $account, '', '', '');
+        $this->getId()->shouldReturn('id');
+    }
+
     function it_contains_a_name($account)
     {
-        $this->beConstructedWith('name', $account, '', '', '');
+        $this->beConstructedWith('', 'name', $account, '', '', '');
         $this->getName()->shouldReturn('name');
     }
 
@@ -57,67 +63,67 @@ class BannedContactPersonSpec extends ObjectBehavior
 
     function it_contains_a_mail($account)
     {
-        $this->beConstructedWith('', $account, 'mail', '', '');
+        $this->beConstructedWith('', '', $account, 'mail', '', '');
         $this->getMail()->shouldReturn('mail');
     }
 
     function it_contains_a_phone($account)
     {
-        $this->beConstructedWith('', $account, '', 'phone', '');
+        $this->beConstructedWith('', '', $account, '', 'phone', '');
         $this->getPhone()->shouldReturn('phone');
     }
 
     function it_contains_a_comment($account)
     {
-        $this->beConstructedWith('', $account, '', '', 'comment');
+        $this->beConstructedWith('', '', $account, '', '', 'comment');
         $this->getComment()->shouldReturn('comment');
     }
 
     function it_can_create_with_mail($account)
     {
-        $this->beConstructedWith('name', $account, 'mail', 'phone', 'comment');
+        $this->beConstructedWith('id', 'name', $account, 'mail', 'phone', 'comment');
         $this->withMail('foobar')->shouldBeLike(
-            new BannedContactPerson('name', $account->getWrappedObject(), 'foobar', 'phone', 'comment')
+            new BannedContactPerson('id', 'name', $account->getWrappedObject(), 'foobar', 'phone', 'comment')
         );
     }
 
     function it_can_create_with_phone($account)
     {
-        $this->beConstructedWith('name', $account, 'mail', 'phone', 'comment');
+        $this->beConstructedWith('id', 'name', $account, 'mail', 'phone', 'comment');
         $this->withPhone('foobar')->shouldBeLike(
-            new BannedContactPerson('name', $account->getWrappedObject(), 'mail', 'foobar', 'comment')
+            new BannedContactPerson('id', 'name', $account->getWrappedObject(), 'mail', 'foobar', 'comment')
         );
     }
 
     function it_can_create_with_comment($account)
     {
-        $this->beConstructedWith('name', $account, 'mail', 'phone', 'comment');
+        $this->beConstructedWith('id', 'name', $account, 'mail', 'phone', 'comment');
         $this->withComment('foobar')->shouldBeLike(
-            new BannedContactPerson('name', $account->getWrappedObject(), 'mail', 'phone', 'foobar')
+            new BannedContactPerson('id', 'name', $account->getWrappedObject(), 'mail', 'phone', 'foobar')
         );
     }
 
     function it_can_activate($account)
     {
-        $this->beConstructedWith('name', $account, 'mail', 'phone', 'comment');
+        $this->beConstructedWith('id', 'name', $account, 'mail', 'phone', 'comment');
         $this->activate()->shouldBeLike(
-            new ActiveContactPerson('name', $account->getWrappedObject(), 'mail', 'phone', 'comment')
+            new ActiveContactPerson('id', 'name', $account->getWrappedObject(), 'mail', 'phone', 'comment')
         );
     }
 
     function it_can_block($account)
     {
-        $this->beConstructedWith('name', $account, 'mail', 'phone', 'comment');
+        $this->beConstructedWith('id', 'name', $account, 'mail', 'phone', 'comment');
         $this->block()->shouldBeLike(
-            new BlockedContactPerson('name', $account->getWrappedObject(), 'mail', 'phone', 'comment')
+            new BlockedContactPerson('id', 'name', $account->getWrappedObject(), 'mail', 'phone', 'comment')
         );
     }
 
     function it_can_ban($account)
     {
-        $this->beConstructedWith('name', $account, 'mail', 'phone', 'comment');
+        $this->beConstructedWith('id', 'name', $account, 'mail', 'phone', 'comment');
         $this->ban()->shouldBeLike(
-            new BannedContactPerson('name', $account->getWrappedObject(), 'mail', 'phone', 'comment')
+            new BannedContactPerson('id', 'name', $account->getWrappedObject(), 'mail', 'phone', 'comment')
         );
     }
 }

@@ -16,6 +16,7 @@ in three flawors:
 use asylgrp\decisionmaker\ContactPerson\ActiveContactPerson;
 
 $contactPerson = new ActiveContactPerson(
+    'id',
     'name',
     (new \byrokrat\banking\AccountFactory)->createAccount('3300,180708-1235'),
     'mail',

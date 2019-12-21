@@ -44,6 +44,7 @@ class ContactPersonNormalizer implements NormalizerInterface, DenormalizerInterf
         }
 
         return [
+            'id' => $obj->getId(),
             'name' => $obj->getName(),
             'account' => $obj->getAccount()->getNumber(),
             'mail' => $obj->getMail(),
@@ -67,11 +68,12 @@ class ContactPersonNormalizer implements NormalizerInterface, DenormalizerInterf
         $classname = $this->denormalizeStatus($data['status']);
 
         return new $classname(
-            $data['name'],
-            $this->accountFactory->createAccount($data['account']),
-            $data['mail'],
-            $data['phone'],
-            $data['comment']
+            $data['id'] ?? '',
+            $data['name'] ?? '',
+            $this->accountFactory->createAccount($data['account'] ?? ''),
+            $data['mail'] ?? '',
+            $data['phone'] ?? '',
+            $data['comment'] ?? ''
         );
     }
 

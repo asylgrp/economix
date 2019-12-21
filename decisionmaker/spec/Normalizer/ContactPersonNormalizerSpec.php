@@ -18,6 +18,7 @@ class ContactPersonNormalizerSpec extends ObjectBehavior
 {
     function let(AccountFactoryInterface $accountFactory, ContactPersonInterface $contact, AccountNumber $account)
     {
+        $contact->getId()->willReturn('id');
         $contact->getName()->willReturn('name');
         $contact->getAccount()->willReturn($account);
         $account->getNumber()->willReturn('account');
@@ -45,6 +46,7 @@ class ContactPersonNormalizerSpec extends ObjectBehavior
     {
         $contact->isActive()->willReturn(true);
         $this->normalize($contact)->shouldBeLike([
+            'id' => 'id',
             'name' => 'name',
             'account' => 'account',
             'mail' => 'mail',
@@ -58,6 +60,7 @@ class ContactPersonNormalizerSpec extends ObjectBehavior
     {
         $contact->isBlocked()->willReturn(true);
         $this->normalize($contact)->shouldBeLike([
+            'id' => 'id',
             'name' => 'name',
             'account' => 'account',
             'mail' => 'mail',
@@ -71,6 +74,7 @@ class ContactPersonNormalizerSpec extends ObjectBehavior
     {
         $contact->isBanned()->willReturn(true);
         $this->normalize($contact)->shouldBeLike([
+            'id' => 'id',
             'name' => 'name',
             'account' => 'account',
             'mail' => 'mail',
@@ -93,6 +97,7 @@ class ContactPersonNormalizerSpec extends ObjectBehavior
     function it_can_denormalize_active($accountFactory, AccountNumber $account)
     {
         $data = [
+            'id' => 'id',
             'name' => 'name',
             'account' => 'account',
             'mail' => 'mail',
@@ -103,13 +108,14 @@ class ContactPersonNormalizerSpec extends ObjectBehavior
 
         $accountFactory->createAccount('account')->willReturn($account);
         $this->denormalize($data, ContactPersonInterface::CLASS)->shouldBeLike(
-            new ActiveContactPerson('name', $account->getWrappedObject(), 'mail', 'phone', 'comment')
+            new ActiveContactPerson('id', 'name', $account->getWrappedObject(), 'mail', 'phone', 'comment')
         );
     }
 
     function it_can_denormalize_blocked($accountFactory, AccountNumber $account)
     {
         $data = [
+            'id' => 'id',
             'name' => 'name',
             'account' => 'account',
             'mail' => 'mail',
@@ -120,13 +126,14 @@ class ContactPersonNormalizerSpec extends ObjectBehavior
 
         $accountFactory->createAccount('account')->willReturn($account);
         $this->denormalize($data, ContactPersonInterface::CLASS)->shouldBeLike(
-            new BlockedContactPerson('name', $account->getWrappedObject(), 'mail', 'phone', 'comment')
+            new BlockedContactPerson('id', 'name', $account->getWrappedObject(), 'mail', 'phone', 'comment')
         );
     }
 
     function it_can_denormalize_banned($accountFactory, AccountNumber $account)
     {
         $data = [
+            'id' => 'id',
             'name' => 'name',
             'account' => 'account',
             'mail' => 'mail',
@@ -137,7 +144,7 @@ class ContactPersonNormalizerSpec extends ObjectBehavior
 
         $accountFactory->createAccount('account')->willReturn($account);
         $this->denormalize($data, ContactPersonInterface::CLASS)->shouldBeLike(
-            new BannedContactPerson('name', $account->getWrappedObject(), 'mail', 'phone', 'comment')
+            new BannedContactPerson('id', 'name', $account->getWrappedObject(), 'mail', 'phone', 'comment')
         );
     }
 

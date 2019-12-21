@@ -8,38 +8,32 @@ use byrokrat\banking\AccountNumber;
 
 abstract class AbstractContactPerson implements ContactPersonInterface
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $id;
+    private string $name;
+    private AccountNumber $account;
+    private string $mail;
+    private string $phone;
+    private string $comment;
 
-    /**
-     * @var AccountNumber
-     */
-    private $account;
-
-    /**
-     * @var string
-     */
-    private $mail;
-
-    /**
-     * @var string
-     */
-    private $phone;
-
-    /**
-     * @var string
-     */
-    private $comment;
-
-    public function __construct(string $name, AccountNumber $account, string $mail, string $phone, string $comment)
-    {
+    public function __construct(
+        string $id,
+        string $name,
+        AccountNumber $account,
+        string $mail,
+        string $phone,
+        string $comment
+    ) {
+        $this->id = $id;
         $this->name = $name;
         $this->account = $account;
         $this->mail = $mail;
         $this->phone = $phone;
         $this->comment = $comment;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     public function getName(): string
@@ -69,17 +63,17 @@ abstract class AbstractContactPerson implements ContactPersonInterface
 
     public function withMail(string $mail): ContactPersonInterface
     {
-        return new static($this->name, $this->account, $mail, $this->phone, $this->comment);
+        return new static($this->id, $this->name, $this->account, $mail, $this->phone, $this->comment);
     }
 
     public function withPhone(string $phone): ContactPersonInterface
     {
-        return new static($this->name, $this->account, $this->mail, $phone, $this->comment);
+        return new static($this->id, $this->name, $this->account, $this->mail, $phone, $this->comment);
     }
 
     public function withComment(string $comment): ContactPersonInterface
     {
-        return new static($this->name, $this->account, $this->mail, $this->phone, $comment);
+        return new static($this->id, $this->name, $this->account, $this->mail, $this->phone, $comment);
     }
 
     public function isActive(): bool
@@ -99,16 +93,37 @@ abstract class AbstractContactPerson implements ContactPersonInterface
 
     public function activate(): ContactPersonInterface
     {
-        return new ActiveContactPerson($this->name, $this->account, $this->mail, $this->phone, $this->comment);
+        return new ActiveContactPerson(
+            $this->id,
+            $this->name,
+            $this->account,
+            $this->mail,
+            $this->phone,
+            $this->comment
+        );
     }
 
     public function block(): ContactPersonInterface
     {
-        return new BlockedContactPerson($this->name, $this->account, $this->mail, $this->phone, $this->comment);
+        return new BlockedContactPerson(
+            $this->id,
+            $this->name,
+            $this->account,
+            $this->mail,
+            $this->phone,
+            $this->comment
+        );
     }
 
     public function ban(): ContactPersonInterface
     {
-        return new BannedContactPerson($this->name, $this->account, $this->mail, $this->phone, $this->comment);
+        return new BannedContactPerson(
+            $this->id,
+            $this->name,
+            $this->account,
+            $this->mail,
+            $this->phone,
+            $this->comment
+        );
     }
 }

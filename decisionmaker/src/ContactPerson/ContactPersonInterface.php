@@ -7,6 +7,11 @@ use byrokrat\banking\AccountNumber;
 interface ContactPersonInterface
 {
     /**
+     * Get contact person identifier
+     */
+    public function getId(): string;
+
+    /**
      * Get full name
      */
     public function getName(): string;
