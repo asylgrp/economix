@@ -26,6 +26,6 @@
         "byrokrat/accounting": "^1",
         "byrokrat/amount": "^2",
         "byrokrat/banking": "^2",
-        "symfony/serializer": "^4"
+        "symfony/serializer": "^5"
     }
 }
