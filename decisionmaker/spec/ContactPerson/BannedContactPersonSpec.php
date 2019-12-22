@@ -79,27 +79,43 @@ class BannedContactPersonSpec extends ObjectBehavior
         $this->getComment()->shouldReturn('comment');
     }
 
+    function it_can_create_with_name($account)
+    {
+        $this->beConstructedWith('', 'name', $account, '', '', '');
+        $this->withName('foobar')->shouldBeLike(
+            new BannedContactPerson('', 'foobar', $account->getWrappedObject(), '', '', '')
+        );
+    }
+
+    function it_can_create_with_account($account, AccountNumber $newAccount)
+    {
+        $this->beConstructedWith('', '', $account, '', '', '');
+        $this->withAccount($newAccount)->shouldBeLike(
+            new BannedContactPerson('', '', $newAccount->getWrappedObject(), '', '', '')
+        );
+    }
+
     function it_can_create_with_mail($account)
     {
-        $this->beConstructedWith('id', 'name', $account, 'mail', 'phone', 'comment');
+        $this->beConstructedWith('', '', $account, 'mail', '', '');
         $this->withMail('foobar')->shouldBeLike(
-            new BannedContactPerson('id', 'name', $account->getWrappedObject(), 'foobar', 'phone', 'comment')
+            new BannedContactPerson('', '', $account->getWrappedObject(), 'foobar', '', '')
         );
     }
 
     function it_can_create_with_phone($account)
     {
-        $this->beConstructedWith('id', 'name', $account, 'mail', 'phone', 'comment');
+        $this->beConstructedWith('', '', $account, '', 'phone', '');
         $this->withPhone('foobar')->shouldBeLike(
-            new BannedContactPerson('id', 'name', $account->getWrappedObject(), 'mail', 'foobar', 'comment')
+            new BannedContactPerson('', '', $account->getWrappedObject(), '', 'foobar', '')
         );
     }
 
     function it_can_create_with_comment($account)
     {
-        $this->beConstructedWith('id', 'name', $account, 'mail', 'phone', 'comment');
+        $this->beConstructedWith('', '', $account, '', '', 'comment');
         $this->withComment('foobar')->shouldBeLike(
-            new BannedContactPerson('id', 'name', $account->getWrappedObject(), 'mail', 'phone', 'foobar')
+            new BannedContactPerson('', '', $account->getWrappedObject(), '', '', 'foobar')
         );
     }
 

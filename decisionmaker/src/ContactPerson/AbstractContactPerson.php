@@ -61,6 +61,16 @@ abstract class AbstractContactPerson implements ContactPersonInterface
         return $this->comment;
     }
 
+    public function withName(string $name): ContactPersonInterface
+    {
+        return new static($this->id, $name, $this->account, $this->mail, $this->phone, $this->comment);
+    }
+
+    public function withAccount(AccountNumber $account): ContactPersonInterface
+    {
+        return new static($this->id, $this->name, $account, $this->mail, $this->phone, $this->comment);
+    }
+
     public function withMail(string $mail): ContactPersonInterface
     {
         return new static($this->id, $this->name, $this->account, $mail, $this->phone, $this->comment);

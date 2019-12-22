@@ -37,6 +37,16 @@ interface ContactPersonInterface
     public function getComment(): string;
 
     /**
+     * Create a new contact person object based on this one with a new name
+     */
+    public function withName(string $name): ContactPersonInterface;
+
+    /**
+     * Create a new contact person object based on this one with a new account number
+     */
+    public function withAccount(AccountNumber $account): ContactPersonInterface;
+
+    /**
      * Create a new contact person object based on this one with a new mail
      */
     public function withMail(string $mail): ContactPersonInterface;
