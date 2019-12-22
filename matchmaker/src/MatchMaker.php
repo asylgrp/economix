@@ -14,10 +14,8 @@ use asylgrp\matchmaker\Match\MatchCollection;
  */
 class MatchMaker
 {
-    /**
-     * @var MatcherInterface[]
-     */
-    private $matchers;
+    /** @var array<MatcherInterface> */
+    private array $matchers;
 
     public function __construct(MatcherInterface ...$matchers)
     {
@@ -57,6 +55,9 @@ class MatchMaker
         return new MatchCollection(...$matches);
     }
 
+    /**
+     * @param array<mixed> $matchables
+     */
     private static function removeFromArray(MatchableInterface $matched, array &$matchables): void
     {
         if (($key = array_search($matched, $matchables, true)) !== false) {

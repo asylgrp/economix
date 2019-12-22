@@ -17,20 +17,30 @@ class GrantNormalizer implements NormalizerInterface, DenormalizerInterface
 {
     use HelperTrait;
 
-    public function supportsNormalization($data, $format = null)
+    /**
+     * @param mixed $obj
+     */
+    public function supportsNormalization($obj, ?string $format = null): bool
     {
-        return $data instanceof GrantInterface;
+        return $obj instanceof GrantInterface;
     }
 
-    public function normalize($grant, $format = null, array $context = [])
+    /**
+     * @param mixed $obj
+     * @param array<mixed> $cntxt
+     * @return array<string, mixed>
+     */
+    public function normalize($obj, ?string $format = null, array $cntxt = []): array
     {
-        if (!$this->supportsNormalization($grant, $format)) {
+        if (!$this->supportsNormalization($obj, $format)) {
             throw new \InvalidArgumentException('Unable to normalize, expecting GrantInterface');
         }
 
+        /** @var GrantInterface $obj */
+
         $grantItems = [];
 
-        foreach ($grant->getGrantItems() as $grantItem) {
+        foreach ($obj->getGrantItems() as $grantItem) {
             $grantItems[] = [
                 'granted_amount' => $this->normalizeAmount($grantItem->getGrantedAmount()),
                 'grant_description' => $grantItem->getGrantDescription()
@@ -38,35 +48,42 @@ class GrantNormalizer implements NormalizerInterface, DenormalizerInterface
         }
 
         return [
-            'claim_date' => $this->normalizeDate($grant->getClaimDate()),
-            'claimed_amount' => $this->normalizeAmount($grant->getClaimedAmount()),
-            'claim_description' => $grant->getClaimDescription(),
+            'claim_date' => $this->normalizeDate($obj->getClaimDate()),
+            'claimed_amount' => $this->normalizeAmount($obj->getClaimedAmount()),
+            'claim_description' => $obj->getClaimDescription(),
             'grant_items' => $grantItems
         ];
     }
 
-    public function supportsDenormalization($data, $type, $format = null)
+    /**
+     * @param array<string, mixed> $data
+     */
+    public function supportsDenormalization($data, string $type, ?string $format = null): bool
     {
         return $type == GrantInterface::CLASS;
     }
 
-    public function denormalize($data, $type, $format = null, array $context = [])
+    /**
+     * @param array<string, mixed> $data
+     * @param array<mixed> $cntxt
+     */
+    public function denormalize($data, string $type, ?string $format = null, array $cntxt = []): GrantInterface
     {
         if (!$this->supportsDenormalization($data, $type, $format)) {
             throw new \InvalidArgumentException('Unable to denormalize, expecting GrantInterface');
         }
 
         $grant = new Claim(
-            $this->denormalizeDate($data['claim_date']),
-            $this->denormalizeAmount($data['claimed_amount']),
-            $data['claim_description']
+            $this->denormalizeDate($data['claim_date'] ?? ''),
+            $this->denormalizeAmount($data['claimed_amount'] ?? ''),
+            $data['claim_description'] ?? ''
         );
 
         foreach ($data['grant_items'] as $grantData) {
             $grant = new Grant(
                 $grant,
-                $this->denormalizeAmount($grantData['granted_amount']),
-                $grantData['grant_description']
+                $this->denormalizeAmount($grantData['granted_amount'] ?? ''),
+                $grantData['grant_description'] ?? ''
             );
         }
 

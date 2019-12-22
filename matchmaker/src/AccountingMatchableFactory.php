@@ -25,15 +25,8 @@ class AccountingMatchableFactory
      */
     const INCOMING_BALANCE_DESC = 'Skuld från föregående år';
 
-    /**
-     * @var \DateTimeImmutable
-     */
-    private $incomingBalanceDate;
-
-    /**
-     * @var DescParser
-     */
-    private $descParser;
+    private \DateTimeImmutable $incomingBalanceDate;
+    private DescParser $descParser;
 
     public function __construct(int $currentYear, DescParser $descParser)
     {
@@ -41,13 +34,14 @@ class AccountingMatchableFactory
         $this->descParser = $descParser;
     }
 
-    public static function createFactoryForYear(int $currentYear)
+    public static function createFactoryForYear(int $currentYear): self
     {
         return new self($currentYear, new DescParser((string)$currentYear));
     }
 
     /**
-     * @return MatchableInterface[]
+     * @param Container<mixed> $bookkeeping
+     * @return array<MatchableInterface>
      */
     public function createMatchablesForAccount(AccountInterface $account, Container $bookkeeping): array
     {

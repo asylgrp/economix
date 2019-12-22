@@ -17,22 +17,27 @@ class DecisionNormalizer implements NormalizerInterface, DenormalizerInterface
 {
     use HelperTrait;
 
-    /**
-     * @var PayoutRequestNormalizer
-     */
-    private $payoutRequestNormalizer;
+    private PayoutRequestNormalizer $payoutRequestNormalizer;
 
     public function __construct(PayoutRequestNormalizer $payoutRequestNormalizer = null)
     {
         $this->payoutRequestNormalizer = $payoutRequestNormalizer ?: new PayoutRequestNormalizer;
     }
 
-    public function supportsNormalization($data, $format = null)
+    /**
+     * @param mixed $obj
+     */
+    public function supportsNormalization($obj, ?string $format = null): bool
     {
-        return $data instanceof Decision;
+        return $obj instanceof Decision;
     }
 
-    public function normalize($obj, $format = null, array $context = [])
+    /**
+     * @param mixed $obj
+     * @param array<mixed> $cntxt
+     * @return array<string, mixed>
+     */
+    public function normalize($obj, ?string $format = null, array $cntxt = []): array
     {
         if (!$this->supportsNormalization($obj, $format)) {
             throw new \InvalidArgumentException('Unable to normalize, expecting Decision');
@@ -52,28 +57,35 @@ class DecisionNormalizer implements NormalizerInterface, DenormalizerInterface
         ];
     }
 
-    public function supportsDenormalization($data, $type, $format = null)
+    /**
+     * @param array<string, mixed> $data
+     */
+    public function supportsDenormalization($data, string $type, ?string $format = null): bool
     {
         return $type == Decision::CLASS;
     }
 
-    public function denormalize($data, $type, $format = null, array $context = [])
+    /**
+     * @param array<string, mixed> $data
+     * @param array<mixed> $cntxt
+     */
+    public function denormalize($data, string $type, ?string $format = null, array $cntxt = []): Decision
     {
         if (!$this->supportsDenormalization($data, $type, $format)) {
             throw new \InvalidArgumentException('Unable to denormalize, expecting Decision');
         }
 
         return new Decision(
-            $data['id'],
-            $data['signature'],
-            $this->denormalizeDate($data['date']),
-            $this->denormalizeAmount($data['allocated_amount']),
+            $data['id'] ?? '',
+            $data['signature'] ?? '',
+            $this->denormalizeDate($data['date'] ?? ''),
+            $this->denormalizeAmount($data['allocated_amount'] ?? ''),
             new PayoutRequestCollection(
                 array_map(
                     function ($payoutData) {
                         return $this->payoutRequestNormalizer->denormalize($payoutData, PayoutRequest::CLASS);
                     },
-                    $data['payouts']
+                    $data['payouts'] ?? []
                 )
             )
         );

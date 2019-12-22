@@ -40,12 +40,12 @@ class PayoutRequestNormalizerSpec extends ObjectBehavior
         $payout->getContactPerson()->willReturn($contact);
         $payout->getGrant()->willReturn($grant);
 
-        $contactNormalizer->normalize($contact)->willReturn('CONTACT_NORMALIZED');
-        $grantNormalizer->normalize($grant)->willReturn('GRANT_NORMALIZED');
+        $contactNormalizer->normalize($contact)->willReturn(['CONTACT_NORMALIZED']);
+        $grantNormalizer->normalize($grant)->willReturn(['GRANT_NORMALIZED']);
 
         $this->normalize($payout)->shouldBeLike([
-            'contact' => 'CONTACT_NORMALIZED',
-            'grant' => 'GRANT_NORMALIZED',
+            'contact' => ['CONTACT_NORMALIZED'],
+            'grant' => ['GRANT_NORMALIZED'],
         ]);
     }
 

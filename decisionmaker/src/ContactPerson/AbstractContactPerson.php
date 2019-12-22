@@ -15,7 +15,7 @@ abstract class AbstractContactPerson implements ContactPersonInterface
     private string $phone;
     private string $comment;
 
-    public function __construct(
+    final public function __construct(
         string $id,
         string $name,
         AccountNumber $account,

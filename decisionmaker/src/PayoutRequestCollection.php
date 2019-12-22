@@ -7,17 +7,17 @@ namespace asylgrp\decisionmaker;
 use byrokrat\amount\Amount;
 
 /**
- * A collection of payout requests
+ * @implements \IteratorAggregate<PayoutRequest>
  */
 class PayoutRequestCollection implements \IteratorAggregate, \Countable
 {
     /**
-     * @var PayoutRequest[]
+     * @var array<PayoutRequest>
      */
-    private $payouts;
+    private array $payouts;
 
     /**
-     * @param PayoutRequest[] $payouts
+     * @param array<PayoutRequest> $payouts
      */
     public function __construct(array $payouts)
     {
@@ -27,7 +27,7 @@ class PayoutRequestCollection implements \IteratorAggregate, \Countable
     /**
      * Get loaded payout requests
      *
-     * @return iterable & iterator<PayoutRequest>
+     * @return iterable<PayoutRequest>
      */
     public function getIterator(): iterable
     {

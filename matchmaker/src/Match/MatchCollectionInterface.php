@@ -3,34 +3,32 @@
 namespace asylgrp\matchmaker\Match;
 
 /**
- * Collection of matches
+ * @extends \IteratorAggregate<MatchInterface>
  */
 interface MatchCollectionInterface extends \IteratorAggregate
 {
     /**
-     * @return MatchInterface[]
+     * @return array<MatchInterface>
      */
     public function getMatches(): array;
 
     /**
-     *  Implements the IteratorAggregate interface
-     *
-     * @return \Generator & iterable<MatchInterface>
+     * @return \Generator<MatchInterface>
      */
     public function getIterator(): \Generator;
 
     /**
-     * @return \Generator & iterable<MatchInterface>
+     * @return \Generator<MatchInterface>
      */
     public function getSuccessful(): \Generator;
 
     /**
-     * @return \Generator & iterable<MatchInterface>
+     * @return \Generator<MatchInterface>
      */
     public function getFailures(): \Generator;
 
     /**
-     * @return \Generator & iterable<MatchInterface>
+     * @return \Generator<MatchInterface>
      */
     public function getBalanceables(): \Generator;
 }

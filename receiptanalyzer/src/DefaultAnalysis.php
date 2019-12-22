@@ -8,7 +8,7 @@ use byrokrat\amount\Amount;
 
 class DefaultAnalysis
 {
-    public static function analyze(ReceiptCollection $receipts, bool $recurse = true)
+    public static function analyze(ReceiptCollection $receipts, bool $recurse = true): void
     {
         $receipts->assertUniqueVerificationNumbers();
 
@@ -60,6 +60,9 @@ class DefaultAnalysis
         }
     }
 
+    /**
+     * @return array<string>
+     */
     private static function getReceiversWithNReceipts(int $n, ReceiptCollection $receipts): array
     {
         $found = [];
@@ -73,7 +76,7 @@ class DefaultAnalysis
         return $found;
     }
 
-    private static function money(Amount $amount)
+    private static function money(Amount $amount): string
     {
         return (new \NumberFormatter('sv_SE', \NumberFormatter::CURRENCY))->formatCurrency($amount->getFloat(), 'sek');
     }

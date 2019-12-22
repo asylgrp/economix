@@ -6,13 +6,19 @@ namespace asylgrp\receiptanalyzer;
 
 use byrokrat\amount\Amount;
 
+/**
+ * @implements \IteratorAggregate<Receipt>
+ */
 class ReceiptCollection implements \IteratorAggregate, \Countable
 {
     /**
-     * @var iterable[] Iterables containing receipts
+     * @var array<iterable<Receipt>> Iterables containing receipts
      */
-    private $receiptblocks;
+    private array $receiptblocks;
 
+    /**
+     * @var array<iterable<Receipt>> $receiptblocks
+     */
     public function __construct(iterable ...$receiptblocks)
     {
         $this->receiptblocks = $receiptblocks;
@@ -27,7 +33,7 @@ class ReceiptCollection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Get generator of receipts, implements IteratorAggregate
+     * @return \Generator<Receipt>
      */
     public function getIterator(): \Generator
     {
@@ -39,7 +45,7 @@ class ReceiptCollection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @return Receipt[]
+     * @return array<Receipt>
      */
     public function getReceipts(): array
     {
@@ -50,7 +56,7 @@ class ReceiptCollection implements \IteratorAggregate, \Countable
      * Get receipt duplicates (eg. receipts that are stringified in the same way)
      *
      * @param  callable $stringifier Cast Receipt to string for comparison
-     * @return array[]  Inner array contains two receipts that are considered duplicates
+     * @return array<array<Receipt>> Inner array contains two receipts that are considered duplicates
      */
     public function getDuplicateReceipts(callable $stringifier): array
     {
@@ -73,7 +79,7 @@ class ReceiptCollection implements \IteratorAggregate, \Countable
     /**
      * Get unique contacts used in receipts
      *
-     * @return string[]
+     * @return array<string>
      */
     public function getContacts(): array
     {
@@ -92,7 +98,7 @@ class ReceiptCollection implements \IteratorAggregate, \Countable
     /**
      * Get unique receivers used in receipts
      *
-     * @return string[]
+     * @return array<string>
      */
     public function getReceivers(): array
     {
@@ -112,7 +118,7 @@ class ReceiptCollection implements \IteratorAggregate, \Countable
      * Get receiver duplicates (eg. receivers whose levenshtein distance is less than or equal to threshold)
      *
      * @param  integer $distanceThreshold Llevenshtein distance threshold
-     * @return array[] Inner array contains two receivers that are considered duplicates
+     * @return array<array<string>> Inner array contains two receivers that are considered duplicates
      */
     public function getDuplicateReceivers(int $distanceThreshold = 2): array
     {
@@ -134,7 +140,7 @@ class ReceiptCollection implements \IteratorAggregate, \Countable
     /**
      * Get unique periods used in receipts
      *
-     * @return string[]
+     * @return array<string>
      */
     public function getPeriods(): array
     {
@@ -153,7 +159,7 @@ class ReceiptCollection implements \IteratorAggregate, \Countable
     /**
      * Get periods that are definied in both $this and $receipts
      *
-     * @return string[]
+     * @return array<string>
      */
     public function getIntersectingPeriods(ReceiptCollection $receipts): array
     {
@@ -163,7 +169,7 @@ class ReceiptCollection implements \IteratorAggregate, \Countable
     /**
      * Get unique tags used in receipts
      *
-     * @return string[]
+     * @return array<string>
      */
     public function getTags(): array
     {

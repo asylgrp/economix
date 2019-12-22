@@ -53,8 +53,8 @@ class DecisionNormalizerSpec extends ObjectBehavior
 
         $decision->getPayoutRequests()->willReturn($payoutRequestCollection);
 
-        $payoutRequestNormalizer->normalize($payoutA)->willReturn('NORMALIZED_PAYOUT_A');
-        $payoutRequestNormalizer->normalize($payoutB)->willReturn('NORMALIZED_PAYOUT_B');
+        $payoutRequestNormalizer->normalize($payoutA)->willReturn(['NORMALIZED_PAYOUT_A']);
+        $payoutRequestNormalizer->normalize($payoutB)->willReturn(['NORMALIZED_PAYOUT_B']);
 
         $this->normalize($decision)->shouldBeLike([
             'id' => 'foo',
@@ -62,8 +62,8 @@ class DecisionNormalizerSpec extends ObjectBehavior
             'date' => $normalizedDate,
             'allocated_amount' => $normalizedAmount,
             'payouts' => [
-                'NORMALIZED_PAYOUT_A',
-                'NORMALIZED_PAYOUT_B',
+                ['NORMALIZED_PAYOUT_A'],
+                ['NORMALIZED_PAYOUT_B'],
             ]
         ]);
     }

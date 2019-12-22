@@ -22,26 +22,33 @@ class ContactPersonNormalizer implements NormalizerInterface, DenormalizerInterf
     const STATUS_BLOCKED = 'BLOCKED';
     const STATUS_BANNED = 'BANNED';
 
-    /**
-     * @var AccountFactoryInterface
-     */
-    private $accountFactory;
+    private AccountFactoryInterface $accountFactory;
 
     public function __construct(AccountFactoryInterface $accountFactory = null)
     {
         $this->accountFactory = $accountFactory ?: new AccountFactory;
     }
 
-    public function supportsNormalization($data, $format = null)
+    /**
+     * @param mixed $obj
+     */
+    public function supportsNormalization($obj, ?string $format = null): bool
     {
-        return $data instanceof ContactPersonInterface;
+        return $obj instanceof ContactPersonInterface;
     }
 
-    public function normalize($obj, $format = null, array $context = [])
+    /**
+     * @param mixed $obj
+     * @param array<mixed> $cntxt
+     * @return array<string, string>
+     */
+    public function normalize($obj, ?string $format = null, array $cntxt = []): array
     {
         if (!$this->supportsNormalization($obj, $format)) {
             throw new \InvalidArgumentException('Unable to normalize, expecting ContactPersonInterface');
         }
+
+        /** @var ContactPersonInterface $obj */
 
         return [
             'id' => $obj->getId(),
@@ -54,12 +61,19 @@ class ContactPersonNormalizer implements NormalizerInterface, DenormalizerInterf
         ];
     }
 
-    public function supportsDenormalization($data, $type, $format = null)
+    /**
+     * @param array<string, string> $data
+     */
+    public function supportsDenormalization($data, string $type, ?string $format = null): bool
     {
         return $type == ContactPersonInterface::CLASS;
     }
 
-    public function denormalize($data, $type, $format = null, array $context = [])
+    /**
+     * @param array<string, string> $data
+     * @param array<mixed> $cntxt
+     */
+    public function denormalize($data, string $type, ?string $format = null, array $cntxt = []): ContactPersonInterface
     {
         if (!$this->supportsDenormalization($data, $type, $format)) {
             throw new \InvalidArgumentException('Unable to denormalize, expecting ContactPersonInterface');

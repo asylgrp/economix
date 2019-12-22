@@ -15,15 +15,8 @@ use asylgrp\decisionmaker\Grant\GrantInterface;
  */
 class PayoutRequestNormalizer implements NormalizerInterface, DenormalizerInterface
 {
-    /**
-     * @var ContactPersonNormalizer
-     */
-    private $contactPersonNormalizer;
-
-    /**
-     * @var GrantNormalizer
-     */
-    private $grantNormalizer;
+    private ContactPersonNormalizer $contactPersonNormalizer;
+    private GrantNormalizer $grantNormalizer;
 
     public function __construct(
         ContactPersonNormalizer $contactPersonNormalizer = null,
@@ -33,29 +26,46 @@ class PayoutRequestNormalizer implements NormalizerInterface, DenormalizerInterf
         $this->grantNormalizer = $grantNormalizer ?: new GrantNormalizer;
     }
 
-    public function supportsNormalization($data, $format = null)
+    /**
+     * @param mixed $obj
+     */
+    public function supportsNormalization($obj, ?string $format = null): bool
     {
-        return $data instanceof PayoutRequest;
+        return $obj instanceof PayoutRequest;
     }
 
-    public function normalize($payout, $format = null, array $context = [])
+    /**
+     * @param mixed $obj
+     * @param array<mixed> $cntxt
+     * @return array<string, array>
+     */
+    public function normalize($obj, ?string $format = null, array $cntxt = []): array
     {
-        if (!$this->supportsNormalization($payout, $format)) {
+        if (!$this->supportsNormalization($obj, $format)) {
             throw new \InvalidArgumentException('Unable to normalize, expecting PayoutRequest');
         }
 
+        /** @var PayoutRequest $obj */
+
         return [
-            'contact' => $this->contactPersonNormalizer->normalize($payout->getContactPerson()),
-            'grant' => $this->grantNormalizer->normalize($payout->getGrant())
+            'contact' => $this->contactPersonNormalizer->normalize($obj->getContactPerson()),
+            'grant' => $this->grantNormalizer->normalize($obj->getGrant())
         ];
     }
 
-    public function supportsDenormalization($data, $type, $format = null)
+    /**
+     * @param array<string, array> $data
+     */
+    public function supportsDenormalization($data, string $type, ?string $format = null): bool
     {
         return $type == PayoutRequest::CLASS;
     }
 
-    public function denormalize($data, $type, $format = null, array $context = [])
+    /**
+     * @param array<string, array> $data
+     * @param array<mixed> $cntxt
+     */
+    public function denormalize($data, string $type, ?string $format = null, array $cntxt = []): PayoutRequest
     {
         if (!$this->supportsDenormalization($data, $type, $format)) {
             throw new \InvalidArgumentException('Unable to denormalize, expecting PayoutRequest');
