@@ -12,15 +12,8 @@ use asylgrp\decisionmaker\Grant\GrantInterface;
  */
 class PayoutRequest
 {
-    /**
-     * @var ContactPersonInterface
-     */
-    private $contact;
-
-    /**
-     * @var GrantInterface
-     */
-    private $grant;
+    private ContactPersonInterface $contact;
+    private GrantInterface $grant;
 
     public function __construct(ContactPersonInterface $contact, GrantInterface $grant)
     {

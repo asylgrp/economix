@@ -13,10 +13,7 @@ use byrokrat\amount\Amount;
  */
 final class FixedGranter implements GranterInterface
 {
-    /**
-     * @var Amount
-     */
-    private $amount;
+    private Amount $amount;
 
     public function __construct(Amount $amount)
     {

@@ -15,10 +15,7 @@ use asylgrp\decisionmaker\Granter\RatioGranterFactory;
  */
 class AllocatorBuilder
 {
-    /**
-     * @var AllocatorInterface
-     */
-    private $allocator;
+    private AllocatorInterface $allocator;
 
     public function __construct()
     {

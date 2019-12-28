@@ -11,15 +11,8 @@ use byrokrat\amount\Amount;
  */
 final class Grant implements GrantInterface
 {
-    /**
-     * @var GrantInterface
-     */
-    private $decorated;
-
-    /**
-     * @var GrantItem
-     */
-    private $grantItem;
+    private GrantInterface $decorated;
+    private GrantItem $grantItem;
 
     public function __construct(GrantInterface $decorated, Amount $amount, string $description)
     {

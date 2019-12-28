@@ -13,10 +13,7 @@ use byrokrat\amount\Amount;
  */
 final class StaticAllocator implements AllocatorInterface
 {
-    /**
-     * @var GranterInterface
-     */
-    private $granter;
+    private GranterInterface $granter;
 
     public function __construct(GranterInterface $granter)
     {

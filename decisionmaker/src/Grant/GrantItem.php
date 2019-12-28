@@ -11,15 +11,8 @@ use byrokrat\amount\Amount;
  */
 class GrantItem
 {
-    /**
-     * @var Amount
-     */
-    private $amount;
-
-    /**
-     * @var string
-     */
-    private $description;
+    private Amount $amount;
+    private string $description;
 
     public function __construct(Amount $amount, string $description)
     {

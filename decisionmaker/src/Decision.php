@@ -11,30 +11,11 @@ use byrokrat\amount\Amount;
  */
 class Decision
 {
-    /**
-     * @var string
-     */
-    private $id;
-
-    /**
-     * @var string
-     */
-    private $signature;
-
-    /**
-     * @var \DateTimeImmutable
-     */
-    private $date;
-
-    /**
-     * @var Amount
-     */
-    private $allocatedAmount;
-
-    /**
-     * @var PayoutRequestCollection
-     */
-    private $payouts;
+    private string $id;
+    private string $signature;
+    private \DateTimeImmutable $date;
+    private Amount $allocatedAmount;
+    private PayoutRequestCollection $payouts;
 
     public function __construct(
         string $id,

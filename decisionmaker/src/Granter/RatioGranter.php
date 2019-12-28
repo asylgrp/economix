@@ -13,10 +13,7 @@ use byrokrat\amount\Rounder\RoundDown;
  */
 final class RatioGranter implements GranterInterface
 {
-    /**
-     * @var float
-     */
-    private $ratio;
+    private float $ratio;
 
     public function __construct(float $ratio)
     {

@@ -13,10 +13,7 @@ use byrokrat\amount\Amount;
  */
 final class LazyAllocator implements AllocatorInterface
 {
-    /**
-     * @var GranterFactoryInterface
-     */
-    private $factory;
+    private GranterFactoryInterface $factory;
 
     public function __construct(GranterFactoryInterface $factory)
     {

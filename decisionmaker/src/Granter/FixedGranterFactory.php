@@ -13,10 +13,7 @@ use byrokrat\amount\Rounder\RoundDown;
  */
 final class FixedGranterFactory implements GranterFactoryInterface
 {
-    /**
-     * @var ?Amount
-     */
-    private $maxAmount;
+    private ?Amount $maxAmount;
 
     public function __construct(Amount $maxAmount = null)
     {

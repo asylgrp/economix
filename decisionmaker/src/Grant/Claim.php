@@ -11,20 +11,9 @@ use byrokrat\amount\Amount;
  */
 final class Claim implements GrantInterface
 {
-    /**
-     * @var \DateTimeImmutable
-     */
-    private $date;
-
-    /**
-      * @var Amount
-      */
-    private $amount;
-
-    /**
-     * @var string
-     */
-    private $description;
+    private \DateTimeImmutable $date;
+    private Amount $amount;
+    private string $description;
 
     public function __construct(\DateTimeImmutable $date, Amount $amount, string $description)
     {

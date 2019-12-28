@@ -10,15 +10,8 @@ use byrokrat\amount\Amount;
  */
 final class DoubleAllocator implements AllocatorInterface
 {
-    /**
-     * @var AllocatorInterface
-     */
-    private $allocA;
-
-    /**
-     * @var AllocatorInterface
-     */
-    private $allocB;
+    private AllocatorInterface $allocA;
+    private AllocatorInterface $allocB;
 
     public function __construct(AllocatorInterface $allocA, AllocatorInterface $allocB)
     {
