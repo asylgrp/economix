@@ -105,7 +105,7 @@ class ContactPersonNormalizer implements NormalizerInterface, DenormalizerInterf
             return self::STATUS_BANNED;
         }
 
-        throw new \RuntimeException('Unable to normalize contact person, unknown status.');
+        throw new \LogicException('Unable to normalize contact person, unknown status.');
     }
 
     private function denormalizeStatus(string $normalizedStatus): string
@@ -122,6 +122,6 @@ class ContactPersonNormalizer implements NormalizerInterface, DenormalizerInterf
             return BannedContactPerson::CLASS;
         }
 
-        throw new \RuntimeException("Unable to denormalize contact person, unknown status $normalizedStatus");
+        throw new \LogicException("Unable to denormalize contact person, unknown status $normalizedStatus");
     }
 }

@@ -29,7 +29,7 @@ trait HelperTrait
         $date = \DateTimeImmutable::createFromFormat(DATE_W3C, $normalizedDate);
 
         if (!$date) {
-            throw new \RuntimeException("Unable to denormalize $normalizedDate");
+            throw new \LogicException("Unable to denormalize $normalizedDate");
         }
 
         return $date;

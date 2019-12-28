@@ -86,7 +86,7 @@ class ContactPersonNormalizerSpec extends ObjectBehavior
 
     function it_fails_normalize_on_inconsistent_status($contact)
     {
-        $this->shouldThrow(\RuntimeException::CLASS)->duringNormalize($contact);
+        $this->shouldThrow(\LogicException::CLASS)->duringNormalize($contact);
     }
 
     function it_fails_denormalizing_not_supported_objects()
@@ -154,6 +154,6 @@ class ContactPersonNormalizerSpec extends ObjectBehavior
             'status' => 'NOT-A-VALID_STATUS',
         ];
 
-        $this->shouldThrow(\RuntimeException::CLASS)->duringDenormalize($data, ContactPersonInterface::CLASS);
+        $this->shouldThrow(\LogicException::CLASS)->duringDenormalize($data, ContactPersonInterface::CLASS);
     }
 }
