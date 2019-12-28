@@ -6,16 +6,16 @@ namespace decisionmaker\spec\asylgrp\decisionmaker;
 
 use asylgrp\decisionmaker\PayoutRequestFactory;
 use asylgrp\decisionmaker\PayoutRequest;
-use asylgrp\decisionmaker\Utils\SystemClock;
 use asylgrp\decisionmaker\ContactPerson\ContactPersonInterface;
 use asylgrp\decisionmaker\Grant\Claim;
 use byrokrat\amount\Currency\SEK;
+use Lcobucci\Clock\Clock;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class PayoutRequestFactorySpec extends ObjectBehavior
 {
-    function let(SystemClock $clock)
+    function let(Clock $clock)
     {
         $this->beConstructedWith($clock);
     }

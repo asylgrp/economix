@@ -34,8 +34,9 @@ Generate fresh requests (claims) using the `PayoutRequestFactory`.
 ```php
 use asylgrp\decisionmaker\PayoutRequestFactory;
 use byrokrat\amount\Currency\SEK;
+use Lcobucci\Clock\SystemClock;
 
-$payout = (new PayoutRequestFactory)->requestPayout($contactPerson, new SEK('5000'), 'description');
+$payout = (new PayoutRequestFactory(new SystemClock))->requestPayout($contactPerson, new SEK('5000'), 'description');
 ```
 
 ## Allocating
@@ -73,7 +74,7 @@ use asylgrp\decisionmaker\DecisionMaker;
 
 $fundsToGrant = new SEK('1000');
 
-$decision = (new DecisionMaker($allocator))->createDecision($fundsToGrant, [$payout], 'signature');
+$decision = (new DecisionMaker($allocator, new SystemClock))->createDecision($fundsToGrant, [$payout], 'signature');
 ```
 
 ## Serializing

@@ -26,6 +26,7 @@
         "byrokrat/accounting": "^1",
         "byrokrat/amount": "^2",
         "byrokrat/banking": "^2",
+        "lcobucci/clock": "^1",
         "symfony/serializer": "^5"
     }
 }

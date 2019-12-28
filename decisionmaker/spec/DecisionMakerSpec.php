@@ -6,11 +6,11 @@ namespace decisionmaker\spec\asylgrp\decisionmaker;
 
 use asylgrp\decisionmaker\DecisionMaker;
 use asylgrp\decisionmaker\Allocator\AllocatorInterface;
-use asylgrp\decisionmaker\Utils\SystemClock;
 use asylgrp\decisionmaker\PayoutRequestCollection;
 use asylgrp\decisionmaker\Decision;
 use asylgrp\decisionmaker\PayoutRequestHasher;
 use byrokrat\amount\Currency\SEK;
+use Lcobucci\Clock\Clock;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -18,7 +18,7 @@ class DecisionMakerSpec extends ObjectBehavior
 {
     function let(
         AllocatorInterface $allocator,
-        SystemClock $clock,
+        Clock $clock,
         PayoutRequestHasher $payoutRequestHasher
     ) {
         $this->beConstructedWith($allocator, $clock, $payoutRequestHasher);

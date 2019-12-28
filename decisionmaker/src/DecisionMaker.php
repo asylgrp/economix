@@ -5,37 +5,23 @@ declare(strict_types = 1);
 namespace asylgrp\decisionmaker;
 
 use asylgrp\decisionmaker\Allocator\AllocatorInterface;
-use asylgrp\decisionmaker\Utils\SystemClock;
 use byrokrat\amount\Amount;
+use Lcobucci\Clock\Clock;
 
 /**
  * Main entry point for generating decisions
  */
 class DecisionMaker
 {
-    /**
-     * @var AllocatorInterface
-     */
-    private $allocator;
+    private AllocatorInterface $allocator;
+    private Clock $clock;
+    private PayoutRequestHasher $payoutRequestHasher;
 
-    /**
-     * @var SystemClock
-     */
-    private $clock;
-
-    /**
-     * @var PayoutRequestHasher
-     */
-    private $payoutRequestHasher;
-
-    public function __construct(
-        AllocatorInterface $allocator,
-        SystemClock $clock = null,
-        PayoutRequestHasher $payoutRequestHasher = null
-    ) {
+    public function __construct(AllocatorInterface $allocator, Clock $clock, PayoutRequestHasher $hasher = null)
+    {
         $this->allocator = $allocator;
-        $this->clock = $clock ?: new SystemClock;
-        $this->payoutRequestHasher = $payoutRequestHasher ?: new PayoutRequestHasher;
+        $this->clock = $clock;
+        $this->payoutRequestHasher = $hasher ?: new PayoutRequestHasher;
     }
 
     /**
