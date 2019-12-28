@@ -50,6 +50,15 @@ class ActiveContactPersonSpec extends ObjectBehavior
         $this->getId()->shouldReturn('id');
     }
 
+    function it_can_be_created_from_id()
+    {
+        $this->beConstructedThrough(function () {
+            return ActiveContactPerson::fromId('foobar');
+        });
+        $this->getId()->shouldReturn('foobar');
+        $this->shouldHaveType(ActiveContactPerson::CLASS);
+    }
+
     function it_contains_a_name($account)
     {
         $this->beConstructedWith('', 'name', $account, '', '', '');

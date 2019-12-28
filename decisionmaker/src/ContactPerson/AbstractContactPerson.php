@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace asylgrp\decisionmaker\ContactPerson;
 
 use byrokrat\banking\AccountNumber;
+use byrokrat\banking\UndefinedAccount;
 
 abstract class AbstractContactPerson implements ContactPersonInterface
 {
@@ -29,6 +30,11 @@ abstract class AbstractContactPerson implements ContactPersonInterface
         $this->mail = $mail;
         $this->phone = $phone;
         $this->comment = $comment;
+    }
+
+    public static function fromId(string $id): self
+    {
+        return new static($id, '', new UndefinedAccount('', '', '', '', ''), '', '', '');
     }
 
     public function getId(): string
