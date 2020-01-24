@@ -4,19 +4,18 @@ declare(strict_types = 1);
 
 namespace asylgrp\decisionmaker\Normalizer;
 
-use byrokrat\amount\Amount;
-use byrokrat\amount\Currency\SEK;
+use Money\Money;
 
 trait HelperTrait
 {
-    protected function normalizeAmount(Amount $amount): string
+    protected function normalizeAmount(Money $amount): string
     {
         return $amount->getAmount();
     }
 
-    protected function denormalizeAmount(string $normalizedAmount): Amount
+    protected function denormalizeAmount(string $normalizedAmount): Money
     {
-        return new SEK($normalizedAmount);
+        return Money::SEK($normalizedAmount);
     }
 
     protected function normalizeDate(\DateTimeImmutable $date): string

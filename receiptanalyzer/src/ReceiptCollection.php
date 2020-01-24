@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace asylgrp\receiptanalyzer;
 
-use byrokrat\amount\Amount;
+use Money\Money;
 
 /**
  * @implements \IteratorAggregate<Receipt>
@@ -189,7 +189,7 @@ class ReceiptCollection implements \IteratorAggregate, \Countable
     /**
      * Get total amount of all receipts in collection
      */
-    public function getTotalAmount(): Amount
+    public function getTotalAmount(): Money
     {
         $amount = null;
 

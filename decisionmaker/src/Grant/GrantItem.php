@@ -4,23 +4,23 @@ declare(strict_types = 1);
 
 namespace asylgrp\decisionmaker\Grant;
 
-use byrokrat\amount\Amount;
+use Money\Money;
 
 /**
  * Value object that holds data on a specfic granted amount
  */
 class GrantItem
 {
-    private Amount $amount;
+    private Money $amount;
     private string $description;
 
-    public function __construct(Amount $amount, string $description)
+    public function __construct(Money $amount, string $description)
     {
         $this->amount = $amount;
         $this->description = $description;
     }
 
-    public function getGrantedAmount(): Amount
+    public function getGrantedAmount(): Money
     {
         return $this->amount;
     }

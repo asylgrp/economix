@@ -4,37 +4,22 @@ declare(strict_types = 1);
 
 namespace asylgrp\matchmaker\Matchable;
 
-use byrokrat\amount\Amount;
+use Money\Money;
 
 /**
  * Simple matchable implementation
  */
 final class Matchable implements MatchableInterface
 {
-    /**
-     * @var string
-     */
-    private $id;
+    private string $id;
+    private string $desc;
 
     /**
-     * @var string
+     * @var array<string>
      */
-    private $desc;
-
-    /**
-     * @var string[]
-     */
-    private $related;
-
-    /**
-     * @var Amount
-     */
-    private $amount;
-
-    /**
-     * @var \DateTimeImmutable
-     */
-    private $date;
+    private array $related;
+    private Money $amount;
+    private \DateTimeImmutable $date;
 
     /**
      * @param string[] $related
@@ -43,7 +28,7 @@ final class Matchable implements MatchableInterface
         string $id,
         string $desc,
         \DateTimeImmutable $date,
-        Amount $amount,
+        Money $amount,
         array $related = []
     ) {
         $this->id = $id;
@@ -68,7 +53,7 @@ final class Matchable implements MatchableInterface
         return $this->related;
     }
 
-    public function getAmount(): Amount
+    public function getAmount(): Money
     {
         return $this->amount;
     }

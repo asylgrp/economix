@@ -9,7 +9,7 @@ use asylgrp\matchmaker\Matcher\AmountComparator;
 use asylgrp\matchmaker\Matcher\MatcherInterface;
 use asylgrp\matchmaker\Matchable\MatchableInterface;
 use asylgrp\matchmaker\Match\BalanceableMatch;
-use byrokrat\amount\Amount;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -32,8 +32,8 @@ class AmountMatcherSpec extends ObjectBehavior
 
     function it_can_find_match($amountComp, MatchableInterface $needle, MatchableInterface $matching)
     {
-        $needle->getAmount()->willReturn($needleAmount = new Amount('1'));
-        $matching->getAmount()->willReturn($matchingAmount = new Amount('2'));
+        $needle->getAmount()->willReturn($needleAmount = Money::SEK('1'));
+        $matching->getAmount()->willReturn($matchingAmount = Money::SEK('2'));
 
         $needle->getDate()->willReturn(new \DateTimeImmutable);
         $matching->getDate()->willReturn(new \DateTimeImmutable);
@@ -47,8 +47,8 @@ class AmountMatcherSpec extends ObjectBehavior
 
     function it_fails_on_no_amount_match($amountComp, MatchableInterface $needle, MatchableInterface $notMatching)
     {
-        $needle->getAmount()->willReturn($needleAmount = new Amount('1'));
-        $notMatching->getAmount()->willReturn($notMatchingAmount = new Amount('2'));
+        $needle->getAmount()->willReturn($needleAmount = Money::SEK('1'));
+        $notMatching->getAmount()->willReturn($notMatchingAmount = Money::SEK('2'));
 
         $needle->getDate()->willReturn(new \DateTimeImmutable);
         $notMatching->getDate()->willReturn(new \DateTimeImmutable);
@@ -64,9 +64,9 @@ class AmountMatcherSpec extends ObjectBehavior
         MatchableInterface $notMatching,
         MatchableInterface $matching
     ) {
-        $needle->getAmount()->willReturn($needleAmount = new Amount('1'));
-        $notMatching->getAmount()->willReturn($notMatchingAmount = new Amount('2'));
-        $matching->getAmount()->willReturn($matchingAmount = new Amount('3'));
+        $needle->getAmount()->willReturn($needleAmount = Money::SEK('1'));
+        $notMatching->getAmount()->willReturn($notMatchingAmount = Money::SEK('2'));
+        $matching->getAmount()->willReturn($matchingAmount = Money::SEK('3'));
 
         $needle->getDate()->willReturn(new \DateTimeImmutable);
         $notMatching->getDate()->willReturn(new \DateTimeImmutable);

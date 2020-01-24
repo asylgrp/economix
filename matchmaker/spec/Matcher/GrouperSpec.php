@@ -8,7 +8,7 @@ use asylgrp\matchmaker\Matcher\Grouper;
 use asylgrp\matchmaker\Matcher\AmountComparator;
 use asylgrp\matchmaker\Matcher\DateComparator;
 use asylgrp\matchmaker\Matchable\MatchableInterface;
-use byrokrat\amount\Amount;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use PhpSpec\Exception\Example\FailureException;
@@ -31,9 +31,9 @@ class GrouperSpec extends ObjectBehavior
         $matchableB->getDate()->willReturn(new \DateTimeImmutable);
         $matchableC->getDate()->willReturn(new \DateTimeImmutable);
 
-        $matchableA->getAmount()->willReturn(new Amount('0'));
-        $matchableB->getAmount()->willReturn(new Amount('0'));
-        $matchableC->getAmount()->willReturn(new Amount('0'));
+        $matchableA->getAmount()->willReturn(Money::SEK('0'));
+        $matchableB->getAmount()->willReturn(Money::SEK('0'));
+        $matchableC->getAmount()->willReturn(Money::SEK('0'));
 
         $matchableA->getId()->willReturn('A');
         $matchableB->getId()->willReturn('B');
@@ -71,11 +71,11 @@ class GrouperSpec extends ObjectBehavior
 
     function it_filters_on_amont($amountComp, $matchableA, $matchableB, $matchableC)
     {
-        $matchableA->getAmount()->willReturn(new Amount('100'));
-        $matchableB->getAmount()->willReturn(new Amount('100'));
-        $matchableC->getAmount()->willReturn(new Amount('-100'));
+        $matchableA->getAmount()->willReturn(Money::SEK('100'));
+        $matchableB->getAmount()->willReturn(Money::SEK('100'));
+        $matchableC->getAmount()->willReturn(Money::SEK('-100'));
 
-        $amountComp->equals(new Amount('100'), new Amount('-100'))->willReturn(true);
+        $amountComp->equals(Money::SEK('100'), Money::SEK('-100'))->willReturn(true);
 
         $this->findGroups([$matchableA, $matchableB, $matchableC])->shouldReturnGroups([
             [$matchableA, $matchableB],

@@ -17,8 +17,8 @@ class PayoutRequestHasher
             $data .= $payout->getContactPerson()->getName()
                 . $payout->getContactPerson()->getAccount()->getNumber()
                 . $payout->getGrant()->getClaimDate()->format('Ymd')
-                . $payout->getGrant()->getClaimedAmount()->getString()
-                . $payout->getGrant()->getGrantedAmount()->getString();
+                . $payout->getGrant()->getClaimedAmount()->getAmount()
+                . $payout->getGrant()->getGrantedAmount()->getAmount();
         }
 
         return md5($data);

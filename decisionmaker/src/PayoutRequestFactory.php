@@ -6,8 +6,8 @@ namespace asylgrp\decisionmaker;
 
 use asylgrp\decisionmaker\ContactPerson\ContactPersonInterface;
 use asylgrp\decisionmaker\Grant\Claim;
-use byrokrat\amount\Amount;
 use Lcobucci\Clock\Clock;
+use Money\Money;
 
 /**
  * Generate a fresh payout request
@@ -21,7 +21,7 @@ class PayoutRequestFactory
         $this->clock = $clock;
     }
 
-    public function requestPayout(ContactPersonInterface $contactPerson, Amount $amount, string $desc): PayoutRequest
+    public function requestPayout(ContactPersonInterface $contactPerson, Money $amount, string $desc): PayoutRequest
     {
         if (!$contactPerson->isActive()) {
             throw new \LogicException('Unable to request payout to non-active contact person.');

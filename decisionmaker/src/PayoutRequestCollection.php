@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace asylgrp\decisionmaker;
 
-use byrokrat\amount\Amount;
+use Money\Money;
 
 /**
  * @implements \IteratorAggregate<PayoutRequest>
@@ -45,7 +45,7 @@ class PayoutRequestCollection implements \IteratorAggregate, \Countable
     /**
      * Get the summary of claims
      */
-    public function getClaimedAmount(): Amount
+    public function getClaimedAmount(): Money
     {
         return $this->summarizeGrantsOn('getClaimedAmount');
     }
@@ -53,7 +53,7 @@ class PayoutRequestCollection implements \IteratorAggregate, \Countable
     /**
      * Get the summary of granted claims
      */
-    public function getGrantedAmount(): Amount
+    public function getGrantedAmount(): Money
     {
         return $this->summarizeGrantsOn('getGrantedAmount');
     }
@@ -61,7 +61,7 @@ class PayoutRequestCollection implements \IteratorAggregate, \Countable
     /**
      * Get the summary of not granted claims
      */
-    public function getNotGrantedAmount(): Amount
+    public function getNotGrantedAmount(): Money
     {
         return $this->summarizeGrantsOn('getNotGrantedAmount');
     }
@@ -69,7 +69,7 @@ class PayoutRequestCollection implements \IteratorAggregate, \Countable
     /**
      * Internal grant summary method
      */
-    private function summarizeGrantsOn(string $method): Amount
+    private function summarizeGrantsOn(string $method): Money
     {
         return array_reduce(
             $this->payouts,

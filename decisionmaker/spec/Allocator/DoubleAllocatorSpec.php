@@ -7,7 +7,7 @@ namespace decisionmaker\spec\asylgrp\decisionmaker\Allocator;
 use asylgrp\decisionmaker\Allocator\DoubleAllocator;
 use asylgrp\decisionmaker\Allocator\AllocatorInterface;
 use asylgrp\decisionmaker\PayoutRequestCollection;
-use byrokrat\amount\Amount;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -35,12 +35,12 @@ class DoubleAllocatorSpec extends ObjectBehavior
         PayoutRequestCollection $second,
         PayoutRequestCollection $third
     ) {
-        $allocA->allocate(new Amount('100'), $first)->willReturn($second);
+        $allocA->allocate(Money::SEK('100'), $first)->willReturn($second);
 
-        $second->getGrantedAmount()->willReturn(new Amount('60'));
+        $second->getGrantedAmount()->willReturn(Money::SEK('60'));
 
-        $allocB->allocate(new Amount('40'), $second)->willReturn($third);
+        $allocB->allocate(Money::SEK('40'), $second)->willReturn($third);
 
-        $this->allocate(new Amount('100'), $first)->shouldReturn($third);
+        $this->allocate(Money::SEK('100'), $first)->shouldReturn($third);
     }
 }

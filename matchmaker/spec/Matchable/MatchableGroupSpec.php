@@ -6,7 +6,7 @@ namespace matchmaker\spec\asylgrp\matchmaker\Matchable;
 
 use asylgrp\matchmaker\Matchable\MatchableGroup;
 use asylgrp\matchmaker\Matchable\MatchableInterface;
-use byrokrat\amount\Amount;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -45,10 +45,10 @@ class MatchableGroupSpec extends ObjectBehavior
 
     function it_returns_amount_summary(MatchableInterface $matchableA, MatchableInterface $matchableB)
     {
-        $matchableA->getAmount()->willReturn(new Amount('100'));
-        $matchableB->getAmount()->willReturn(new Amount('50'));
+        $matchableA->getAmount()->willReturn(Money::SEK('100'));
+        $matchableB->getAmount()->willReturn(Money::SEK('50'));
         $this->beConstructedWith($matchableA, $matchableB);
-        $this->getAmount()->shouldBeLike(new Amount('150'));
+        $this->getAmount()->shouldBeLike(Money::SEK('150'));
     }
 
     function it_cannot_get_amount_from_empty_group()

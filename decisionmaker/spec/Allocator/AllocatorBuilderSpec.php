@@ -13,7 +13,7 @@ use asylgrp\decisionmaker\Granter\FixedGranter;
 use asylgrp\decisionmaker\Granter\RatioGranter;
 use asylgrp\decisionmaker\Granter\FixedGranterFactory;
 use asylgrp\decisionmaker\Granter\RatioGranterFactory;
-use byrokrat\amount\Currency\SEK;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -31,10 +31,10 @@ class AllocatorBuilderSpec extends ObjectBehavior
 
     function it_can_add_lazy_fixed_allocator()
     {
-        $this->addLazyFixed(new SEK('1000'));
+        $this->addLazyFixed(Money::SEK('1000'));
         $this->getAllocator()->shouldBeLike(new DoubleAllocator(
             new NullAllocator,
-            new LazyAllocator(new FixedGranterFactory(new SEK('1000')))
+            new LazyAllocator(new FixedGranterFactory(Money::SEK('1000')))
         ));
     }
 
@@ -49,10 +49,10 @@ class AllocatorBuilderSpec extends ObjectBehavior
 
     function it_can_add_static_fixed_allocator()
     {
-        $this->addStaticFixed(new SEK('100'));
+        $this->addStaticFixed(Money::SEK('100'));
         $this->getAllocator()->shouldBeLike(new DoubleAllocator(
             new NullAllocator,
-            new StaticAllocator(new FixedGranter(new SEK('100')))
+            new StaticAllocator(new FixedGranter(Money::SEK('100')))
         ));
     }
 

@@ -7,7 +7,7 @@ namespace decisionmaker\spec\asylgrp\decisionmaker;
 use asylgrp\decisionmaker\PayoutRequestCollection;
 use asylgrp\decisionmaker\PayoutRequest;
 use asylgrp\decisionmaker\Grant\GrantInterface;
-use byrokrat\amount\Amount;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -40,9 +40,9 @@ class PayoutRequestCollectionSpec extends ObjectBehavior
         $this->beConstructedWith([$payout, $payout]);
 
         $payout->getGrant()->willReturn($grant);
-        $grant->getClaimedAmount()->willReturn(new Amount('50'));
+        $grant->getClaimedAmount()->willReturn(Money::SEK('50'));
 
-        $this->getClaimedAmount()->shouldBeLike(new Amount('100'));
+        $this->getClaimedAmount()->shouldBeLike(Money::SEK('100'));
     }
 
     function it_can_summarize_granted_amount(PayoutRequest $payout, GrantInterface $grant)
@@ -50,9 +50,9 @@ class PayoutRequestCollectionSpec extends ObjectBehavior
         $this->beConstructedWith([$payout, $payout]);
 
         $payout->getGrant()->willReturn($grant);
-        $grant->getGrantedAmount()->willReturn(new Amount('25'));
+        $grant->getGrantedAmount()->willReturn(Money::SEK('25'));
 
-        $this->getGrantedAmount()->shouldBeLike(new Amount('50'));
+        $this->getGrantedAmount()->shouldBeLike(Money::SEK('50'));
     }
 
     function it_can_summarize_not_granted_amount(PayoutRequest $payout, GrantInterface $grant)
@@ -60,8 +60,8 @@ class PayoutRequestCollectionSpec extends ObjectBehavior
         $this->beConstructedWith([$payout, $payout]);
 
         $payout->getGrant()->willReturn($grant);
-        $grant->getNotGrantedAmount()->willReturn(new Amount('25'));
+        $grant->getNotGrantedAmount()->willReturn(Money::SEK('25'));
 
-        $this->getNotGrantedAmount()->shouldBeLike(new Amount('50'));
+        $this->getNotGrantedAmount()->shouldBeLike(Money::SEK('50'));
     }
 }

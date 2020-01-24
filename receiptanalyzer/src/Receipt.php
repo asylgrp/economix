@@ -4,29 +4,14 @@ declare(strict_types = 1);
 
 namespace asylgrp\receiptanalyzer;
 
-use byrokrat\amount\Amount;
+use Money\Money;
 
 class Receipt
 {
-    /**
-     * @var string
-     */
-    private $contact;
-
-    /**
-     * @var string
-     */
-    private $receiver;
-
-    /**
-     * @var string
-     */
-    private $period;
-
-    /**
-     * @var Cell
-     */
-    private $cell;
+    private string $contact;
+    private string $receiver;
+    private string $period;
+    private Cell $cell;
 
     public function __construct(string $contact, string $receiver, string $period, Cell $cell)
     {
@@ -56,7 +41,7 @@ class Receipt
         return $this->period;
     }
 
-    public function getAmount(): Amount
+    public function getAmount(): Money
     {
         return $this->cell->getAmount();
     }

@@ -6,7 +6,7 @@ namespace matchmaker\spec\asylgrp\matchmaker\Match;
 
 use asylgrp\matchmaker\Match\NonBalanceableMatch;
 use asylgrp\matchmaker\Matchable\MatchableInterface;
-use byrokrat\amount\Amount;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -24,29 +24,29 @@ class NonBalanceableMatchSpec extends ObjectBehavior
 
     function it_is_never_balanceable($matchedA, $matchedB)
     {
-        $matchedA->getAmount()->willReturn(new Amount('100'));
-        $matchedB->getAmount()->willReturn(new Amount('-50'));
+        $matchedA->getAmount()->willReturn(Money::SEK('100'));
+        $matchedB->getAmount()->willReturn(Money::SEK('-50'));
         $this->shouldNotBeBalanceable();
     }
 
     function it_interprets_balanced_as_success($matchedA, $matchedB)
     {
-        $matchedA->getAmount()->willReturn(new Amount('100'));
-        $matchedB->getAmount()->willReturn(new Amount('-100'));
+        $matchedA->getAmount()->willReturn(Money::SEK('100'));
+        $matchedB->getAmount()->willReturn(Money::SEK('-100'));
         $this->shouldBeSuccess();
     }
 
     function it_interprets_non_balanced_as_failure($matchedA, $matchedB)
     {
-        $matchedA->getAmount()->willReturn(new Amount('100'));
-        $matchedB->getAmount()->willReturn(new Amount('-50'));
+        $matchedA->getAmount()->willReturn(Money::SEK('100'));
+        $matchedB->getAmount()->willReturn(Money::SEK('-50'));
         $this->shouldNotBeSuccess();
     }
 
     function it_interprets_zero_amonut_as_success($matchedA, $matchedB)
     {
-        $matchedA->getAmount()->willReturn(new Amount('0'));
-        $matchedB->getAmount()->willReturn(new Amount('0'));
+        $matchedA->getAmount()->willReturn(Money::SEK('0'));
+        $matchedB->getAmount()->willReturn(Money::SEK('0'));
         $this->shouldBeSuccess();
     }
 }

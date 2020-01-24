@@ -8,7 +8,7 @@ use asylgrp\matchmaker\Matcher\ZeroAmountMatcher;
 use asylgrp\matchmaker\Matcher\MatcherInterface;
 use asylgrp\matchmaker\Matchable\MatchableInterface;
 use asylgrp\matchmaker\Match\NonBalanceableMatch;
-use byrokrat\amount\Amount;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -26,13 +26,13 @@ class ZeroAmountMatcherSpec extends ObjectBehavior
 
     function it_matches_zero_amount(MatchableInterface $matchable)
     {
-        $matchable->getAmount()->willReturn(new Amount('0'));
+        $matchable->getAmount()->willReturn(Money::SEK('0'));
         $this->match($matchable, [])->shouldBeLike(new NonBalanceableMatch($matchable->getWrappedObject()));
     }
 
     function it_skips_non_zero(MatchableInterface $matchable)
     {
-        $matchable->getAmount()->willReturn(new Amount('1'));
+        $matchable->getAmount()->willReturn(Money::SEK('1'));
         $this->match($matchable, [])->shouldReturn(null);
     }
 }

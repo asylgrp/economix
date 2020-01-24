@@ -8,7 +8,7 @@ use asylgrp\decisionmaker\Granter\RatioGranter;
 use asylgrp\decisionmaker\Granter\GranterInterface;
 use asylgrp\decisionmaker\Grant\GrantInterface;
 use asylgrp\decisionmaker\Grant\Grant;
-use byrokrat\amount\Amount;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -45,12 +45,12 @@ class RatioGranterSpec extends ObjectBehavior
     {
         $this->beConstructedWith(0.5);
 
-        $decorate->getNotGrantedAmount()->willReturn(new Amount('100'));
+        $decorate->getNotGrantedAmount()->willReturn(Money::SEK('100'));
 
         $this->grant($decorate)->shouldBeLike(new Grant(
             $decorate->getWrappedObject(),
-            new Amount('50'),
-            'Added ratio: 100.00 * 0.5'
+            Money::SEK('50'),
+            'Added ratio: 100 * 0.5'
         ));
     }
 
@@ -58,26 +58,26 @@ class RatioGranterSpec extends ObjectBehavior
     {
         $this->beConstructedWith(0.3333);
 
-        $decorate->getNotGrantedAmount()->willReturn(new Amount('100'));
+        $decorate->getNotGrantedAmount()->willReturn(Money::SEK('100'));
 
         $this->grant($decorate)->shouldBeLike(new Grant(
             $decorate->getWrappedObject(),
-            new Amount('33'),
-            'Added ratio: 100.00 * 0.3333'
+            Money::SEK('33'),
+            'Added ratio: 100 * 0.3333'
         ));
     }
 
     function it_ignores_zero_ratios(GrantInterface $decorate)
     {
         $this->beConstructedWith(0.0);
-        $decorate->getNotGrantedAmount()->willReturn(new Amount('100'));
+        $decorate->getNotGrantedAmount()->willReturn(Money::SEK('100'));
         $this->grant($decorate)->shouldReturn($decorate);
     }
 
     function it_ignores_zero_non_granted(GrantInterface $decorate)
     {
         $this->beConstructedWith(0.5);
-        $decorate->getNotGrantedAmount()->willReturn(new Amount('0'));
+        $decorate->getNotGrantedAmount()->willReturn(Money::SEK('0'));
         $this->grant($decorate)->shouldReturn($decorate);
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace asylgrp\decisionmaker\Grant;
 
-use byrokrat\amount\Amount;
+use Money\Money;
 
 /**
  * Claim implementation of the grant interface
@@ -12,10 +12,10 @@ use byrokrat\amount\Amount;
 final class Claim implements GrantInterface
 {
     private \DateTimeImmutable $date;
-    private Amount $amount;
+    private Money $amount;
     private string $description;
 
-    public function __construct(\DateTimeImmutable $date, Amount $amount, string $description)
+    public function __construct(\DateTimeImmutable $date, Money $amount, string $description)
     {
         $this->date = $date;
         $this->amount = $amount;
@@ -27,7 +27,7 @@ final class Claim implements GrantInterface
         return $this->date;
     }
 
-    public function getClaimedAmount(): Amount
+    public function getClaimedAmount(): Money
     {
         return $this->amount;
     }
@@ -37,12 +37,12 @@ final class Claim implements GrantInterface
         return $this->description;
     }
 
-    public function getGrantedAmount(): Amount
+    public function getGrantedAmount(): Money
     {
         return $this->amount->subtract($this->amount);
     }
 
-    public function getNotGrantedAmount(): Amount
+    public function getNotGrantedAmount(): Money
     {
         return $this->getClaimedAmount();
     }

@@ -7,7 +7,7 @@ namespace decisionmaker\spec\asylgrp\decisionmaker\Grant;
 use asylgrp\decisionmaker\Grant\Grant;
 use asylgrp\decisionmaker\Grant\GrantInterface;
 use asylgrp\decisionmaker\Grant\GrantItem;
-use byrokrat\amount\Amount;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -15,10 +15,10 @@ class GrantSpec extends ObjectBehavior
 {
     function let(GrantInterface $decorated)
     {
-        $decorated->getClaimedAmount()->willReturn(new Amount('0'));
-        $decorated->getGrantedAmount()->willReturn(new Amount('0'));
-        $decorated->getNotGrantedAmount()->willReturn(new Amount('0'));
-        $this->beConstructedWith($decorated, new Amount('0'), '');
+        $decorated->getClaimedAmount()->willReturn(Money::SEK('0'));
+        $decorated->getGrantedAmount()->willReturn(Money::SEK('0'));
+        $decorated->getNotGrantedAmount()->willReturn(Money::SEK('0'));
+        $this->beConstructedWith($decorated, Money::SEK('0'), '');
     }
 
     function it_is_initializable()
@@ -37,8 +37,9 @@ class GrantSpec extends ObjectBehavior
         $this->getClaimDate()->shouldReturn($claimDate);
     }
 
-    function it_passes_decorated_claim_amount($decorated, Amount $claim)
+    function it_passes_decorated_claim_amount($decorated)
     {
+        $claim = Money::SEK('1');
         $decorated->getClaimedAmount()->willReturn($claim);
         $this->getClaimedAmount()->shouldReturn($claim);
     }
@@ -51,32 +52,32 @@ class GrantSpec extends ObjectBehavior
 
     function it_adds_this_amount_to_granted_amount($decorated)
     {
-        $decorated->getGrantedAmount()->willReturn(new Amount('100'));
-        $decorated->getNotGrantedAmount()->willReturn(new Amount('100'));
-        $this->beConstructedWith($decorated, new Amount('100'), '');
-        $this->getGrantedAmount()->shouldBeLike(new Amount('200'));
+        $decorated->getGrantedAmount()->willReturn(Money::SEK('100'));
+        $decorated->getNotGrantedAmount()->willReturn(Money::SEK('100'));
+        $this->beConstructedWith($decorated, Money::SEK('100'), '');
+        $this->getGrantedAmount()->shouldBeLike(Money::SEK('200'));
     }
 
     function it_does_not_add_more_than_not_granted_amount($decorated)
     {
-        $decorated->getGrantedAmount()->willReturn(new Amount('100'));
-        $decorated->getNotGrantedAmount()->willReturn(new Amount('50'));
-        $this->beConstructedWith($decorated, new Amount('100'), '');
-        $this->getGrantedAmount()->shouldBeLike(new Amount('150'));
+        $decorated->getGrantedAmount()->willReturn(Money::SEK('100'));
+        $decorated->getNotGrantedAmount()->willReturn(Money::SEK('50'));
+        $this->beConstructedWith($decorated, Money::SEK('100'), '');
+        $this->getGrantedAmount()->shouldBeLike(Money::SEK('150'));
     }
 
     function it_can_calculate_not_granted_amount($decorated)
     {
-        $decorated->getClaimedAmount()->willReturn(new Amount('300'));
-        $decorated->getGrantedAmount()->willReturn(new Amount('0'));
-        $decorated->getNotGrantedAmount()->willReturn(new Amount('300'));
-        $this->beConstructedWith($decorated, new Amount('100'), '');
-        $this->getNotGrantedAmount()->shouldBeLike(new Amount('200'));
+        $decorated->getClaimedAmount()->willReturn(Money::SEK('300'));
+        $decorated->getGrantedAmount()->willReturn(Money::SEK('0'));
+        $decorated->getNotGrantedAmount()->willReturn(Money::SEK('300'));
+        $this->beConstructedWith($decorated, Money::SEK('100'), '');
+        $this->getNotGrantedAmount()->shouldBeLike(Money::SEK('200'));
     }
 
     function it_passes_amount_and_desc_to_grant_item($decorated)
     {
-        $amount = new Amount('0');
+        $amount = Money::SEK('0');
         $this->beConstructedWith($decorated, $amount, 'foobar');
         $decorated->getGrantItems()->willReturn((function () {
             yield from [];

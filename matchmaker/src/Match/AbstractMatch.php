@@ -5,14 +5,13 @@ declare(strict_types = 1);
 namespace asylgrp\matchmaker\Match;
 
 use asylgrp\matchmaker\Matchable\MatchableInterface;
-use byrokrat\amount\Amount;
 
 abstract class AbstractMatch implements MatchInterface
 {
     /**
      * @var MatchableInterface[]
      */
-    private $matched;
+    private array $matched;
 
     public function __construct(MatchableInterface ...$matched)
     {

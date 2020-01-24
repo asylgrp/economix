@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace asylgrp\decisionmaker\Grant;
 
-use byrokrat\amount\Amount;
+use Money\Money;
 
 /**
  * Grant implementation of the grant interface
@@ -14,11 +14,11 @@ final class Grant implements GrantInterface
     private GrantInterface $decorated;
     private GrantItem $grantItem;
 
-    public function __construct(GrantInterface $decorated, Amount $amount, string $description)
+    public function __construct(GrantInterface $decorated, Money $amount, string $description)
     {
         $this->decorated = $decorated;
 
-        if ($amount->isGreaterThan($decorated->getNotGrantedAmount())) {
+        if ($amount->greaterThan($decorated->getNotGrantedAmount())) {
             $amount = $decorated->getNotGrantedAmount();
         }
 
@@ -30,7 +30,7 @@ final class Grant implements GrantInterface
         return $this->decorated->getClaimDate();
     }
 
-    public function getClaimedAmount(): Amount
+    public function getClaimedAmount(): Money
     {
         return $this->decorated->getClaimedAmount();
     }
@@ -40,12 +40,12 @@ final class Grant implements GrantInterface
         return $this->decorated->getClaimDescription();
     }
 
-    public function getGrantedAmount(): Amount
+    public function getGrantedAmount(): Money
     {
         return $this->decorated->getGrantedAmount()->add($this->grantItem->getGrantedAmount());
     }
 
-    public function getNotGrantedAmount(): Amount
+    public function getNotGrantedAmount(): Money
     {
         return $this->getClaimedAmount()->subtract($this->getGrantedAmount());
     }

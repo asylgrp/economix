@@ -6,7 +6,7 @@ namespace receiptanalyzer\spec\asylgrp\receiptanalyzer;
 
 use asylgrp\receiptanalyzer\ReceiptCollection;
 use asylgrp\receiptanalyzer\Receipt;
-use byrokrat\amount\Amount;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -91,20 +91,15 @@ class ReceiptCollectionSpec extends ObjectBehavior
         $this->getTags()->shouldIterateAs(['A', 'B', 'C']);
     }
 
-    function it_can_summarize_amounts(
-        Receipt $receiptA,
-        Receipt $receiptB,
-        Amount $amountA,
-        Amount $amountB,
-        Amount $amountC
-    ) {
-        $amountA->add($amountB)->willReturn($amountC);
+    function it_can_summarize_amounts(Receipt $receiptA, Receipt $receiptB)
+    {
+        $money = Money::SEK('100');
 
-        $receiptA->getAmount()->willReturn($amountA);
-        $receiptB->getAmount()->willReturn($amountB);
+        $receiptA->getAmount()->willReturn($money);
+        $receiptB->getAmount()->willReturn($money);
 
         $this->beConstructedWith([$receiptA, $receiptB]);
-        $this->getTotalAmount()->shouldReturn($amountC);
+        $this->getTotalAmount()->shouldBeLike(Money::SEK('200'));
     }
 
     function it_fails_on_summarize_with_no_amounts() {

@@ -5,8 +5,8 @@ declare(strict_types = 1);
 namespace asylgrp\decisionmaker;
 
 use asylgrp\decisionmaker\Allocator\AllocatorInterface;
-use byrokrat\amount\Amount;
 use Lcobucci\Clock\Clock;
+use Money\Money;
 
 /**
  * Main entry point for generating decisions
@@ -27,7 +27,7 @@ class DecisionMaker
     /**
      * @param PayoutRequest[] $payouts
      */
-    public function createDecision(Amount $funds, array $payouts, string $signature): Decision
+    public function createDecision(Money $funds, array $payouts, string $signature): Decision
     {
         $allocatedPayouts = $this->allocator->allocate($funds, new PayoutRequestCollection($payouts));
 

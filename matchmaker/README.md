@@ -118,7 +118,7 @@ namespace asylgrp\matchmaker\Matcher;
 
 use asylgrp\matchmaker\MatchMaker;
 use asylgrp\matchmaker\Matchable\Matchable;
-use byrokrat\amount\Amount;
+use Money\Money;
 
 function dump_matches($matchCollection)
 {
@@ -155,8 +155,8 @@ which works by matching each matchable with nothing more then itself.
 $matchMaker = new MatchMaker(new SingleMatcher);
 
 $matches = $matchMaker->match(
-    new Matchable('1', 'desc', new \DateTimeImmutable, new Amount('100')),
-    new Matchable('2', 'desc', new \DateTimeImmutable, new Amount('-100'))
+    new Matchable('1', 'desc', new \DateTimeImmutable, Money::SEK('100')),
+    new Matchable('2', 'desc', new \DateTimeImmutable, Money::SEK('-100'))
 );
 
 // 1,2
@@ -182,10 +182,10 @@ $matchMaker = new MatchMaker(
 );
 
 $matches = $matchMaker->match(
-    new Matchable('1', '', new \DateTimeImmutable('2018-04-30'), new Amount('-100')),
-    new Matchable('2', '', new \DateTimeImmutable('2018-05-03'), new Amount('100')),
-    new Matchable('3', '', new \DateTimeImmutable('2018-06-29'), new Amount('100')),
-    new Matchable('4', '', new \DateTimeImmutable('2018-07-29'), new Amount('-100'))
+    new Matchable('1', '', new \DateTimeImmutable('2018-04-30'), Money::SEK('-100')),
+    new Matchable('2', '', new \DateTimeImmutable('2018-05-03'), Money::SEK('100')),
+    new Matchable('3', '', new \DateTimeImmutable('2018-06-29'), Money::SEK('100')),
+    new Matchable('4', '', new \DateTimeImmutable('2018-07-29'), Money::SEK('-100'))
 );
 
 // 1-2,3,4
@@ -211,12 +211,12 @@ $matchMaker = new MatchMaker(
 );
 
 $matches = $matchMaker->match(
-    new Matchable('1', '', new \DateTimeImmutable('2018-04-30'), new Amount('100')),
-    new Matchable('2', '', new \DateTimeImmutable('2018-05-03'), new Amount('-99')),
-    new Matchable('3', '', new \DateTimeImmutable('2018-06-29'), new Amount('-1'), ['1', '2']),
-    new Matchable('4', '', new \DateTimeImmutable('2018-04-30'), new Amount('100')),
-    new Matchable('5', '', new \DateTimeImmutable('2018-05-03'), new Amount('-99')),
-    new Matchable('6', '', new \DateTimeImmutable('2018-06-29'), new Amount('-1'))
+    new Matchable('1', '', new \DateTimeImmutable('2018-04-30'), Money::SEK('100')),
+    new Matchable('2', '', new \DateTimeImmutable('2018-05-03'), Money::SEK('-99')),
+    new Matchable('3', '', new \DateTimeImmutable('2018-06-29'), Money::SEK('-1'), ['1', '2']),
+    new Matchable('4', '', new \DateTimeImmutable('2018-04-30'), Money::SEK('100')),
+    new Matchable('5', '', new \DateTimeImmutable('2018-05-03'), Money::SEK('-99')),
+    new Matchable('6', '', new \DateTimeImmutable('2018-06-29'), Money::SEK('-1'))
 );
 
 // 3-1-2,4-5,6
@@ -240,7 +240,7 @@ to match these items as single matches.
 $matchMaker = new MatchMaker(new ZeroAmountMatcher);
 
 $matches = $matchMaker->match(
-    new Matchable('1', '', new \DateTimeImmutable, new Amount('0'))
+    new Matchable('1', '', new \DateTimeImmutable, Money::SEK('0'))
 );
 
 // 1
@@ -260,11 +260,11 @@ $matchMaker = new MatchMaker(
 );
 
 $matches = $matchMaker->match(
-    new Matchable('1', '', new \DateTimeImmutable('2018-04-28'), new Amount('75')),
-    new Matchable('2', '', new \DateTimeImmutable('2018-05-03'), new Amount('-25')),
-    new Matchable('3', '', new \DateTimeImmutable('2018-05-03'), new Amount('-25')),
-    new Matchable('4', '', new \DateTimeImmutable('2018-05-03'), new Amount('-25')),
-    new Matchable('5', '', new \DateTimeImmutable('2018-05-03'), new Amount('-25'))
+    new Matchable('1', '', new \DateTimeImmutable('2018-04-28'), Money::SEK('75')),
+    new Matchable('2', '', new \DateTimeImmutable('2018-05-03'), Money::SEK('-25')),
+    new Matchable('3', '', new \DateTimeImmutable('2018-05-03'), Money::SEK('-25')),
+    new Matchable('4', '', new \DateTimeImmutable('2018-05-03'), Money::SEK('-25')),
+    new Matchable('5', '', new \DateTimeImmutable('2018-05-03'), Money::SEK('-25'))
 );
 
 // 1-4-3-2,5
@@ -286,8 +286,8 @@ $matchMaker = new MatchMaker(
 );
 
 $matches = $matchMaker->match(
-    new Matchable('1', '', new \DateTimeImmutable('2018-05-30'), new Amount('100')),
-    new Matchable('2', '', new \DateTimeImmutable('2018-06-15'), new Amount('-100'))
+    new Matchable('1', '', new \DateTimeImmutable('2018-05-30'), Money::SEK('100')),
+    new Matchable('2', '', new \DateTimeImmutable('2018-06-15'), Money::SEK('-100'))
 );
 
 // 1-2
@@ -313,8 +313,8 @@ $matchMaker = new MatchMaker(
 );
 
 $matches = $matchMaker->match(
-    new Matchable('1', '', new \DateTimeImmutable('2018-05-30'), new Amount('100')),
-    new Matchable('2', '', new \DateTimeImmutable('2018-06-05'), new Amount('-50'))
+    new Matchable('1', '', new \DateTimeImmutable('2018-05-30'), Money::SEK('100')),
+    new Matchable('2', '', new \DateTimeImmutable('2018-06-05'), Money::SEK('-50'))
 );
 
 // 1-2
@@ -344,32 +344,32 @@ $matchMaker = new MatchMaker(
 
 $matches = $matchMaker->match(
     // matched by relation
-    new Matchable('1', '', new \DateTimeImmutable('2018-05-30'), new Amount('100')),
-    new Matchable('2', '', new \DateTimeImmutable('2018-06-05'), new Amount('-75'), ['1']),
+    new Matchable('1', '', new \DateTimeImmutable('2018-05-30'), Money::SEK('100')),
+    new Matchable('2', '', new \DateTimeImmutable('2018-06-05'), Money::SEK('-75'), ['1']),
 
     // matched by date and perfect amount
-    new Matchable('3', '', new \DateTimeImmutable('2018-06-05'), new Amount('100')),
-    new Matchable('4', '', new \DateTimeImmutable('2018-06-05'), new Amount('-100')),
+    new Matchable('3', '', new \DateTimeImmutable('2018-06-05'), Money::SEK('100')),
+    new Matchable('4', '', new \DateTimeImmutable('2018-06-05'), Money::SEK('-100')),
 
     // matched by date and amount
-    new Matchable('5', '', new \DateTimeImmutable('2018-06-05'), new Amount('100')),
-    new Matchable('6', '', new \DateTimeImmutable('2018-06-05'), new Amount('-98')),
+    new Matchable('5', '', new \DateTimeImmutable('2018-06-05'), Money::SEK('100')),
+    new Matchable('6', '', new \DateTimeImmutable('2018-06-05'), Money::SEK('-98')),
 
     //matched as group
-    new Matchable('7', '', new \DateTimeImmutable('2018-06-05'), new Amount('100')),
-    new Matchable('8', '', new \DateTimeImmutable('2018-06-05'), new Amount('-50')),
-    new Matchable('9', '', new \DateTimeImmutable('2018-06-05'), new Amount('-49')),
+    new Matchable('7', '', new \DateTimeImmutable('2018-06-05'), Money::SEK('100')),
+    new Matchable('8', '', new \DateTimeImmutable('2018-06-05'), Money::SEK('-50')),
+    new Matchable('9', '', new \DateTimeImmutable('2018-06-05'), Money::SEK('-49')),
 
     // matched even though date is off
-    new Matchable('10', '', new \DateTimeImmutable('2018-06-05'), new Amount('100')),
-    new Matchable('11', '', new \DateTimeImmutable('2018-08-05'), new Amount('-98')),
+    new Matchable('10', '', new \DateTimeImmutable('2018-06-05'), Money::SEK('100')),
+    new Matchable('11', '', new \DateTimeImmutable('2018-08-05'), Money::SEK('-98')),
 
     // partial match
-    new Matchable('12', '', new \DateTimeImmutable('2018-09-05'), new Amount('300')),
-    new Matchable('13', '', new \DateTimeImmutable('2018-09-05'), new Amount('-200')),
+    new Matchable('12', '', new \DateTimeImmutable('2018-09-05'), Money::SEK('300')),
+    new Matchable('13', '', new \DateTimeImmutable('2018-09-05'), Money::SEK('-200')),
 
     // no match
-    new Matchable('14', '', new \DateTimeImmutable('2018-10-05'), new Amount('100'))
+    new Matchable('14', '', new \DateTimeImmutable('2018-10-05'), Money::SEK('100'))
 );
 
 // 2-1,3-4,5-6,7-9-8,10-11,12-13,14
@@ -397,12 +397,11 @@ use asylgrp\matchmaker\Filter\LogicalOrFilter;
 use asylgrp\matchmaker\Filter\UnaccountedPreviousYearFilter;
 use asylgrp\matchmaker\Filter\UnaccountedDateFilter;
 use asylgrp\matchmaker\Filter\UnaccountedAmountFilter;
-use byrokrat\amount\Currency\SEK;
 
 $filter = new LogicalOrFilter(
     new UnaccountedPreviousYearFilter,
     new UnaccountedDateFilter(new \DateTimeImmutable('20181016')),
-    new UnaccountedAmountFilter(new SEK('10000'))
+    new UnaccountedAmountFilter(Money::SEK('10000'))
 );
 ```
 

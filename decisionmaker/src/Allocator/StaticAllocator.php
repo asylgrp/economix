@@ -6,7 +6,7 @@ namespace asylgrp\decisionmaker\Allocator;
 
 use asylgrp\decisionmaker\PayoutRequestCollection;
 use asylgrp\decisionmaker\Granter\GranterInterface;
-use byrokrat\amount\Amount;
+use Money\Money;
 
 /**
  * Allocate funds using a granter loaded at construct
@@ -20,7 +20,7 @@ final class StaticAllocator implements AllocatorInterface
         $this->granter = $granter;
     }
 
-    public function allocate(Amount $availableFunds, PayoutRequestCollection $oldPayouts): PayoutRequestCollection
+    public function allocate(Money $availableFunds, PayoutRequestCollection $oldPayouts): PayoutRequestCollection
     {
         $newPayouts = [];
 

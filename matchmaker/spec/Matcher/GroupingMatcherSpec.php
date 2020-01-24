@@ -12,7 +12,7 @@ use asylgrp\matchmaker\Matcher\Grouper;
 use asylgrp\matchmaker\Match\MatchFactoryInterface;
 use asylgrp\matchmaker\Match\MatchInterface;
 use asylgrp\matchmaker\Matchable\MatchableInterface;
-use byrokrat\amount\Amount;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -49,9 +49,9 @@ class GroupingMatcherSpec extends ObjectBehavior
         $group->getDate()->willReturn($date);
         $dateComp->equals($date, $date)->willReturn(true);
 
-        $matchable->getAmount()->willReturn(new Amount('0'));
-        $group->getAmount()->willReturn(new Amount('0'));
-        $amountComp->equals(new Amount('0'), new Amount('0'))->willReturn(true);
+        $matchable->getAmount()->willReturn(Money::SEK('0'));
+        $group->getAmount()->willReturn(Money::SEK('0'));
+        $amountComp->equals(Money::SEK('0'), Money::SEK('0'))->willReturn(true);
 
         $group->getMatchables()->willReturn([$matchable]);
 
@@ -74,9 +74,9 @@ class GroupingMatcherSpec extends ObjectBehavior
         $group->getDate()->willReturn($date);
         $dateComp->equals($date, $date)->willReturn(false);
 
-        $matchable->getAmount()->willReturn(new Amount('0'));
-        $group->getAmount()->willReturn(new Amount('0'));
-        $amountComp->equals(new Amount('0'), new Amount('0'))->willReturn(true);
+        $matchable->getAmount()->willReturn(Money::SEK('0'));
+        $group->getAmount()->willReturn(Money::SEK('0'));
+        $amountComp->equals(Money::SEK('0'), Money::SEK('0'))->willReturn(true);
 
         $this->match($matchable, [$matchable])->shouldReturn(null);
     }
@@ -95,9 +95,9 @@ class GroupingMatcherSpec extends ObjectBehavior
         $group->getDate()->willReturn($date);
         $dateComp->equals($date, $date)->willReturn(true);
 
-        $matchable->getAmount()->willReturn(new Amount('0'));
-        $group->getAmount()->willReturn(new Amount('0'));
-        $amountComp->equals(new Amount('0'), new Amount('0'))->willReturn(false);
+        $matchable->getAmount()->willReturn(Money::SEK('0'));
+        $group->getAmount()->willReturn(Money::SEK('0'));
+        $amountComp->equals(Money::SEK('0'), Money::SEK('0'))->willReturn(false);
 
         $this->match($matchable, [$matchable])->shouldReturn(null);
     }

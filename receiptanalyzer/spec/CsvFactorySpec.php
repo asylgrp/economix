@@ -8,7 +8,7 @@ use asylgrp\receiptanalyzer\CsvFactory;
 use asylgrp\receiptanalyzer\ReceiptCollection;
 use asylgrp\receiptanalyzer\Receipt;
 use asylgrp\receiptanalyzer\Cell;
-use byrokrat\amount\Amount;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -28,9 +28,9 @@ class CsvFactorySpec extends ObjectBehavior
 ';
 
         $expected = new ReceiptCollection([
-            new Receipt('contact', 'receiverA', 'periodA', new Cell('1', new Amount('100'), ['a'])),
-            new Receipt('contact', 'receiverA', 'periodB', new Cell('2', new Amount('100'), ['b'])),
-            new Receipt('contact', 'receiverB', 'periodB', new Cell('3', new Amount('100'), ['a', 'b']))
+            new Receipt('contact', 'receiverA', 'periodA', new Cell('1', Money::SEK('100'), ['a'])),
+            new Receipt('contact', 'receiverA', 'periodB', new Cell('2', Money::SEK('100'), ['b'])),
+            new Receipt('contact', 'receiverB', 'periodB', new Cell('3', Money::SEK('100'), ['a', 'b']))
         ]);
 
         $this->fromString($source)->shouldBeLike($expected);
@@ -44,7 +44,7 @@ class CsvFactorySpec extends ObjectBehavior
 ';
 
         $expected = new ReceiptCollection([
-            new Receipt('contact', 'receiverA', 'periodA', new Cell('1', new Amount('100'), []))
+            new Receipt('contact', 'receiverA', 'periodA', new Cell('1', Money::SEK('100'), []))
         ]);
 
         $this->fromString($source)->shouldBeLike($expected);
@@ -58,7 +58,7 @@ class CsvFactorySpec extends ObjectBehavior
 ';
 
         $expected = new ReceiptCollection([
-            new Receipt('contact', 'receiverA', '', new Cell('1', new Amount('100'), ['a']))
+            new Receipt('contact', 'receiverA', '', new Cell('1', Money::SEK('100'), ['a']))
         ]);
 
         $this->fromString($source)->shouldBeLike($expected);
@@ -72,7 +72,7 @@ class CsvFactorySpec extends ObjectBehavior
 ';
 
         $expected = new ReceiptCollection([
-            new Receipt('', 'receiverA', 'periodA', new Cell('1', new Amount('100'), ['a']))
+            new Receipt('', 'receiverA', 'periodA', new Cell('1', Money::SEK('100'), ['a']))
         ]);
 
         $this->fromString($source)->shouldBeLike($expected);

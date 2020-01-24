@@ -10,9 +10,9 @@ use asylgrp\decisionmaker\Granter\GranterInterface;
 use asylgrp\decisionmaker\PayoutRequest;
 use asylgrp\decisionmaker\PayoutRequestCollection;
 use asylgrp\decisionmaker\Grant\GrantInterface;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use byrokrat\amount\Amount;
 
 class StaticAllocatorSpec extends ObjectBehavior
 {
@@ -44,7 +44,7 @@ class StaticAllocatorSpec extends ObjectBehavior
         $granter->grant($oldGrant)->willReturn($newGrant);
         $oldPayout->withGrant($newGrant)->willReturn($newPayout);
 
-        $this->allocate(new Amount('0'), $collection)->shouldBeLike(
+        $this->allocate(Money::SEK('0'), $collection)->shouldBeLike(
             new PayoutRequestCollection([$newPayout->getWrappedObject()])
         );
     }

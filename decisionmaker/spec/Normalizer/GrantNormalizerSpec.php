@@ -9,7 +9,7 @@ use asylgrp\decisionmaker\Grant\GrantInterface;
 use asylgrp\decisionmaker\Grant\GrantItem;
 use asylgrp\decisionmaker\Grant\Claim;
 use asylgrp\decisionmaker\Grant\Grant;
-use byrokrat\amount\Currency\SEK;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -27,7 +27,7 @@ class GrantNormalizerSpec extends ObjectBehavior
 
     function it_can_normalize(GrantInterface $grant, GrantItem $item)
     {
-        $item->getGrantedAmount()->willReturn(new SEK('50'));
+        $item->getGrantedAmount()->willReturn(Money::SEK('50'));
         $item->getGrantDescription()->willReturn('foo');
 
         $grant->getGrantItems()->willReturn((function () use ($item) {
@@ -37,7 +37,7 @@ class GrantNormalizerSpec extends ObjectBehavior
         $normalizedDate = "2018-05-22T12:19:53+02:00";
 
         $grant->getClaimDate()->willReturn(\DateTimeImmutable::createFromFormat(DATE_W3C, $normalizedDate));
-        $grant->getClaimedAmount()->willReturn(new SEK('100'));
+        $grant->getClaimedAmount()->willReturn(Money::SEK('100'));
         $grant->getClaimDescription()->willReturn('bar');
 
         $this->normalize($grant)->shouldBeLike([
@@ -78,10 +78,10 @@ class GrantNormalizerSpec extends ObjectBehavior
             new Grant(
                 new Claim(
                     \DateTimeImmutable::createFromFormat(DATE_W3C, $normalizedDate),
-                    new SEK('100'),
+                    Money::SEK('100'),
                     'bar'
                 ),
-                new SEK('50'),
+                Money::SEK('50'),
                 'foo'
             )
         );

@@ -4,7 +4,9 @@ declare(strict_types = 1);
 
 namespace asylgrp\receiptanalyzer;
 
-use byrokrat\amount\Amount;
+use Money\Money;
+use Money\Currencies\ISOCurrencies;
+use Money\Formatter\IntlMoneyFormatter;
 
 class DefaultAnalysis
 {
@@ -76,8 +78,13 @@ class DefaultAnalysis
         return $found;
     }
 
-    private static function money(Amount $amount): string
+    private static function money(Money $money): string
     {
-        return (new \NumberFormatter('sv_SE', \NumberFormatter::CURRENCY))->formatCurrency($amount->getFloat(), 'sek');
+        $formatter = new IntlMoneyFormatter(
+            new \NumberFormatter('sv_SE', \NumberFormatter::CURRENCY),
+            new ISOCurrencies
+        );
+
+        return $formatter->format($money);
     }
 }

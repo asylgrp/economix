@@ -10,7 +10,7 @@ use asylgrp\decisionmaker\PayoutRequestCollection;
 use asylgrp\decisionmaker\ContactPerson\ContactPersonInterface;
 use asylgrp\decisionmaker\Grant\GrantInterface;
 use byrokrat\banking\AccountNumber;
-use byrokrat\amount\Currency\SEK;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -42,8 +42,8 @@ class PayoutRequestHasherSpec extends ObjectBehavior
         $payout->getGrant()->willReturn($grant);
 
         $grant->getClaimDate()->willReturn(new \DateTimeImmutable)->shouldBeCalled();
-        $grant->getClaimedAmount()->willReturn(new SEK('100'))->shouldBeCalled();
-        $grant->getGrantedAmount()->willReturn(new SEK('50'))->shouldBeCalled();
+        $grant->getClaimedAmount()->willReturn(Money::SEK('100'))->shouldBeCalled();
+        $grant->getGrantedAmount()->willReturn(Money::SEK('50'))->shouldBeCalled();
 
         $this->hash($collection);
     }

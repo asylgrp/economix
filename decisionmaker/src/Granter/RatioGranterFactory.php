@@ -5,14 +5,14 @@ declare(strict_types = 1);
 namespace asylgrp\decisionmaker\Granter;
 
 use asylgrp\decisionmaker\PayoutRequestCollection;
-use byrokrat\amount\Amount;
+use Money\Money;
 
 /**
  * Factory for creating ratio granters
  */
 final class RatioGranterFactory implements GranterFactoryInterface
 {
-    public function createGranter(Amount $availableFunds, PayoutRequestCollection $payouts): GranterInterface
+    public function createGranter(Money $availableFunds, PayoutRequestCollection $payouts): GranterInterface
     {
         $notGranted = $payouts->getNotGrantedAmount();
 
@@ -20,10 +20,10 @@ final class RatioGranterFactory implements GranterFactoryInterface
             return new RatioGranter(0.0);
         }
 
-        $ratio = $availableFunds->divideBy($notGranted)->getFloat();
+        $ratio = (float)$availableFunds->getAmount() / (float)$notGranted->getAmount();
 
         if ($ratio > 1.0) {
-            return new RatioGranter(1.0);
+            $ratio = 1.0;
         }
 
         return new RatioGranter($ratio);

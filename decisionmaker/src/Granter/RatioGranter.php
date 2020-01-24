@@ -6,7 +6,7 @@ namespace asylgrp\decisionmaker\Granter;
 
 use asylgrp\decisionmaker\Grant\GrantInterface;
 use asylgrp\decisionmaker\Grant\Grant;
-use byrokrat\amount\Rounder\RoundDown;
+use Money\Money;
 
 /**
  * Add a specified ratio of not granted amount to each grant
@@ -26,7 +26,7 @@ final class RatioGranter implements GranterInterface
 
     public function grant(GrantInterface $grant): GrantInterface
     {
-        $amount = $grant->getNotGrantedAmount()->multiplyWith($this->ratio)->roundTo(0, new RoundDown);
+        $amount = $grant->getNotGrantedAmount()->multiply($this->ratio, Money::ROUND_DOWN);
 
         if ($amount->isZero()) {
             return $grant;
@@ -35,7 +35,7 @@ final class RatioGranter implements GranterInterface
         return new Grant(
             $grant,
             $amount,
-            "Added ratio: {$grant->getNotGrantedAmount()} * {$this->ratio}"
+            "Added ratio: {$grant->getNotGrantedAmount()->getAmount()} * {$this->ratio}"
         );
     }
 }

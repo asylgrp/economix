@@ -33,10 +33,10 @@ Generate fresh requests (claims) using the `PayoutRequestFactory`.
 <!-- @include contactPerson -->
 ```php
 use asylgrp\decisionmaker\PayoutRequestFactory;
-use byrokrat\amount\Currency\SEK;
 use Lcobucci\Clock\SystemClock;
+use Money\Money;
 
-$payout = (new PayoutRequestFactory(new SystemClock))->requestPayout($contactPerson, new SEK('5000'), 'description');
+$payout = (new PayoutRequestFactory(new SystemClock))->requestPayout($contactPerson, Money::SEK('5000'), 'description');
 ```
 
 ## Allocating
@@ -58,9 +58,9 @@ Create complex allocator combinations using the `AllocatorBuilder`.
 use asylgrp\decisionmaker\Allocator\AllocatorBuilder;
 
 $allocator = (new AllocatorBuilder)
-    ->addLazyFixed($max = new SEK('1000'))
+    ->addLazyFixed($max = Money::SEK('1000'))
     ->addLazyRatio()
-    ->addStaticFixed($fixed = new SEK('10'))
+    ->addStaticFixed($fixed = Money::SEK('10'))
     ->addStaticRatio($ratio = 0.5)
     ->getAllocator();
 ```
@@ -72,7 +72,7 @@ $allocator = (new AllocatorBuilder)
 ```php
 use asylgrp\decisionmaker\DecisionMaker;
 
-$fundsToGrant = new SEK('1000');
+$fundsToGrant = Money::SEK('1000');
 
 $decision = (new DecisionMaker($allocator, new SystemClock))->createDecision($fundsToGrant, [$payout], 'signature');
 ```

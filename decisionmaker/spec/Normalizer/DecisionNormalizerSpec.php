@@ -9,7 +9,7 @@ use asylgrp\decisionmaker\Normalizer\PayoutRequestNormalizer;
 use asylgrp\decisionmaker\PayoutRequest;
 use asylgrp\decisionmaker\PayoutRequestCollection;
 use asylgrp\decisionmaker\Decision;
-use byrokrat\amount\Currency\SEK;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -44,7 +44,7 @@ class DecisionNormalizerSpec extends ObjectBehavior
         $decision->getDate()->willReturn(\DateTimeImmutable::createFromFormat(DATE_W3C, $normalizedDate));
 
         $normalizedAmount = '100';
-        $decision->getAllocatedAmount()->willReturn(new SEK($normalizedAmount));
+        $decision->getAllocatedAmount()->willReturn(Money::SEK($normalizedAmount));
 
         $payoutRequestCollection->getIterator()->willReturn((function () use ($payoutA, $payoutB) {
             yield $payoutA;
@@ -97,7 +97,7 @@ class DecisionNormalizerSpec extends ObjectBehavior
                 'foo',
                 'bar',
                 \DateTimeImmutable::createFromFormat(DATE_W3C, $normalizedDate),
-                new SEK($normalizedAmount),
+                Money::SEK($normalizedAmount),
                 new PayoutRequestCollection([
                     $payoutA->getWrappedObject(),
                     $payoutB->getWrappedObject(),

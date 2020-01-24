@@ -23,10 +23,15 @@
         "ext-mbstring": "*",
         "ext-bcmath": "*",
         "ext-intl": "*",
-        "byrokrat/accounting": "^1",
-        "byrokrat/amount": "^2",
         "byrokrat/banking": "^2",
         "lcobucci/clock": "^1",
+        "moneyphp/money": "^3",
         "symfony/serializer": "^5"
+    },
+    "require-dev": {
+        "byrokrat/accounting": "^1"
+    },
+    "suggest": {
+        "byrokrat/accounting": "Allows parsing match data from raw bookkeeping"
     }
 }

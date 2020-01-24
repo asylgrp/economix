@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace asylgrp\receiptanalyzer;
 
-use byrokrat\amount\Amount;
+use Money\Money;
 
 class Cell
 {
@@ -14,7 +14,7 @@ class Cell
     private $vernum;
 
     /**
-     * @var Amount
+     * @var Money
      */
     private $amount;
 
@@ -26,7 +26,7 @@ class Cell
     /**
      * @param string[] $tags
      */
-    public function __construct(string $vernum, Amount $amount, array $tags)
+    public function __construct(string $vernum, Money $amount, array $tags)
     {
         $this->vernum = $vernum;
         $this->amount = $amount;
@@ -38,7 +38,7 @@ class Cell
         return $this->vernum;
     }
 
-    public function getAmount(): Amount
+    public function getAmount(): Money
     {
         return $this->amount;
     }

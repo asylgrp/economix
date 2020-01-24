@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace asylgrp\receiptanalyzer;
 
-use byrokrat\amount\Amount;
+use Money\Money;
 
 class CsvFactory
 {
@@ -24,7 +24,7 @@ class CsvFactory
 
             return new Cell(
                 $parts[0],
-                new Amount($parts[1]),
+                Money::SEK($parts[1]),
                 array_filter(explode(',', $parts[2] ?? ''))
             );
         };

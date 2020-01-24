@@ -8,15 +8,15 @@ use asylgrp\decisionmaker\Granter\FixedGranter;
 use asylgrp\decisionmaker\Granter\GranterInterface;
 use asylgrp\decisionmaker\Grant\GrantInterface;
 use asylgrp\decisionmaker\Grant\Grant;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use byrokrat\amount\Amount;
 
 class FixedGranterSpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith(new Amount('0'));
+        $this->beConstructedWith(Money::SEK('0'));
     }
 
     function it_is_initializable()
@@ -31,15 +31,15 @@ class FixedGranterSpec extends ObjectBehavior
 
     function it_creates_fixed_grant(GrantInterface $decorate)
     {
-        $amount = new Amount('100');
+        $amount = Money::SEK('100');
         $this->beConstructedWith($amount);
 
-        $decorate->getNotGrantedAmount()->willReturn(new Amount('0'));
+        $decorate->getNotGrantedAmount()->willReturn(Money::SEK('0'));
 
         $this->grant($decorate)->shouldBeLike(new Grant(
             $decorate->getWrappedObject(),
             $amount,
-            'Added a fixed grant of 100.00'
+            'Added a fixed grant of 100'
         ));
     }
 }

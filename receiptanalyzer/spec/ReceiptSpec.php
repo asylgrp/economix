@@ -6,7 +6,7 @@ namespace receiptanalyzer\spec\asylgrp\receiptanalyzer;
 
 use asylgrp\receiptanalyzer\Receipt;
 use asylgrp\receiptanalyzer\Cell;
-use byrokrat\amount\Amount;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -52,8 +52,9 @@ class ReceiptSpec extends ObjectBehavior
         $this->getPeriod()->shouldReturn(self::PERIOD);
     }
 
-    function it_contains_an_amount($cell, Amount $amount)
+    function it_contains_an_amount($cell)
     {
+        $amount = Money::SEK('1');
         $cell->getAmount()->willReturn($amount);
         $this->getAmount()->shouldReturn($amount);
     }

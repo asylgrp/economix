@@ -2,7 +2,7 @@
 
 namespace asylgrp\matchmaker\Matchable;
 
-use byrokrat\amount\Amount;
+use Money\Money;
 
 /**
  * A matchable item
@@ -29,7 +29,7 @@ interface MatchableInterface
     /**
      * Get amount to match
      */
-    public function getAmount(): Amount;
+    public function getAmount(): Money;
 
     /**
      * Get date to match

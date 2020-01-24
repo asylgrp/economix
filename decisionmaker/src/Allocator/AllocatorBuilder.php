@@ -4,11 +4,11 @@ declare(strict_types = 1);
 
 namespace asylgrp\decisionmaker\Allocator;
 
-use byrokrat\amount\Amount;
 use asylgrp\decisionmaker\Granter\FixedGranter;
 use asylgrp\decisionmaker\Granter\RatioGranter;
 use asylgrp\decisionmaker\Granter\FixedGranterFactory;
 use asylgrp\decisionmaker\Granter\RatioGranterFactory;
+use Money\Money;
 
 /**
  * Facade for creating complex allocators
@@ -22,7 +22,7 @@ class AllocatorBuilder
         $this->allocator = new NullAllocator;
     }
 
-    public function addLazyFixed(Amount $max = null): self
+    public function addLazyFixed(Money $max = null): self
     {
         $this->allocator = new DoubleAllocator(
             $this->allocator,
@@ -42,11 +42,11 @@ class AllocatorBuilder
         return $this;
     }
 
-    public function addStaticFixed(Amount $amount): self
+    public function addStaticFixed(Money $money): self
     {
         $this->allocator = new DoubleAllocator(
             $this->allocator,
-            new StaticAllocator(new FixedGranter($amount))
+            new StaticAllocator(new FixedGranter($money))
         );
 
         return $this;

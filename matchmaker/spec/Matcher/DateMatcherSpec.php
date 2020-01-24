@@ -9,7 +9,7 @@ use asylgrp\matchmaker\Matcher\DateComparator;
 use asylgrp\matchmaker\Matcher\MatcherInterface;
 use asylgrp\matchmaker\Matchable\MatchableInterface;
 use asylgrp\matchmaker\Match\NonBalanceableMatch;
-use byrokrat\amount\Amount;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -35,8 +35,8 @@ class DateMatcherSpec extends ObjectBehavior
         $needle->getDate()->willReturn($needleDate = new \DateTimeImmutable);
         $matching->getDate()->willReturn($matchingDate = new \DateTimeImmutable);
 
-        $needle->getAmount()->willReturn(new Amount('100'));
-        $matching->getAmount()->willReturn(new Amount('-100'));
+        $needle->getAmount()->willReturn(Money::SEK('100'));
+        $matching->getAmount()->willReturn(Money::SEK('-100'));
 
         $dateComp->equals($needleDate, $matchingDate)->willReturn(true)->shouldBeCalled();
 
@@ -60,8 +60,8 @@ class DateMatcherSpec extends ObjectBehavior
         $needle->getDate()->willReturn($needleDate = new \DateTimeImmutable);
         $notMatching->getDate()->willReturn($matchingDate = new \DateTimeImmutable);
 
-        $needle->getAmount()->willReturn(new Amount('100'));
-        $notMatching->getAmount()->willReturn(new Amount('100'));
+        $needle->getAmount()->willReturn(Money::SEK('100'));
+        $notMatching->getAmount()->willReturn(Money::SEK('100'));
 
         $dateComp->equals($needleDate, $matchingDate)->willReturn(true);
 
@@ -78,9 +78,9 @@ class DateMatcherSpec extends ObjectBehavior
         $notMatching->getDate()->willReturn($noMatchingDate = new \DateTimeImmutable);
         $matching->getDate()->willReturn($matchingDate = new \DateTimeImmutable);
 
-        $needle->getAmount()->willReturn(new Amount('100'));
-        $notMatching->getAmount()->willReturn(new Amount('-100'));
-        $matching->getAmount()->willReturn(new Amount('-100'));
+        $needle->getAmount()->willReturn(Money::SEK('100'));
+        $notMatching->getAmount()->willReturn(Money::SEK('-100'));
+        $matching->getAmount()->willReturn(Money::SEK('-100'));
 
         $dateComp->equals($needleDate, $noMatchingDate)->willReturn(false);
         $dateComp->equals($needleDate, $matchingDate)->willReturn(true);

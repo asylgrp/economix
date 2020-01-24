@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace asylgrp\decisionmaker;
 
-use byrokrat\amount\Amount;
+use Money\Money;
 
 /**
  * Decision to disburse funds
@@ -14,14 +14,14 @@ class Decision
     private string $id;
     private string $signature;
     private \DateTimeImmutable $date;
-    private Amount $allocatedAmount;
+    private Money $allocatedAmount;
     private PayoutRequestCollection $payouts;
 
     public function __construct(
         string $id,
         string $signature,
         \DateTimeImmutable $date,
-        Amount $allocatedAmount,
+        Money $allocatedAmount,
         PayoutRequestCollection $payouts
     ) {
         $this->id = $id;
@@ -58,7 +58,7 @@ class Decision
     /**
      * Get amount allocation was based on
      */
-    public function getAllocatedAmount(): Amount
+    public function getAllocatedAmount(): Money
     {
         return $this->allocatedAmount;
     }

@@ -6,16 +6,16 @@ namespace asylgrp\decisionmaker\Granter;
 
 use asylgrp\decisionmaker\Grant\GrantInterface;
 use asylgrp\decisionmaker\Grant\Grant;
-use byrokrat\amount\Amount;
+use Money\Money;
 
 /**
  * Add a fixed amount to each grant
  */
 final class FixedGranter implements GranterInterface
 {
-    private Amount $amount;
+    private Money $amount;
 
-    public function __construct(Amount $amount)
+    public function __construct(Money $amount)
     {
         $this->amount = $amount;
     }
@@ -25,7 +25,7 @@ final class FixedGranter implements GranterInterface
         return new Grant(
             $grant,
             $this->amount,
-            "Added a fixed grant of {$this->amount}"
+            "Added a fixed grant of {$this->amount->getAmount()}"
         );
     }
 }

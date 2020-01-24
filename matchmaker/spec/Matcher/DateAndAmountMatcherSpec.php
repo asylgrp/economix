@@ -11,7 +11,7 @@ use asylgrp\matchmaker\Matcher\AmountComparator;
 use asylgrp\matchmaker\Matchable\MatchableInterface;
 use asylgrp\matchmaker\Match\MatchInterface;
 use asylgrp\matchmaker\Match\MatchFactoryInterface;
-use byrokrat\amount\Amount;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -40,8 +40,8 @@ class DateAndAmountMatcherSpec extends ObjectBehavior
         MatchableInterface $itemB,
         MatchInterface $match
     ) {
-        $itemA->getAmount()->willReturn($amountA = new Amount('1'));
-        $itemB->getAmount()->willReturn($amountB = new Amount('2'));
+        $itemA->getAmount()->willReturn($amountA = Money::SEK('1'));
+        $itemB->getAmount()->willReturn($amountB = Money::SEK('2'));
         $itemA->getDate()->willReturn($dateA = new \DateTimeImmutable);
         $itemB->getDate()->willReturn($dateB = new \DateTimeImmutable);
 
@@ -55,8 +55,8 @@ class DateAndAmountMatcherSpec extends ObjectBehavior
 
     function it_fails_on_no_date_match($dateComp, $amountComp, MatchableInterface $itemA, MatchableInterface $itemB)
     {
-        $itemA->getAmount()->willReturn($amountA = new Amount('1'));
-        $itemB->getAmount()->willReturn($amountB = new Amount('2'));
+        $itemA->getAmount()->willReturn($amountA = Money::SEK('1'));
+        $itemB->getAmount()->willReturn($amountB = Money::SEK('2'));
         $itemA->getDate()->willReturn($dateA = new \DateTimeImmutable);
         $itemB->getDate()->willReturn($dateB = new \DateTimeImmutable);
 
@@ -68,8 +68,8 @@ class DateAndAmountMatcherSpec extends ObjectBehavior
 
     function it_fails_on_no_amount_match($dateComp, $amountComp, MatchableInterface $itemA, MatchableInterface $itemB)
     {
-        $itemA->getAmount()->willReturn($amountA = new Amount('1'));
-        $itemB->getAmount()->willReturn($amountB = new Amount('2'));
+        $itemA->getAmount()->willReturn($amountA = Money::SEK('1'));
+        $itemB->getAmount()->willReturn($amountB = Money::SEK('2'));
         $itemA->getDate()->willReturn($dateA = new \DateTimeImmutable);
         $itemB->getDate()->willReturn($dateB = new \DateTimeImmutable);
 
@@ -88,9 +88,9 @@ class DateAndAmountMatcherSpec extends ObjectBehavior
         MatchableInterface $itemC,
         MatchInterface $match
     ) {
-        $itemA->getAmount()->willReturn($amountA = new Amount('1'));
-        $itemB->getAmount()->willReturn($amountB = new Amount('2'));
-        $itemC->getAmount()->willReturn($amountC = new Amount('3'));
+        $itemA->getAmount()->willReturn($amountA = Money::SEK('1'));
+        $itemB->getAmount()->willReturn($amountB = Money::SEK('2'));
+        $itemC->getAmount()->willReturn($amountC = Money::SEK('3'));
         $itemA->getDate()->willReturn($dateA = new \DateTimeImmutable);
         $itemB->getDate()->willReturn($dateB = new \DateTimeImmutable);
         $itemC->getDate()->willReturn($dateC = new \DateTimeImmutable);

@@ -9,7 +9,6 @@ use asylgrp\matchmaker\Matchable\MatchableInterface;
 use asylgrp\matchmaker\Match\MatchInterface;
 use asylgrp\matchmaker\Match\MatchCollection;
 use asylgrp\matchmaker\Matcher\MatcherInterface;
-use byrokrat\amount\Amount;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

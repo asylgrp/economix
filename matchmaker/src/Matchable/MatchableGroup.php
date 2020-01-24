@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace asylgrp\matchmaker\Matchable;
 
-use byrokrat\amount\Amount;
+use Money\Money;
 
 /**
  * A set of matchables that can be matched together
@@ -14,7 +14,7 @@ final class MatchableGroup implements MatchableInterface
     /**
      * @var MatchableInterface[]
      */
-    private $matchables;
+    private array $matchables;
 
     public function __construct(MatchableInterface ...$matchables)
     {
@@ -41,7 +41,7 @@ final class MatchableGroup implements MatchableInterface
         return [];
     }
 
-    public function getAmount(): Amount
+    public function getAmount(): Money
     {
         $amount = null;
 

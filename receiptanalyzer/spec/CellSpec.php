@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace receiptanalyzer\spec\asylgrp\receiptanalyzer;
 
 use asylgrp\receiptanalyzer\Cell;
-use byrokrat\amount\Amount;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -14,12 +14,13 @@ class CellSpec extends ObjectBehavior
     const VERNUM = '99';
     const TAG_A = 'A';
     const TAG_B = 'B';
+    const AMOUNT = '666';
 
-    function let(Amount $amount)
+    function let()
     {
         $this->beConstructedWith(
             self::VERNUM,
-            $amount,
+            Money::SEK(self::AMOUNT),
             [self::TAG_A, self::TAG_B]
         );
     }
@@ -34,9 +35,9 @@ class CellSpec extends ObjectBehavior
         $this->getVerificationNr()->shouldReturn(self::VERNUM);
     }
 
-    function it_contains_an_amount($amount)
+    function it_contains_an_amount()
     {
-        $this->getAmount()->shouldReturn($amount);
+        $this->getAmount()->shouldBeLike(Money::SEK(self::AMOUNT));
     }
 
     function it_contains_tags()

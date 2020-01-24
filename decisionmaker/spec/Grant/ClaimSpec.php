@@ -6,15 +6,15 @@ namespace decisionmaker\spec\asylgrp\decisionmaker\Grant;
 
 use asylgrp\decisionmaker\Grant\Claim;
 use asylgrp\decisionmaker\Grant\GrantInterface;
-use byrokrat\amount\Amount;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class ClaimSpec extends ObjectBehavior
 {
-    function let(\DateTimeImmutable $date, Amount $amount)
+    function let(\DateTimeImmutable $date)
     {
-        $this->beConstructedWith($date, $amount, '');
+        $this->beConstructedWith($date, Money::SEK('0'), '');
     }
 
     function it_is_initializable()
@@ -32,27 +32,31 @@ class ClaimSpec extends ObjectBehavior
         $this->getClaimDate()->shouldReturn($date);
     }
 
-    function it_contains_a_claimed_amount($amount)
+    function it_contains_a_claimed_amount()
     {
-        $this->getClaimedAmount()->shouldReturn($amount);
+        $money = Money::SEK('100');
+        $this->beConstructedWith(new \DateTimeImmutable, $money, '');
+        $this->getClaimedAmount()->shouldReturn($money);
     }
 
-    function it_contains_a_claim_description($amount)
+    function it_contains_a_claim_description()
     {
-        $this->beConstructedWith(new \DateTimeImmutable, $amount, 'foobar');
+        $this->beConstructedWith(new \DateTimeImmutable, Money::SEK('0'), 'foobar');
         $this->getClaimDescription()->shouldReturn('foobar');
     }
 
     function it_contains_a_granted_amount()
     {
-        $amount = new Amount('100');
-        $this->beConstructedWith(new \DateTimeImmutable, $amount, '');
-        $this->getGrantedAmount()->shouldBeLike(new Amount('0'));
+        $money = Money::SEK('100');
+        $this->beConstructedWith(new \DateTimeImmutable, $money, '');
+        $this->getGrantedAmount()->shouldBeLike(Money::SEK('0'));
     }
 
-    function it_contains_a_not_granted_amount($amount)
+    function it_contains_a_not_granted_amount()
     {
-        $this->getNotGrantedAmount()->shouldReturn($amount);
+        $money = Money::SEK('100');
+        $this->beConstructedWith(new \DateTimeImmutable, $money, '');
+        $this->getNotGrantedAmount()->shouldReturn($money);
     }
 
     function it_does_not_contain_any_grant_items()

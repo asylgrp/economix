@@ -8,7 +8,7 @@ use asylgrp\decisionmaker\Granter\FixedGranter;
 use asylgrp\decisionmaker\Granter\FixedGranterFactory;
 use asylgrp\decisionmaker\Granter\GranterFactoryInterface;
 use asylgrp\decisionmaker\PayoutRequestCollection;
-use byrokrat\amount\Amount;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -28,8 +28,8 @@ class FixedGranterFactorySpec extends ObjectBehavior
     {
         $payouts->count()->willReturn(2);
 
-        $this->createGranter(new Amount('100'), $payouts)->shouldBeLike(
-            new FixedGranter(new Amount('50'))
+        $this->createGranter(Money::SEK('100'), $payouts)->shouldBeLike(
+            new FixedGranter(Money::SEK('50'))
         );
     }
 
@@ -37,8 +37,8 @@ class FixedGranterFactorySpec extends ObjectBehavior
     {
         $payouts->count()->willReturn(3);
 
-        $this->createGranter(new Amount('100'), $payouts)->shouldBeLike(
-            new FixedGranter(new Amount('33'))
+        $this->createGranter(Money::SEK('100'), $payouts)->shouldBeLike(
+            new FixedGranter(Money::SEK('33'))
         );
     }
 
@@ -46,10 +46,10 @@ class FixedGranterFactorySpec extends ObjectBehavior
     {
         $payouts->count()->willReturn(2);
 
-        $this->beConstructedWith(new Amount('25'));
+        $this->beConstructedWith(Money::SEK('25'));
 
-        $this->createGranter(new Amount('100'), $payouts)->shouldBeLike(
-            new FixedGranter(new Amount('25'))
+        $this->createGranter(Money::SEK('100'), $payouts)->shouldBeLike(
+            new FixedGranter(Money::SEK('25'))
         );
     }
 
@@ -57,10 +57,10 @@ class FixedGranterFactorySpec extends ObjectBehavior
     {
         $payouts->count()->willReturn(2);
 
-        $this->beConstructedWith(new Amount('100'));
+        $this->beConstructedWith(Money::SEK('100'));
 
-        $this->createGranter(new Amount('100'), $payouts)->shouldBeLike(
-            new FixedGranter(new Amount('50'))
+        $this->createGranter(Money::SEK('100'), $payouts)->shouldBeLike(
+            new FixedGranter(Money::SEK('50'))
         );
     }
 }

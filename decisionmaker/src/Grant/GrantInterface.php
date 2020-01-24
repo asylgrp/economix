@@ -2,7 +2,7 @@
 
 namespace asylgrp\decisionmaker\Grant;
 
-use byrokrat\amount\Amount;
+use Money\Money;
 
 /**
  * The decisionmaker grant interface
@@ -17,7 +17,7 @@ interface GrantInterface
     /**
      * Get the amount claimed
      */
-    public function getClaimedAmount(): Amount;
+    public function getClaimedAmount(): Money;
 
     /**
      * Get freetext description of claim
@@ -27,12 +27,12 @@ interface GrantInterface
     /**
      * Get the amount granted
      */
-    public function getGrantedAmount(): Amount;
+    public function getGrantedAmount(): Money;
 
     /**
      * Get the amount not granted
      */
-    public function getNotGrantedAmount(): Amount;
+    public function getNotGrantedAmount(): Money;
 
     /**
      * Get grant specifications

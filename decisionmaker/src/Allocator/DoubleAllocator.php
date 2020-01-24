@@ -3,7 +3,7 @@
 namespace asylgrp\decisionmaker\Allocator;
 
 use asylgrp\decisionmaker\PayoutRequestCollection;
-use byrokrat\amount\Amount;
+use Money\Money;
 
 /**
  * Allocator wrapping two internal allocators
@@ -19,7 +19,7 @@ final class DoubleAllocator implements AllocatorInterface
         $this->allocB = $allocB;
     }
 
-    public function allocate(Amount $availableFunds, PayoutRequestCollection $payouts): PayoutRequestCollection
+    public function allocate(Money $availableFunds, PayoutRequestCollection $payouts): PayoutRequestCollection
     {
         $allocated = $this->allocA->allocate($availableFunds, $payouts);
 

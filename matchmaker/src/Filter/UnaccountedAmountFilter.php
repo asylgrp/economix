@@ -5,16 +5,13 @@ declare(strict_types = 1);
 namespace asylgrp\matchmaker\Filter;
 
 use asylgrp\matchmaker\Match\MatchCollectionInterface;
-use byrokrat\amount\Amount;
+use Money\Money;
 
 final class UnaccountedAmountFilter implements FilterInterface
 {
-    /**
-     * @var Amount
-     */
-    private $limit;
+    private Money $limit;
 
-    public function __construct(Amount $limit)
+    public function __construct(Money $limit)
     {
         $this->limit = $limit;
     }
@@ -29,12 +26,12 @@ final class UnaccountedAmountFilter implements FilterInterface
             }
         }
 
-        if ($amount && $amount->isGreaterThan($this->limit)) {
+        if ($amount && $amount->greaterThan($this->limit)) {
             return new Success(
                 sprintf(
                     'Oredovisad totalsumma %s (större än %s)',
-                    $amount,
-                    $this->limit
+                    $amount->getAmount(),
+                    $this->limit->getAmount()
                 )
             );
         }
@@ -42,7 +39,7 @@ final class UnaccountedAmountFilter implements FilterInterface
         return new Failure(
             sprintf(
                 'Oredovisad totalsumma mindre än %s',
-                $this->limit
+                $this->limit->getAmount()
             )
         );
     }

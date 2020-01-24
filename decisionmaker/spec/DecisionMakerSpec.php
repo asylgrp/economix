@@ -9,8 +9,8 @@ use asylgrp\decisionmaker\Allocator\AllocatorInterface;
 use asylgrp\decisionmaker\PayoutRequestCollection;
 use asylgrp\decisionmaker\Decision;
 use asylgrp\decisionmaker\PayoutRequestHasher;
-use byrokrat\amount\Currency\SEK;
 use Lcobucci\Clock\Clock;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -35,7 +35,7 @@ class DecisionMakerSpec extends ObjectBehavior
         $payoutRequestHasher,
         PayoutRequestCollection $collection
     ) {
-        $funds = new SEK('1000');
+        $funds = Money::SEK('1000');
         $payouts = [];
         $date = new \DateTimeImmutable;
 

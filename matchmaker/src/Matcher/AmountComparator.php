@@ -4,17 +4,14 @@ declare(strict_types = 1);
 
 namespace asylgrp\matchmaker\Matcher;
 
-use byrokrat\amount\Amount;
+use Money\Money;
 
 /**
  * Check if two amounts are equal (within the max deviation quota setting)
  */
 class AmountComparator
 {
-    /**
-     * @var float
-     */
-    private $maxDeviationQuota;
+    private float $maxDeviationQuota;
 
     public function __construct(float $maxDeviationQuota = 0.0)
     {
@@ -26,12 +23,12 @@ class AmountComparator
      *
      * Note that zero is never equal to anything
      */
-    public function equals(Amount $subj, Amount $obj): bool
+    public function equals(Money $subj, Money $obj): bool
     {
         if ($subj->isZero() || $obj->isZero()) {
             return false;
         }
 
-        return $subj->add($obj)->divideBy($subj)->getAbsolute()->getFloat() <= $this->maxDeviationQuota;
+        return abs((float)$subj->add($obj)->getAmount() / (float)$subj->getAmount()) <= $this->maxDeviationQuota;
     }
 }
